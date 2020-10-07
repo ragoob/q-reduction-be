@@ -3528,37 +3528,31 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\amr.atif\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "/root/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\WorkStation\\QReduction\\QReduction.Infrastructure\\QReduction.Infrastructure.csproj",
+      "projectUniqueName": "/home/mohammed/work/Side Projects/q-reduction/QR/QReduction.Infrastructure/QReduction.Infrastructure.csproj",
       "projectName": "QReduction.Infrastructure",
-      "projectPath": "D:\\WorkStation\\QReduction\\QReduction.Infrastructure\\QReduction.Infrastructure.csproj",
-      "packagesPath": "C:\\Users\\amr.atif\\.nuget\\packages\\",
-      "outputPath": "D:\\WorkStation\\QReduction\\QReduction.Infrastructure\\obj\\",
+      "projectPath": "/home/mohammed/work/Side Projects/q-reduction/QR/QReduction.Infrastructure/QReduction.Infrastructure.csproj",
+      "packagesPath": "/root/.nuget/packages/",
+      "outputPath": "/home/mohammed/work/Side Projects/q-reduction/QR/QReduction.Infrastructure/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\amr.atif\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/root/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.2"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp2.2": {
           "projectReferences": {
-            "D:\\WorkStation\\QReduction\\QReduction.Core\\QReduction.Core.csproj": {
-              "projectPath": "D:\\WorkStation\\QReduction\\QReduction.Core\\QReduction.Core.csproj"
+            "/home/mohammed/work/Side Projects/q-reduction/QR/QReduction.Core/QReduction.Core.csproj": {
+              "projectPath": "/home/mohammed/work/Side Projects/q-reduction/QR/QReduction.Core/QReduction.Core.csproj"
             }
           }
         }
@@ -3597,7 +3591,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.301/RuntimeIdentifierGraph.json"
       }
     }
   }
