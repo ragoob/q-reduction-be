@@ -13496,11 +13496,19 @@
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "/home/mohammed/work/Side Projects/q-reduction/QR/QReduction.Api/QReduction.Api.csproj",
       "projectName": "QReduction.Api",
       "projectPath": "/home/mohammed/work/Side Projects/q-reduction/QR/QReduction.Api/QReduction.Api.csproj",
       "packagesPath": "/root/.nuget/packages/",
       "outputPath": "/home/mohammed/work/Side Projects/q-reduction/QR/QReduction.Api/obj/",
+=======
+      "projectUniqueName": "D:\\WorkStation\\QR\\QReduction.Api\\QReduction.Api.csproj",
+      "projectName": "QReduction.Api",
+      "projectPath": "D:\\WorkStation\\QR\\QReduction.Api\\QReduction.Api.csproj",
+      "packagesPath": "C:\\Users\\amr.atif\\.nuget\\packages\\",
+      "outputPath": "D:\\WorkStation\\QR\\QReduction.Api\\obj\\",
+>>>>>>> 21679a0b4cfa69cd9d5e21b0147d429612ea3c12
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/root/.nuget/NuGet/NuGet.Config"
@@ -13514,6 +13522,7 @@
       "frameworks": {
         "netcoreapp2.2": {
           "projectReferences": {
+<<<<<<< HEAD
             "/home/mohammed/work/Side Projects/q-reduction/QR/QReduction.Core/QReduction.Core.csproj": {
               "projectPath": "/home/mohammed/work/Side Projects/q-reduction/QR/QReduction.Core/QReduction.Core.csproj"
             },
@@ -13522,6 +13531,16 @@
             },
             "/home/mohammed/work/Side Projects/q-reduction/QR/QReduction.Services/QReduction.Services.csproj": {
               "projectPath": "/home/mohammed/work/Side Projects/q-reduction/QR/QReduction.Services/QReduction.Services.csproj"
+=======
+            "D:\\WorkStation\\QR\\QReduction.Core\\QReduction.Core.csproj": {
+              "projectPath": "D:\\WorkStation\\QR\\QReduction.Core\\QReduction.Core.csproj"
+            },
+            "D:\\WorkStation\\QR\\QReduction.Infrastructure\\QReduction.Infrastructure.csproj": {
+              "projectPath": "D:\\WorkStation\\QR\\QReduction.Infrastructure\\QReduction.Infrastructure.csproj"
+            },
+            "D:\\WorkStation\\QR\\QReduction.Services\\QReduction.Services.csproj": {
+              "projectPath": "D:\\WorkStation\\QR\\QReduction.Services\\QReduction.Services.csproj"
+>>>>>>> 21679a0b4cfa69cd9d5e21b0147d429612ea3c12
             }
           }
         }

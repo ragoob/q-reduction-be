@@ -1,8 +1,14 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "UrzLbtbfhzaRu0ujxUVXHNLPyp2TkZbC2yP+6Z35evxsrQq/28GYt+S7/mD9GCJxWKu2p1ZcfwirCVibLFlxSg==",
   "success": true,
   "projectFilePath": "/home/mohammed/work/Side Projects/q-reduction/QR/QReduction.Api/QReduction.Api.csproj",
+=======
+  "dgSpecHash": "stdoixxhS1UhU9Tkrkgn+8kzkf/5ZbKL9cPcKvPYAQh3jwranp3qVzEL0OqQlgDpfuzakI8Ltqhoej+K8mdT7A==",
+  "success": true,
+  "projectFilePath": "D:\\WorkStation\\QR\\QReduction.Api\\QReduction.Api.csproj",
+>>>>>>> 21679a0b4cfa69cd9d5e21b0147d429612ea3c12
   "expectedPackageFiles": [
     "/root/.nuget/packages/google.apis/1.41.1/google.apis.1.41.1.nupkg.sha512",
     "/root/.nuget/packages/google.apis.auth/1.41.1/google.apis.auth.1.41.1.nupkg.sha512",

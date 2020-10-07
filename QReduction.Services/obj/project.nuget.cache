@@ -1,8 +1,14 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "2ZlAgWqVkEA/b2GLuJrqoJuB29fYD7KiY77MT+kUwUqcyruWkfbpd9X7IYx9RrLQ8Sa9jzZNDpI27sgS9/LUQQ==",
   "success": true,
   "projectFilePath": "/home/mohammed/work/Side Projects/q-reduction/QR/QReduction.Services/QReduction.Services.csproj",
+=======
+  "dgSpecHash": "IPjuaEK8SaRifoyy0wkJ+X+iObg0fShcwC5VdV6bW/SaemTr8V26imiCPn4J4x+iFWAsW5wORuz6RB6Mva6zMg==",
+  "success": true,
+  "projectFilePath": "D:\\WorkStation\\QR\\QReduction.Services\\QReduction.Services.csproj",
+>>>>>>> 21679a0b4cfa69cd9d5e21b0147d429612ea3c12
   "expectedPackageFiles": [
     "/root/.nuget/packages/microsoft.entityframeworkcore/2.2.6/microsoft.entityframeworkcore.2.2.6.nupkg.sha512",
     "/root/.nuget/packages/microsoft.entityframeworkcore.abstractions/2.2.6/microsoft.entityframeworkcore.abstractions.2.2.6.nupkg.sha512",
