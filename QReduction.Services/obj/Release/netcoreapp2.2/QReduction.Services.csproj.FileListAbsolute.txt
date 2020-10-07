@@ -1,0 +1,41 @@
+D:\AhmedSaid\QReduction\QReduction\QReduction.Services\bin\Release\netcoreapp2.2\QReduction.Services.deps.json
+D:\AhmedSaid\QReduction\QReduction\QReduction.Services\bin\Release\netcoreapp2.2\QReduction.Services.dll
+D:\AhmedSaid\QReduction\QReduction\QReduction.Services\bin\Release\netcoreapp2.2\QReduction.Services.pdb
+D:\AhmedSaid\QReduction\QReduction\QReduction.Services\bin\Release\netcoreapp2.2\QReduction.Core.dll
+D:\AhmedSaid\QReduction\QReduction\QReduction.Services\bin\Release\netcoreapp2.2\QReduction.Infrastructure.dll
+D:\AhmedSaid\QReduction\QReduction\QReduction.Services\bin\Release\netcoreapp2.2\QReduction.Core.pdb
+D:\AhmedSaid\QReduction\QReduction\QReduction.Services\bin\Release\netcoreapp2.2\QReduction.Infrastructure.pdb
+D:\AhmedSaid\QReduction\QReduction\QReduction.Services\obj\Release\netcoreapp2.2\QReduction.Services.csprojAssemblyReference.cache
+D:\AhmedSaid\QReduction\QReduction\QReduction.Services\obj\Release\netcoreapp2.2\QReduction.Services.csproj.CoreCompileInputs.cache
+D:\AhmedSaid\QReduction\QReduction\QReduction.Services\obj\Release\netcoreapp2.2\QReduction.Services.AssemblyInfoInputs.cache
+D:\AhmedSaid\QReduction\QReduction\QReduction.Services\obj\Release\netcoreapp2.2\QReduction.Services.AssemblyInfo.cs
+D:\AhmedSaid\QReduction\QReduction\QReduction.Services\obj\Release\netcoreapp2.2\QReduction.Services.csproj.CopyComplete
+D:\AhmedSaid\QReduction\QReduction\QReduction.Services\obj\Release\netcoreapp2.2\QReduction.Services.dll
+D:\AhmedSaid\QReduction\QReduction\QReduction.Services\obj\Release\netcoreapp2.2\QReduction.Services.pdb
+D:\New folder (4)\QReduction\QReduction.Services\bin\Release\netcoreapp2.2\QReduction.Services.deps.json
+D:\New folder (4)\QReduction\QReduction.Services\bin\Release\netcoreapp2.2\QReduction.Services.dll
+D:\New folder (4)\QReduction\QReduction.Services\bin\Release\netcoreapp2.2\QReduction.Services.pdb
+D:\New folder (4)\QReduction\QReduction.Services\bin\Release\netcoreapp2.2\QReduction.Core.dll
+D:\New folder (4)\QReduction\QReduction.Services\bin\Release\netcoreapp2.2\QReduction.Infrastructure.dll
+D:\New folder (4)\QReduction\QReduction.Services\bin\Release\netcoreapp2.2\QReduction.Core.pdb
+D:\New folder (4)\QReduction\QReduction.Services\bin\Release\netcoreapp2.2\QReduction.Infrastructure.pdb
+D:\New folder (4)\QReduction\QReduction.Services\obj\Release\netcoreapp2.2\QReduction.Services.csprojResolveAssemblyReference.cache
+D:\New folder (4)\QReduction\QReduction.Services\obj\Release\netcoreapp2.2\QReduction.Services.csproj.CoreCompileInputs.cache
+D:\New folder (4)\QReduction\QReduction.Services\obj\Release\netcoreapp2.2\QReduction.Services.AssemblyInfoInputs.cache
+D:\New folder (4)\QReduction\QReduction.Services\obj\Release\netcoreapp2.2\QReduction.Services.AssemblyInfo.cs
+D:\New folder (4)\QReduction\QReduction.Services\obj\Release\netcoreapp2.2\QReduction.Services.dll
+D:\New folder (4)\QReduction\QReduction.Services\obj\Release\netcoreapp2.2\QReduction.Services.pdb
+D:\seham\QReduction\QReduction.Services\bin\Release\netcoreapp2.2\QReduction.Services.deps.json
+D:\seham\QReduction\QReduction.Services\bin\Release\netcoreapp2.2\QReduction.Services.dll
+D:\seham\QReduction\QReduction.Services\bin\Release\netcoreapp2.2\QReduction.Services.pdb
+D:\seham\QReduction\QReduction.Services\bin\Release\netcoreapp2.2\QReduction.Core.dll
+D:\seham\QReduction\QReduction.Services\bin\Release\netcoreapp2.2\QReduction.Infrastructure.dll
+D:\seham\QReduction\QReduction.Services\bin\Release\netcoreapp2.2\QReduction.Core.pdb
+D:\seham\QReduction\QReduction.Services\bin\Release\netcoreapp2.2\QReduction.Infrastructure.pdb
+D:\seham\QReduction\QReduction.Services\obj\Release\netcoreapp2.2\QReduction.Services.csprojAssemblyReference.cache
+D:\seham\QReduction\QReduction.Services\obj\Release\netcoreapp2.2\QReduction.Services.csproj.CoreCompileInputs.cache
+D:\seham\QReduction\QReduction.Services\obj\Release\netcoreapp2.2\QReduction.Services.AssemblyInfoInputs.cache
+D:\seham\QReduction\QReduction.Services\obj\Release\netcoreapp2.2\QReduction.Services.AssemblyInfo.cs
+D:\seham\QReduction\QReduction.Services\obj\Release\netcoreapp2.2\QReduction.Services.csproj.CopyComplete
+D:\seham\QReduction\QReduction.Services\obj\Release\netcoreapp2.2\QReduction.Services.dll
+D:\seham\QReduction\QReduction.Services\obj\Release\netcoreapp2.2\QReduction.Services.pdb

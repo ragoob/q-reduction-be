@@ -1,0 +1,204 @@
+D:\FireFoxDownload\QReduction\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csprojResolveAssemblyReference.cache
+D:\FireFoxDownload\QReduction\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.Messages.resources
+D:\FireFoxDownload\QReduction\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.Messages.ar.resources
+D:\FireFoxDownload\QReduction\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csproj.GenerateResource.Cache
+D:\FireFoxDownload\QReduction\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csproj.CoreCompileInputs.cache
+D:\FireFoxDownload\QReduction\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.AssemblyInfoInputs.cache
+D:\FireFoxDownload\QReduction\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.AssemblyInfo.cs
+D:\FireFoxDownload\QReduction\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.deps.json
+D:\FireFoxDownload\QReduction\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.runtimeconfig.json
+D:\FireFoxDownload\QReduction\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.runtimeconfig.dev.json
+D:\FireFoxDownload\QReduction\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.dll
+D:\FireFoxDownload\QReduction\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.pdb
+D:\FireFoxDownload\QReduction\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\ar\QReduction.Api.resources.dll
+D:\FireFoxDownload\QReduction\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Core.dll
+D:\FireFoxDownload\QReduction\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Infrastructure.dll
+D:\FireFoxDownload\QReduction\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Services.dll
+D:\FireFoxDownload\QReduction\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Core.pdb
+D:\FireFoxDownload\QReduction\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Infrastructure.pdb
+D:\FireFoxDownload\QReduction\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Services.pdb
+D:\FireFoxDownload\QReduction\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\ar\QReduction.Api.resources.dll
+D:\FireFoxDownload\QReduction\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.dll
+D:\FireFoxDownload\QReduction\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.pdb
+D:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.deps.json
+D:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.runtimeconfig.json
+D:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.runtimeconfig.dev.json
+D:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.dll
+D:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.pdb
+D:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\ar\QReduction.Api.resources.dll
+D:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Core.dll
+D:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Infrastructure.dll
+D:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Services.dll
+D:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Core.pdb
+D:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Infrastructure.pdb
+D:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Services.pdb
+D:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.Messages.resources
+D:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.Messages.ar.resources
+D:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csproj.GenerateResource.cache
+D:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.AssemblyInfoInputs.cache
+D:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.AssemblyInfo.cs
+D:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csproj.CoreCompileInputs.cache
+D:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\ar\QReduction.Api.resources.dll
+D:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.dll
+D:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.pdb
+E:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.deps.json
+E:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.runtimeconfig.json
+E:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.runtimeconfig.dev.json
+E:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.dll
+E:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.pdb
+E:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\ar\QReduction.Api.resources.dll
+E:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Core.dll
+E:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Infrastructure.dll
+E:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Services.dll
+E:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Core.pdb
+E:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Infrastructure.pdb
+E:\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Services.pdb
+E:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csprojResolveAssemblyReference.cache
+E:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.Messages.resources
+E:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.Messages.ar.resources
+E:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csproj.GenerateResource.Cache
+E:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csproj.CoreCompileInputs.cache
+E:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.AssemblyInfoInputs.cache
+E:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.AssemblyInfo.cs
+E:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\ar\QReduction.Api.resources.dll
+E:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.dll
+E:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.pdb
+D:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csprojAssemblyReference.cache
+D:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.RazorAssemblyInfo.cache
+D:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.RazorAssemblyInfo.cs
+D:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.RazorTargetAssemblyInfo.cache
+D:\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csproj.CopyComplete
+D:\New folder (4)\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.deps.json
+D:\New folder (4)\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.runtimeconfig.json
+D:\New folder (4)\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.runtimeconfig.dev.json
+D:\New folder (4)\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.dll
+D:\New folder (4)\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.pdb
+D:\New folder (4)\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\ar\QReduction.Api.resources.dll
+D:\New folder (4)\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Core.dll
+D:\New folder (4)\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Infrastructure.dll
+D:\New folder (4)\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Services.dll
+D:\New folder (4)\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Core.pdb
+D:\New folder (4)\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Infrastructure.pdb
+D:\New folder (4)\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Services.pdb
+D:\New folder (4)\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csprojResolveAssemblyReference.cache
+D:\New folder (4)\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.Messages.resources
+D:\New folder (4)\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.Messages.ar.resources
+D:\New folder (4)\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csproj.GenerateResource.Cache
+D:\New folder (4)\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csproj.CoreCompileInputs.cache
+D:\New folder (4)\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.AssemblyInfoInputs.cache
+D:\New folder (4)\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.AssemblyInfo.cs
+D:\New folder (4)\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\ar\QReduction.Api.resources.dll
+D:\New folder (4)\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.dll
+D:\New folder (4)\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.pdb
+D:\seham\sherif\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.deps.json
+D:\seham\sherif\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.runtimeconfig.json
+D:\seham\sherif\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.runtimeconfig.dev.json
+D:\seham\sherif\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.dll
+D:\seham\sherif\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.pdb
+D:\seham\sherif\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\ar\QReduction.Api.resources.dll
+D:\seham\sherif\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Core.dll
+D:\seham\sherif\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Infrastructure.dll
+D:\seham\sherif\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Services.dll
+D:\seham\sherif\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Core.pdb
+D:\seham\sherif\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Infrastructure.pdb
+D:\seham\sherif\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Services.pdb
+D:\seham\sherif\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csprojAssemblyReference.cache
+D:\seham\sherif\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.Messages.resources
+D:\seham\sherif\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.Messages.ar.resources
+D:\seham\sherif\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csproj.GenerateResource.cache
+D:\seham\sherif\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csproj.CoreCompileInputs.cache
+D:\seham\sherif\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.RazorAssemblyInfo.cache
+D:\seham\sherif\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.RazorAssemblyInfo.cs
+D:\seham\sherif\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.AssemblyInfoInputs.cache
+D:\seham\sherif\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.AssemblyInfo.cs
+D:\seham\sherif\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\ar\QReduction.Api.resources.dll
+D:\seham\sherif\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.RazorTargetAssemblyInfo.cache
+D:\seham\sherif\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csproj.CopyComplete
+D:\seham\sherif\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.dll
+D:\seham\sherif\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.pdb
+D:\seham\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.deps.json
+D:\seham\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.runtimeconfig.json
+D:\seham\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.runtimeconfig.dev.json
+D:\seham\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.dll
+D:\seham\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.pdb
+D:\seham\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\ar\QReduction.Api.resources.dll
+D:\seham\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Core.dll
+D:\seham\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Infrastructure.dll
+D:\seham\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Services.dll
+D:\seham\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Core.pdb
+D:\seham\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Infrastructure.pdb
+D:\seham\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Services.pdb
+D:\seham\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csprojAssemblyReference.cache
+D:\seham\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.Messages.resources
+D:\seham\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.Messages.ar.resources
+D:\seham\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csproj.GenerateResource.cache
+D:\seham\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csproj.CoreCompileInputs.cache
+D:\seham\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.RazorAssemblyInfo.cache
+D:\seham\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.RazorAssemblyInfo.cs
+D:\seham\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.AssemblyInfoInputs.cache
+D:\seham\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.AssemblyInfo.cs
+D:\seham\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\ar\QReduction.Api.resources.dll
+D:\seham\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.RazorTargetAssemblyInfo.cache
+D:\seham\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csproj.CopyComplete
+D:\seham\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.dll
+D:\seham\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.pdb
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\appsettings.Development.json
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\appsettings.json
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\Properties\launchSettings.json
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.deps.json
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.runtimeconfig.json
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.runtimeconfig.dev.json
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.dll
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.pdb
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\ar\QReduction.Api.resources.dll
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Core.dll
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Infrastructure.dll
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Services.dll
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Core.pdb
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Infrastructure.pdb
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Services.pdb
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csprojAssemblyReference.cache
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.Messages.resources
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.Messages.ar.resources
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csproj.GenerateResource.cache
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.RazorAssemblyInfo.cache
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.RazorAssemblyInfo.cs
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.AssemblyInfoInputs.cache
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.AssemblyInfo.cs
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\ar\QReduction.Api.resources.dll
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.RazorTargetAssemblyInfo.cache
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csproj.CopyComplete
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.dll
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.pdb
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.genruntimeconfig.cache
+C:\Users\amr.atif\Desktop\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csproj.CoreCompileInputs.cache
+D:\WorkStation\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\appsettings.Development.json
+D:\WorkStation\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\appsettings.json
+D:\WorkStation\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\Properties\launchSettings.json
+D:\WorkStation\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.deps.json
+D:\WorkStation\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.runtimeconfig.json
+D:\WorkStation\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.runtimeconfig.dev.json
+D:\WorkStation\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.dll
+D:\WorkStation\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Api.pdb
+D:\WorkStation\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\ar\QReduction.Api.resources.dll
+D:\WorkStation\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Core.dll
+D:\WorkStation\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Infrastructure.dll
+D:\WorkStation\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Services.dll
+D:\WorkStation\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Core.pdb
+D:\WorkStation\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Infrastructure.pdb
+D:\WorkStation\QReduction\QReduction.Api\bin\Debug\netcoreapp2.2\QReduction.Services.pdb
+D:\WorkStation\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csprojAssemblyReference.cache
+D:\WorkStation\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.Messages.resources
+D:\WorkStation\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.Messages.ar.resources
+D:\WorkStation\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csproj.GenerateResource.cache
+D:\WorkStation\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csproj.CoreCompileInputs.cache
+D:\WorkStation\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.RazorAssemblyInfo.cache
+D:\WorkStation\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.RazorAssemblyInfo.cs
+D:\WorkStation\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.AssemblyInfoInputs.cache
+D:\WorkStation\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.AssemblyInfo.cs
+D:\WorkStation\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\ar\QReduction.Api.resources.dll
+D:\WorkStation\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.RazorTargetAssemblyInfo.cache
+D:\WorkStation\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.csproj.CopyComplete
+D:\WorkStation\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.dll
+D:\WorkStation\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.pdb
+D:\WorkStation\QReduction\QReduction.Api\obj\Debug\netcoreapp2.2\QReduction.Api.genruntimeconfig.cache

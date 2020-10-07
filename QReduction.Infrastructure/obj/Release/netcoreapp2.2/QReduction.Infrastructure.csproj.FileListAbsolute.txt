@@ -1,0 +1,35 @@
+D:\AhmedSaid\QReduction\QReduction\QReduction.Infrastructure\bin\Release\netcoreapp2.2\QReduction.Infrastructure.deps.json
+D:\AhmedSaid\QReduction\QReduction\QReduction.Infrastructure\bin\Release\netcoreapp2.2\QReduction.Infrastructure.dll
+D:\AhmedSaid\QReduction\QReduction\QReduction.Infrastructure\bin\Release\netcoreapp2.2\QReduction.Infrastructure.pdb
+D:\AhmedSaid\QReduction\QReduction\QReduction.Infrastructure\bin\Release\netcoreapp2.2\QReduction.Core.dll
+D:\AhmedSaid\QReduction\QReduction\QReduction.Infrastructure\bin\Release\netcoreapp2.2\QReduction.Core.pdb
+D:\AhmedSaid\QReduction\QReduction\QReduction.Infrastructure\obj\Release\netcoreapp2.2\QReduction.Infrastructure.csprojAssemblyReference.cache
+D:\AhmedSaid\QReduction\QReduction\QReduction.Infrastructure\obj\Release\netcoreapp2.2\QReduction.Infrastructure.csproj.CoreCompileInputs.cache
+D:\AhmedSaid\QReduction\QReduction\QReduction.Infrastructure\obj\Release\netcoreapp2.2\QReduction.Infrastructure.AssemblyInfoInputs.cache
+D:\AhmedSaid\QReduction\QReduction\QReduction.Infrastructure\obj\Release\netcoreapp2.2\QReduction.Infrastructure.AssemblyInfo.cs
+D:\AhmedSaid\QReduction\QReduction\QReduction.Infrastructure\obj\Release\netcoreapp2.2\QReduction.Infrastructure.csproj.CopyComplete
+D:\AhmedSaid\QReduction\QReduction\QReduction.Infrastructure\obj\Release\netcoreapp2.2\QReduction.Infrastructure.dll
+D:\AhmedSaid\QReduction\QReduction\QReduction.Infrastructure\obj\Release\netcoreapp2.2\QReduction.Infrastructure.pdb
+D:\New folder (4)\QReduction\QReduction.Infrastructure\bin\Release\netcoreapp2.2\QReduction.Infrastructure.deps.json
+D:\New folder (4)\QReduction\QReduction.Infrastructure\bin\Release\netcoreapp2.2\QReduction.Infrastructure.dll
+D:\New folder (4)\QReduction\QReduction.Infrastructure\bin\Release\netcoreapp2.2\QReduction.Infrastructure.pdb
+D:\New folder (4)\QReduction\QReduction.Infrastructure\bin\Release\netcoreapp2.2\QReduction.Core.dll
+D:\New folder (4)\QReduction\QReduction.Infrastructure\bin\Release\netcoreapp2.2\QReduction.Core.pdb
+D:\New folder (4)\QReduction\QReduction.Infrastructure\obj\Release\netcoreapp2.2\QReduction.Infrastructure.csprojResolveAssemblyReference.cache
+D:\New folder (4)\QReduction\QReduction.Infrastructure\obj\Release\netcoreapp2.2\QReduction.Infrastructure.csproj.CoreCompileInputs.cache
+D:\New folder (4)\QReduction\QReduction.Infrastructure\obj\Release\netcoreapp2.2\QReduction.Infrastructure.AssemblyInfoInputs.cache
+D:\New folder (4)\QReduction\QReduction.Infrastructure\obj\Release\netcoreapp2.2\QReduction.Infrastructure.AssemblyInfo.cs
+D:\New folder (4)\QReduction\QReduction.Infrastructure\obj\Release\netcoreapp2.2\QReduction.Infrastructure.dll
+D:\New folder (4)\QReduction\QReduction.Infrastructure\obj\Release\netcoreapp2.2\QReduction.Infrastructure.pdb
+D:\seham\QReduction\QReduction.Infrastructure\bin\Release\netcoreapp2.2\QReduction.Infrastructure.deps.json
+D:\seham\QReduction\QReduction.Infrastructure\bin\Release\netcoreapp2.2\QReduction.Infrastructure.dll
+D:\seham\QReduction\QReduction.Infrastructure\bin\Release\netcoreapp2.2\QReduction.Infrastructure.pdb
+D:\seham\QReduction\QReduction.Infrastructure\bin\Release\netcoreapp2.2\QReduction.Core.dll
+D:\seham\QReduction\QReduction.Infrastructure\bin\Release\netcoreapp2.2\QReduction.Core.pdb
+D:\seham\QReduction\QReduction.Infrastructure\obj\Release\netcoreapp2.2\QReduction.Infrastructure.csprojAssemblyReference.cache
+D:\seham\QReduction\QReduction.Infrastructure\obj\Release\netcoreapp2.2\QReduction.Infrastructure.csproj.CoreCompileInputs.cache
+D:\seham\QReduction\QReduction.Infrastructure\obj\Release\netcoreapp2.2\QReduction.Infrastructure.AssemblyInfoInputs.cache
+D:\seham\QReduction\QReduction.Infrastructure\obj\Release\netcoreapp2.2\QReduction.Infrastructure.AssemblyInfo.cs
+D:\seham\QReduction\QReduction.Infrastructure\obj\Release\netcoreapp2.2\QReduction.Infrastructure.csproj.CopyComplete
+D:\seham\QReduction\QReduction.Infrastructure\obj\Release\netcoreapp2.2\QReduction.Infrastructure.dll
+D:\seham\QReduction\QReduction.Infrastructure\obj\Release\netcoreapp2.2\QReduction.Infrastructure.pdb
