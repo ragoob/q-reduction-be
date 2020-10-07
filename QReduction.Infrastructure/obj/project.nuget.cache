@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "PH0wr4wtPNyOOtXnm1FLlZvCywUX6xhaFMhsTEsPs5a1vf3vt4YIJ6Gdr7XS55mSdujv9b4hSZbLLBDVK1QMwg==",
+  "dgSpecHash": "T7utfbg+CRihfb0o3BNy4ZyVSmpfAZ9bQZHrRxkLMap7RCALCtTpydM6cRYEICuKoL7sUhBmNI5mmXvE7lhkcw==",
   "success": true,
-  "projectFilePath": "D:\\WorkStation\\QReduction\\QReduction.Infrastructure\\QReduction.Infrastructure.csproj",
+  "projectFilePath": "D:\\WorkStation\\QR\\QReduction.Infrastructure\\QReduction.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\amr.atif\\.nuget\\packages\\microsoft.entityframeworkcore\\2.2.6\\microsoft.entityframeworkcore.2.2.6.nupkg.sha512",
     "C:\\Users\\amr.atif\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\2.2.6\\microsoft.entityframeworkcore.abstractions.2.2.6.nupkg.sha512",

@@ -692,11 +692,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\WorkStation\\QReduction\\QReduction.Core\\QReduction.Core.csproj",
+      "projectUniqueName": "D:\\WorkStation\\QR\\QReduction.Core\\QReduction.Core.csproj",
       "projectName": "QReduction.Core",
-      "projectPath": "D:\\WorkStation\\QReduction\\QReduction.Core\\QReduction.Core.csproj",
+      "projectPath": "D:\\WorkStation\\QR\\QReduction.Core\\QReduction.Core.csproj",
       "packagesPath": "C:\\Users\\amr.atif\\.nuget\\packages\\",
-      "outputPath": "D:\\WorkStation\\QReduction\\QReduction.Core\\obj\\",
+      "outputPath": "D:\\WorkStation\\QR\\QReduction.Core\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\WorkStation\\QReduction\\QReduction.Infrastructure\\QReduction.Infrastructure.csproj": {}
+    "D:\\WorkStation\\QR\\QReduction.Infrastructure\\QReduction.Infrastructure.csproj": {}
   },
   "projects": {
-    "D:\\WorkStation\\QReduction\\QReduction.Core\\QReduction.Core.csproj": {
+    "D:\\WorkStation\\QR\\QReduction.Core\\QReduction.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\WorkStation\\QReduction\\QReduction.Core\\QReduction.Core.csproj",
+        "projectUniqueName": "D:\\WorkStation\\QR\\QReduction.Core\\QReduction.Core.csproj",
         "projectName": "QReduction.Core",
-        "projectPath": "D:\\WorkStation\\QReduction\\QReduction.Core\\QReduction.Core.csproj",
+        "projectPath": "D:\\WorkStation\\QR\\QReduction.Core\\QReduction.Core.csproj",
         "packagesPath": "C:\\Users\\amr.atif\\.nuget\\packages\\",
-        "outputPath": "D:\\WorkStation\\QReduction\\QReduction.Core\\obj\\",
+        "outputPath": "D:\\WorkStation\\QR\\QReduction.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -62,14 +62,14 @@
         }
       }
     },
-    "D:\\WorkStation\\QReduction\\QReduction.Infrastructure\\QReduction.Infrastructure.csproj": {
+    "D:\\WorkStation\\QR\\QReduction.Infrastructure\\QReduction.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\WorkStation\\QReduction\\QReduction.Infrastructure\\QReduction.Infrastructure.csproj",
+        "projectUniqueName": "D:\\WorkStation\\QR\\QReduction.Infrastructure\\QReduction.Infrastructure.csproj",
         "projectName": "QReduction.Infrastructure",
-        "projectPath": "D:\\WorkStation\\QReduction\\QReduction.Infrastructure\\QReduction.Infrastructure.csproj",
+        "projectPath": "D:\\WorkStation\\QR\\QReduction.Infrastructure\\QReduction.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\amr.atif\\.nuget\\packages\\",
-        "outputPath": "D:\\WorkStation\\QReduction\\QReduction.Infrastructure\\obj\\",
+        "outputPath": "D:\\WorkStation\\QR\\QReduction.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -88,8 +88,8 @@
         "frameworks": {
           "netcoreapp2.2": {
             "projectReferences": {
-              "D:\\WorkStation\\QReduction\\QReduction.Core\\QReduction.Core.csproj": {
-                "projectPath": "D:\\WorkStation\\QReduction\\QReduction.Core\\QReduction.Core.csproj"
+              "D:\\WorkStation\\QR\\QReduction.Core\\QReduction.Core.csproj": {
+                "projectPath": "D:\\WorkStation\\QR\\QReduction.Core\\QReduction.Core.csproj"
               }
             }
           }

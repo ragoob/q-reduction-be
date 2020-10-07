@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "mi4cnDJ3HrPcFZ+7vNZGMkN1jjNjxoW2k9S8RkJRAv8wVUbmO0V5lTgX6GAG/y5iZupwMob52WbQcIjrVr+Umw==",
+  "dgSpecHash": "gZqH6HtaUvRYQZqW4E3U5/ECX83QAuSZVg71TbMpA5j51HVgIj2gcBXorMw4+kTG+8QrNTQQi0zSuM18uC4ANA==",
   "success": true,
-  "projectFilePath": "D:\\WorkStation\\QReduction\\QReduction.Core\\QReduction.Core.csproj",
+  "projectFilePath": "D:\\WorkStation\\QR\\QReduction.Core\\QReduction.Core.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\amr.atif\\.nuget\\packages\\microsoft.netcore.app\\2.2.0\\microsoft.netcore.app.2.2.0.nupkg.sha512",
     "C:\\Users\\amr.atif\\.nuget\\packages\\microsoft.netcore.dotnetapphost\\2.2.0\\microsoft.netcore.dotnetapphost.2.2.0.nupkg.sha512",
