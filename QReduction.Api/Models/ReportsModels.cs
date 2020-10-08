@@ -38,6 +38,25 @@ namespace QReduction.Api.Models
 
     }
 
+    public class VisitorTotalRequest
+    {
+
+
+        public int currentPage { get; set; }
+        public int pageSize { get; set; }
+
+
+        public DateTime? DateFrom { get; set; }
+
+        public DateTime? DateTo { get; set; }
+
+        public int? BranchId { get; set; }
+
+        public int OrganizationId { get; set; }
+
+    }
+
+
     public class OragnizationDetailVisitorRequest
     {
 
@@ -51,6 +70,9 @@ namespace QReduction.Api.Models
         public DateTime? DateTo { get; set; }
 
     }
+
+    
+
 
     public class OragnizationTotalVisitorResponse
     {

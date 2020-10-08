@@ -137,13 +137,52 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 
 
             ReturendModel.DataList = pagedListModel.DataList.Distinct().GroupBy(r => r.UserMobile).Select
-                (r => new OragnizationTotalVisitorResponse() { MobileUser = r.Key, NumberOfVisits = r.Count() });
+                (r => new OragnizationTotalVisitorResponse() { MobileUser = r.Key, NumberOfVisits = r.Count() }).OrderByDescending(c => c.NumberOfVisits);
 
             ReturendModel.QueryOptions = pagedListModel.QueryOptions;
 
             return Ok(ReturendModel);
         }
 
+
+
+        [HttpPost]
+        [Route("VisitorTotalReport")]
+        [CustomAuthorizationFilter("Evaluation.Add")]
+        [ApiExplorerSettings(GroupName = "Admin")]
+        public async Task<IActionResult> VisitorTotalReport(VisitorTotalRequest VisitorTotalRequest)
+        {
+
+            PagedListModel<ShiftQueue> pagedListModel = new PagedListModel<ShiftQueue>(VisitorTotalRequest.currentPage, VisitorTotalRequest.pageSize);
+
+
+            pagedListModel.DataList = VisitorTotalRequest.BranchId.HasValue ?
+                await _shiftQueueService.FindAsync(pagedListModel.QueryOptions, v => v.UserBy.OrganizationId == VisitorTotalRequest.OrganizationId&&
+                   v.Shift.BranchId == VisitorTotalRequest.BranchId.Value &&
+                    v.IsServiceDone == true
+
+                    , "UserMobile",
+                    "Shift.Branch"
+
+            ) :
+              await _shiftQueueService.FindAsync(pagedListModel.QueryOptions, v => v.UserBy.OrganizationId == VisitorTotalRequest.OrganizationId &&
+                    v.IsServiceDone == true
+
+                    , "UserMobile",
+                    "Shift.Branch"
+
+            );
+
+            PagedListModel<OragnizationTotalVisitorResponse> ReturendModel = new PagedListModel<OragnizationTotalVisitorResponse>();
+
+
+            ReturendModel.DataList = pagedListModel.DataList.Distinct().GroupBy(r => r.UserMobile).Select
+                (r => new OragnizationTotalVisitorResponse() { MobileUser = r.Key, NumberOfVisits = r.Count() }).OrderByDescending(c=> c.NumberOfVisits);
+
+            ReturendModel.QueryOptions = pagedListModel.QueryOptions;
+
+            return Ok(ReturendModel);
+        }
 
 
         [HttpPost]
