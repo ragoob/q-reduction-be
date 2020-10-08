@@ -116,18 +116,26 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             PagedListModel<ShiftQueue> pagedListModel = new PagedListModel<ShiftQueue>(oragnizationTotalVisitorRequest.currentPage, oragnizationTotalVisitorRequest.pageSize);
 
 
-            pagedListModel.DataList = await _shiftQueueService.FindAsync(pagedListModel.QueryOptions, v => v.UserBy.OrganizationId == OrganizationId &&
-            v.Shift.BranchId == oragnizationTotalVisitorRequest.BranchId.Value &&
-          v.IsServiceDone == true
+            pagedListModel.DataList = oragnizationTotalVisitorRequest.BranchId.HasValue ?
+                await _shiftQueueService.FindAsync(pagedListModel.QueryOptions, v => v.UserBy.OrganizationId == OrganizationId &&
+                   v.Shift.BranchId == oragnizationTotalVisitorRequest.BranchId.Value &&
+                    v.IsServiceDone == true
 
-           , "UserMobile",
-           "Shift.Branch"
+                    , "UserMobile",
+                    "Shift.Branch"
 
-          );
+            ) :
+              await _shiftQueueService.FindAsync(pagedListModel.QueryOptions, v => v.UserBy.OrganizationId == OrganizationId &&
+                    v.IsServiceDone == true
+
+                    , "UserMobile",
+                    "Shift.Branch"
+
+            );
 
             PagedListModel<OragnizationTotalVisitorResponse> ReturendModel = new PagedListModel<OragnizationTotalVisitorResponse>();
 
-            
+
             ReturendModel.DataList = pagedListModel.DataList.Distinct().GroupBy(r => r.UserMobile).Select
                 (r => new OragnizationTotalVisitorResponse() { MobileUser = r.Key, NumberOfVisits = r.Count() });
 
