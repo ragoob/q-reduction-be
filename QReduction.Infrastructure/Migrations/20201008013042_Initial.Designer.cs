@@ -11,8 +11,8 @@ using QReduction.Infrastructure.DbContexts;
 namespace QReduction.Infrastructure.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20200815183830_addPushIdToQueue")]
-    partial class addPushIdToQueue
+    [Migration("20201008013042_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,6 +21,91 @@ namespace QReduction.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("QReduction.Core.Domain.Acl.About", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreateAt");
+
+                    b.Property<int?>("CreateBy");
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<int?>("DeletedBy");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("LabelTextAr");
+
+                    b.Property<string>("LabelTextEn");
+
+                    b.Property<string>("LabelValueAr");
+
+                    b.Property<string>("LabelValueEn");
+
+                    b.Property<DateTime?>("UpdateAt");
+
+                    b.Property<int?>("UpdateBy");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("About");
+                });
+
+            modelBuilder.Entity("QReduction.Core.Domain.Acl.HelpAndSupport", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreateAt");
+
+                    b.Property<int?>("CreateBy");
+
+                    b.Property<DateTime?>("DeletedAt");
+
+                    b.Property<int?>("DeletedBy");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Message");
+
+                    b.Property<string>("MessageTitle");
+
+                    b.Property<DateTime?>("UpdateAt");
+
+                    b.Property<int?>("UpdateBy");
+
+                    b.Property<int?>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("HelpAndSupport");
+                });
+
+            modelBuilder.Entity("QReduction.Core.Domain.Acl.LoginProviders", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ProviderType");
+
+                    b.Property<string>("Providertoken");
+
+                    b.Property<int?>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("LoginProviders");
+                });
 
             modelBuilder.Entity("QReduction.Core.Domain.Acl.Page", b =>
                 {
@@ -352,6 +437,27 @@ namespace QReduction.Infrastructure.Migrations
                     b.ToTable("Evaluations");
                 });
 
+            modelBuilder.Entity("QReduction.Core.Domain.EvaluationQuestionAnswer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AnswerValue");
+
+                    b.Property<int?>("EvaluationId");
+
+                    b.Property<int?>("QuestionId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EvaluationId");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("EvaluationQuestionAnswer");
+                });
+
             modelBuilder.Entity("QReduction.Core.Domain.Instruction", b =>
                 {
                     b.Property<int>("Id")
@@ -632,6 +738,8 @@ namespace QReduction.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreatedDate");
+
                     b.Property<bool>("IsServiceDone");
 
                     b.Property<string>("PushId");
@@ -686,6 +794,20 @@ namespace QReduction.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ShiftUsers");
+                });
+
+            modelBuilder.Entity("QReduction.Core.Domain.Acl.HelpAndSupport", b =>
+                {
+                    b.HasOne("QReduction.Core.Domain.Acl.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("QReduction.Core.Domain.Acl.LoginProviders", b =>
+                {
+                    b.HasOne("QReduction.Core.Domain.Acl.User")
+                        .WithMany("LoginProviders")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("QReduction.Core.Domain.Acl.PagePermission", b =>
@@ -770,6 +892,17 @@ namespace QReduction.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("ShiftQueueId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("QReduction.Core.Domain.EvaluationQuestionAnswer", b =>
+                {
+                    b.HasOne("QReduction.Core.Domain.Evaluation", "Evaluation")
+                        .WithMany("EvaluationQuestionAnswers")
+                        .HasForeignKey("EvaluationId");
+
+                    b.HasOne("QReduction.Core.Domain.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId");
                 });
 
             modelBuilder.Entity("QReduction.Core.Domain.Instruction", b =>
