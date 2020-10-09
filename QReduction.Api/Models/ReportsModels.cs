@@ -85,6 +85,18 @@ namespace QReduction.Api.Models
         
     }
 
+    public class VisitorResponse
+    {
+
+
+        public int NumberOfUsers { get; set; }
+
+        public int NumberOfVisits { get; set; }
+
+
+    }
+
+
     public class OragnizationDetailVisitorResponse
     {
 

@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 using QReduction.Api;
 using QReduction.Api.Models;
 using QReduction.Apis.Controllers;
 using QReduction.Apis.Infrastructure;
 using QReduction.Apis.Models;
 using QReduction.Core.Domain;
+using QReduction.Core.Extensions;
 using QReduction.Core.Models;
 using QReduction.Core.Service.Custom;
 using QReduction.Core.Service.Generic;
@@ -157,7 +159,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 
 
             pagedListModel.DataList = VisitorTotalRequest.BranchId.HasValue ?
-                await _shiftQueueService.FindAsync(pagedListModel.QueryOptions, v => v.UserBy.OrganizationId == VisitorTotalRequest.OrganizationId&&
+                await _shiftQueueService.FindAsync(pagedListModel.QueryOptions, v => v.UserBy.OrganizationId == VisitorTotalRequest.OrganizationId &&
                    v.Shift.BranchId == VisitorTotalRequest.BranchId.Value &&
                     v.IsServiceDone == true
 
@@ -173,15 +175,22 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 
             );
 
-            PagedListModel<OragnizationTotalVisitorResponse> ReturendModel = new PagedListModel<OragnizationTotalVisitorResponse>();
+            //PagedListModel<OragnizationTotalVisitorResponse> ReturendModel = new PagedListModel<OragnizationTotalVisitorResponse>();
 
 
-            ReturendModel.DataList = pagedListModel.DataList.Distinct().GroupBy(r => r.UserMobile).Select
-                (r => new OragnizationTotalVisitorResponse() { MobileUser = r.Key, NumberOfVisits = r.Count() }).OrderByDescending(c=> c.NumberOfVisits);
+            var queryGroup = pagedListModel.DataList.Distinct().GroupBy(r => r.UserMobile).Select
+                (r => new OragnizationTotalVisitorResponse() { MobileUser = r.Key, NumberOfVisits = r.Count() }).OrderByDescending(c => c.NumberOfVisits);
 
-            ReturendModel.QueryOptions = pagedListModel.QueryOptions;
 
-            return Ok(ReturendModel);
+            var VisitorResponse = new VisitorResponse()
+            {
+                NumberOfVisits = queryGroup.Sum(c => c.NumberOfVisits),
+                NumberOfUsers = queryGroup.Count( )
+            };
+
+
+
+            return Ok(VisitorResponse);
         }
 
 
