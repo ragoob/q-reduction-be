@@ -509,7 +509,8 @@ namespace QReduction.Apis.Controllers.Membership
                 Photo = authUser.PhotoPath,
                 userGuid=authUser.UserGuid.ToString(),
                 branchId=authUser.BranchId,
-                authUser.Id
+                authUser.Id,
+                IsFirstLogin = authUser.IsFirstLogin
             });
         }
 

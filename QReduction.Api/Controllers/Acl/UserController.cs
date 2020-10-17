@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using QReduction.Apis.Controllers;
@@ -30,7 +30,7 @@ namespace QReduction.Controllers
         private readonly IHostingEnvironment _environment;
         private readonly IUserService _userService;
         private readonly IEncryptionProvider _encryptionProvider;
-
+        private readonly IEmailSender _emailSender;
         private readonly IService<UserRole> _userRoleService;
         //private readonly IService<SystemPage> _systemPageService;
         //private readonly IService<SystemPagePermission> _systemPagePermissionService;
@@ -42,12 +42,14 @@ namespace QReduction.Controllers
 
         public UserController(IUserService userService, IEncryptionProvider encryptionProvider,
             IService<UserRole> userRoleService,
-            IHostingEnvironment environment
+            IHostingEnvironment environment,
+            IEmailSender emailSender
             )
         {
             _userService = userService;
             _encryptionProvider = encryptionProvider;
             _userRoleService = userRoleService;
+            _emailSender = emailSender;
             _environment = environment ?? throw new ArgumentNullException(nameof(environment));
             //_systemPageService = systemPageService;
             //_systemPagePermissionService = systemPagePermissionService;
@@ -127,8 +129,8 @@ namespace QReduction.Controllers
         {
             if (await _userService.AnyAsync(u => u.PhoneNumber.Equals(model.PhoneNumber) || u.Email.Equals(model.Email, StringComparison.OrdinalIgnoreCase)))
                 return BadRequest(Messages.Exists_EmailOrPhone);
-
-            _encryptionProvider.CreatePasswordHash(model.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            var _password = $"{Guid.NewGuid()}";
+            _encryptionProvider.CreatePasswordHash(_password, out byte[] passwordHash, out byte[] passwordSalt);
 
             User user = new User
             {
@@ -145,10 +147,22 @@ namespace QReduction.Controllers
                 CreatedBy = UserId,
                 LastUpdateDate = DateTime.UtcNow,
                 OrganizationId = OrganizationId,
-                BranchId=model.branchId
+                BranchId=model.branchId,
+                IsFirstLogin = true
             };
 
             await _userService.AddWithDetailsAsync(user, model.UserRoles);
+            try
+            {
+                await _emailSender.SendMail(new string[] { user.Email }, "كلمه المرور", $" {_password} ");
+
+            }
+            catch (Exception ex )
+            {
+
+                throw;
+            }
+
             return Ok();
         }
 
@@ -232,6 +246,7 @@ namespace QReduction.Controllers
             user.UpdatedAt = user.LastUpdateDate = DateTime.UtcNow;
             user.IsActive = true;
             user.IsVerified = true;
+            user.IsFirstLogin = false;
             await _userService.UpdateWithDetailsAsync(user, model.UserRoles);
             return Ok();
         }

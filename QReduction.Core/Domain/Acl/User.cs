@@ -32,6 +32,8 @@ namespace QReduction.Core.Domain.Acl
         public string VerificationCode { get; set; }
         public bool IsVerified { get; set; }
 
+        public bool IsFirstLogin { get; set; }
+
         public string UserDeviceId { get; set; }
         public DateTime? VerificationCodeExpiration { get; set; }
         public int ? OrganizationId { get; set; }

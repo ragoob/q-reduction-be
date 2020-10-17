@@ -26,7 +26,7 @@ namespace QReduction.Apis.Infrastructure
             int port = Convert.ToInt32(appSettings["mail_port"]);
             string userName = appSettings["mail_userName"];
             string password = appSettings["mail_password"];
-            bool isSSl = Convert.ToBoolean(appSettings["mail_isSSl"]);
+            bool isSSl = true;//Convert.ToBoolean(appSettings["mail_isSSl"]);
 
             SmtpClient client = new SmtpClient(smtpServer, port);
             client.Credentials = new NetworkCredential(userName, password);
