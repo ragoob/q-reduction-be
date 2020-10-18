@@ -58,6 +58,18 @@ namespace QReduction.Controllers
 
         #endregion
         #region Actions superAdmin
+        private string GeneratePassword(int length=6)
+        {
+            Random random = new Random();
+            string password = string.Empty;
+            length = length <= 0 ? 6 : length;
+
+            for (int i = 0; i < length; i++)
+            {
+                password += random.Next(0, 9);
+            }
+            return password;
+        }
 
         [HttpPost]
         [CustomAuthorizationFilter("Users.Add")]
@@ -67,8 +79,9 @@ namespace QReduction.Controllers
         {
             if (await _userService.AnyAsync(u => u.PhoneNumber.Equals(model.PhoneNumber) || u.Email.Equals(model.Email, StringComparison.OrdinalIgnoreCase)))
                 return BadRequest(Messages.Exists_EmailOrPhone);
+            var _password = $"{GeneratePassword()}";
 
-            _encryptionProvider.CreatePasswordHash(model.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            _encryptionProvider.CreatePasswordHash(_password, out byte[] passwordHash, out byte[] passwordSalt);
 
             User user = new User
             {
@@ -84,10 +97,21 @@ namespace QReduction.Controllers
                 CreatedAt = DateTime.UtcNow,
                 CreatedBy = UserId,
                 LastUpdateDate = DateTime.UtcNow,
-                OrganizationId=model.OrganizationId
+                OrganizationId=model.OrganizationId,
+                IsFirstLogin=true
             };
 
             await _userService.AddWithDetailsAsync(user, model.UserRoles);
+            try
+            {
+                await _emailSender.SendMail(new string[] { user.Email }, "كلمه المرور", $" {_password} ");
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
             return Ok();
         }
 
@@ -129,7 +153,7 @@ namespace QReduction.Controllers
         {
             if (await _userService.AnyAsync(u => u.PhoneNumber.Equals(model.PhoneNumber) || u.Email.Equals(model.Email, StringComparison.OrdinalIgnoreCase)))
                 return BadRequest(Messages.Exists_EmailOrPhone);
-            var _password = $"{Guid.NewGuid()}";
+            var _password = $"{GeneratePassword()}";
             _encryptionProvider.CreatePasswordHash(_password, out byte[] passwordHash, out byte[] passwordSalt);
 
             User user = new User
