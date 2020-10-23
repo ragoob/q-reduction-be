@@ -67,7 +67,8 @@ namespace QReduction.Api.Controllers
             shift.CreateBy = UserId;
             await _shiftService.AddAsync(shift);
             return Ok();
-        }
+        } 
+
         //[HttpPost]
         //[Route("OpenShiftAndAssignUser")]
         //[CustomAuthorizationFilter("Shift.Add")]
