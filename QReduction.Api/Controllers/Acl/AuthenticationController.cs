@@ -285,6 +285,7 @@ namespace QReduction.Apis.Controllers.Membership
             user.PasswordSalt = passwordSalt;
             user.LastUpdateDate = DateTime.UtcNow;
             user.UpdatedBy = UserId;
+            user.IsFirstLogin = false;
             await _userService.EditAsync(user);
 
             return Ok();
