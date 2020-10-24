@@ -29,7 +29,7 @@ namespace QReduction.Apis.Models
         public IFormFile UserImage { get; set; }
 
         public string Email { get; set; }
-     
+
         public UserTypes? UserTypeId { get; set; }
         public virtual UserType UserType { get; set; }
     }
@@ -38,6 +38,7 @@ namespace QReduction.Apis.Models
     {
         Google = 1,
         Facebook = 2,
-        Twitter = 3
+        Twitter = 3,
+        Apple = 4
     }
 }
