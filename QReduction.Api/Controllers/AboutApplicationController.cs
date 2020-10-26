@@ -144,8 +144,9 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         }
 
         [HttpGet("GetAboutApplication")]
-        [CustomAuthorizationFilter("About")]
+        //[CustomAuthorizationFilter("About")]
         [ApiExplorerSettings(GroupName = "Mobile")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAboutApplication()
         {
             List<About> about = (await _AboutService.GetAllAsync()).ToList();

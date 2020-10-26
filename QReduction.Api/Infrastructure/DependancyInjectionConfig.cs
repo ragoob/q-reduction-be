@@ -14,7 +14,7 @@ using QReduction.Infrastructure.Repositories.Generic;
 using QReduction.Infrastructure.UnitOfWorks;
 using QReduction.Services.Generic;
 using QReduction.Services.Custom;
-
+using QReduction.Api.ShiftBackgroundServices;
 
 namespace QReduction.Apis.Infrastructure
 {
@@ -24,6 +24,7 @@ namespace QReduction.Apis.Infrastructure
 
         internal static ServiceProvider Config(IServiceCollection services, IConfiguration configuration)
         {
+
             #region DbContext ...
             services.AddDbContext<IDatabaseContext, DatabaseContext>(option =>
             option.UseSqlServer(configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Scoped);
@@ -38,6 +39,11 @@ namespace QReduction.Apis.Infrastructure
             services.AddTransient(typeof(ISystemSettingRepostory), typeof(SystemSettingRepostory));
             services.AddTransient(typeof(IShiftQueueRepository), typeof(ShiftQueueRepository));
 
+
+            #endregion
+
+            #region AddHostedService
+            services.AddHostedService<ShiftHostedService>();
 
             #endregion
 
@@ -59,14 +65,14 @@ namespace QReduction.Apis.Infrastructure
 
 
             #endregion
-            
-            
+
+
             #region SingleTonePdf
 
             //services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
             #endregion
-            
+
             ServiceProvider = services.BuildServiceProvider();
             return (ServiceProvider as ServiceProvider);
         }
