@@ -83,12 +83,14 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             //Queue Number
             var PreviousUserQueue = (await _shiftQueueService.FindAsync(a => a.ShiftId == OpenShift.Id && a.ServiceId == branchService.ServiceId
                                     )).OrderBy(a => a.UserTurn).LastOrDefault();
+
             var QueueNo = PreviousUserQueue == null ? 1 : PreviousUserQueue.UserTurn + 1;
 
 
             //Current Queue
             var CurrentServiedQueue = (await _shiftQueueService.FindAsync(a => a.ShiftId == OpenShift.Id && a.ServiceId == branchService.ServiceId
-                                  && !a.IsServiceDone && a.UserIdBy != null && a.WindowNumber != null)).OrderBy(a => a.UserTurn).LastOrDefault();
+                                  && !a.IsServiceDone /*&& a.UserIdBy != null && a.WindowNumber != null*/ )).OrderBy(a => a.UserTurn).FirstOrDefault();
+
             var CurrentServiedQueueNo = CurrentServiedQueue == null ? QueueNo : CurrentServiedQueue.UserTurn;
 
             var stringPushId = SendMessage(new Record() { queueNumber = QueueNo, Counter = null, currentQueue = CurrentServiedQueueNo });
