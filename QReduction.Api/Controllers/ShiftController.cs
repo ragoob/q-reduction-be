@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using QReduction.Api;
+using QReduction.Api.Models;
 using QReduction.Apis.Controllers;
 using QReduction.Apis.Infrastructure;
 using QReduction.Apis.Models;
@@ -28,18 +29,18 @@ namespace QReduction.Api.Controllers
 
         #region Fields
         private readonly IService<Shift> _shiftService;
-       private readonly IService<BranchService> _branchServiceService;
+        private readonly IService<BranchService> _branchServiceService;
         //private readonly IService<ShiftUser> _shiftUserService;
-   //     private readonly IShiftQueueService _shiftQueueService;
+        //     private readonly IShiftQueueService _shiftQueueService;
         #endregion
 
         #region ctor
-        public ShiftController(IShiftQueueService shiftQueueService, IService<Shift> shiftService,IService<BranchService> branchServiceService
+        public ShiftController(IShiftQueueService shiftQueueService, IService<Shift> shiftService, IService<BranchService> branchServiceService
             //, IService<ShiftUser> shiftUserService
             )
         {
             _shiftService = shiftService;
-          //  _shiftQueueService = shiftQueueService;
+            //  _shiftQueueService = shiftQueueService;
             _branchServiceService = branchServiceService;
         }
         #endregion
@@ -67,7 +68,34 @@ namespace QReduction.Api.Controllers
             shift.CreateBy = UserId;
             await _shiftService.AddAsync(shift);
             return Ok();
-        } 
+        }
+
+        [HttpPost]
+        [Route("AddBranchShifts")]
+        [ApiExplorerSettings(GroupName = "Admin")]
+        [AllowAnonymous]
+        public async Task<IActionResult> AddBranchShifts(AddShiftModel Input)
+        {
+            List<Shift> DataList = new List<Shift>();
+            foreach (var shift in Input.Shifts)
+            {
+                DataList.Add(
+                    new Shift()
+                    {
+
+                        StartAt = DateTime.UtcNow,
+                        QRCode = Guid.NewGuid().ToString(),
+                        IsEnded = false,
+                        EndAt = shift.EndAt,
+                        CreateAt = DateTime.UtcNow
+
+                    });
+
+            }
+            await _shiftService.AddRangeAsync(DataList);
+            return Ok();
+        }
+
 
         //[HttpPost]
         //[Route("OpenShiftAndAssignUser")]
@@ -112,7 +140,7 @@ namespace QReduction.Api.Controllers
 
             if (shift.IsEnded)
                 return BadRequest(Messages.ShiftIsClosed);
-           
+
             shift.IsEnded = true;
             shift.EndAt = DateTime.UtcNow;
             shift.UpdateAt = DateTime.UtcNow;
@@ -130,7 +158,7 @@ namespace QReduction.Api.Controllers
             [FromQuery] string sortBy,
             [FromQuery] SearchOrders? sortOrder,
             [FromQuery] string searchText,
-            [FromQuery] bool status  )
+            [FromQuery] bool status)
         {
             PagedListModel<Shift> pagedList = new PagedListModel<Shift>(currentPage, pageSize);
             pagedList.QueryOptions.SortField = sortBy ?? pagedList.QueryOptions.SortField;
@@ -138,8 +166,8 @@ namespace QReduction.Api.Controllers
 
             pagedList.DataList = await
                 _shiftService.FindAsync(pagedList.QueryOptions,
-                c =>c.IsEnded==status && c.Branch.OrganizationId==OrganizationId && c.CreateBy==UserId
-                
+                c => c.IsEnded == status && c.Branch.OrganizationId == OrganizationId && c.CreateBy == UserId
+
                 );
 
             return Ok(pagedList);
@@ -229,7 +257,7 @@ namespace QReduction.Api.Controllers
             string instructions = lorim;
 
             return Ok(
-                new 
+                new
                 {
                     Shift = shift,
                     Services = services,
@@ -239,7 +267,7 @@ namespace QReduction.Api.Controllers
 
 
 
-     
+
 
 
         [HttpGet]
