@@ -76,28 +76,57 @@ namespace QReduction.Api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> AddBranchShifts(AddShiftModel Input)
         {
-            List<Shift> DataList = new List<Shift>();
-            foreach (var shift in Input.Shifts)
+            try
             {
-                DataList.Add(
-                    new Shift()
-                    {
+                List<Shift> DataList = new List<Shift>();
+                foreach (var shift in Input.Shifts)
+                {
+                    DataList.Add(
+                        new Shift()
+                        {
+                            
+                            StartAt = DateTime.UtcNow,
+                            QRCode = Guid.NewGuid().ToString(),
+                            IsEnded = false,
+                            EndAt = shift.EndAt,
+                            CreateAt = DateTime.UtcNow,
+                            BranchId = Input.BranchId
 
-                        StartAt = DateTime.UtcNow,
-                        QRCode = Guid.NewGuid().ToString(),
-                        IsEnded = false,
-                        EndAt = shift.EndAt,
-                        CreateAt = DateTime.UtcNow
+                        });
 
-                    });
-
+                }
+                await _shiftService.AddRangeAsync(DataList);
+                return Ok();
             }
-            await _shiftService.AddRangeAsync(DataList);
-            return Ok();
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
 
-        //[HttpPost]
+
+        [HttpGet]
+        [Route("GetBranchShifts")]
+        [ApiExplorerSettings(GroupName = "Admin")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetBranchShifts(int Id)
+        {
+            try
+            {
+                
+
+                var shifts = await _shiftService.FindAsync(c => c.BranchId == Id);
+
+                return Ok(shifts);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }//[HttpPost]
         //[Route("OpenShiftAndAssignUser")]
         //[CustomAuthorizationFilter("Shift.Add")]
         //[ApiExplorerSettings(GroupName = "Admin")]
