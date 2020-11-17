@@ -85,7 +85,7 @@ namespace QReduction.Api.Controllers
                         new Shift()
                         {
                             
-                            StartAt = DateTime.UtcNow,
+                            StartAt = shift.StartAt,
                             QRCode = Guid.NewGuid().ToString(),
                             IsEnded = false,
                             EndAt = shift.EndAt,
