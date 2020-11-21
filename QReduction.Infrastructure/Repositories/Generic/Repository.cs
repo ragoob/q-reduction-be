@@ -408,6 +408,11 @@ namespace QReduction.Infrastructure.Repositories.Generic
             _entitiesSet.RemoveRange(entities);
         }
 
+        public Task<TEntity> FindOneAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _entitiesSet.FirstOrDefaultAsync(predicate);
+        }
+
         #endregion
 
 
