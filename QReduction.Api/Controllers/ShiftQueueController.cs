@@ -58,6 +58,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         [HttpGet]
         [Route("SetMobileUserQueue")]
         //[CustomAuthorizationFilter("Shift.Add")]
+        
         [ApiExplorerSettings(GroupName = "Mobile")]
         public async Task<IActionResult> SetMobileUserQueue(int branchServiceId)
         {
@@ -71,7 +72,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
                 return BadRequest(Messages.InvalidQueueId);
 
             // get oppening shift
-            Shift OpenShift = (await _shiftService.FindAsync(a => !a.IsEnded && a.BranchId == branchService.BranchId)).SingleOrDefault();
+            Shift OpenShift = (await _shiftService.FindAsync(a => !a.IsEnded && a.BranchId == branchService.BranchId)).FirstOrDefault();
             if (OpenShift == null)
                 return BadRequest(Messages.NoShiftOpenInThisBranch);
 
@@ -115,7 +116,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             {
                 QueueNo,
                 CurrentServiedQueueNo,
-                WaitNo =  QueueNo - CurrentServiedQueueNo - 1,
+                WaitNo =  QueueNo - CurrentServiedQueueNo ,//- 1,
                 branchService.ServiceId,
                 PushId=stringPushId
             });

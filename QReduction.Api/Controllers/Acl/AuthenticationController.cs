@@ -115,7 +115,7 @@ namespace QReduction.Apis.Controllers.Membership
             User user = new User
             {
                 Email = model.Email,
-                IsActive = false,
+                IsActive = true,
                 PhoneNumber = model.PhoneNumber,
                 UserGuid = Guid.NewGuid(),
                 UserName = model.Name,
