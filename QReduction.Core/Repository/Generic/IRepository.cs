@@ -72,6 +72,8 @@ namespace QReduction.Core.Repository.Generic
 
         Task<T> MaxAsync<T>(Expression<Func<TEntity, T>> predicate);
         Task<T> MaxAsync<T>(Expression<Func<TEntity, T>> predicate, Expression<Func<TEntity, bool>> predicateCondition);
+
+           Task<TEntity> FindOneAsync(Expression<Func<TEntity, bool>> predicate);
         #endregion
 
     }

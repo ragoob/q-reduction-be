@@ -107,10 +107,12 @@ namespace QReduction.Apis.Controllers.Membership
         [ApiExplorerSettings(GroupName = "Mobile")]
         public async Task<IActionResult> MobileRegister(RegistrationModel model)
         {
-            if (await _userService.AnyAsync(u =>
-                (u.PhoneNumber == model.PhoneNumber || u.Email == model.Email)))
-                return BadRequest(Messages.Exists_EmailOrPhone);
-
+           
+            var exsistUser = await _userService.FindOneAsync(u=> u.PhoneNumber == model.PhoneNumber || u.Email == model.Email );
+            if(exsistUser != null)
+            {
+                 return BadRequest(Messages.Exists_EmailOrPhone);
+            }
             _encryptionProvider.CreatePasswordHash(model.Password, out byte[] passwordHash, out byte[] passwordSalt);
             User user = new User
             {
@@ -376,11 +378,8 @@ namespace QReduction.Apis.Controllers.Membership
         public async Task<IActionResult> SocialMediaLogin(ExterLoginRequest request)
         {
 
-
-            User authUser = (await _userService.FindAsync(user =>
-               ((user.LoginProviders.Any(p => p.ProviderType == (int)request.ProviderType && p.Providertoken == request.ProviderToken))
-
-           ))).FirstOrDefault();
+                User authUser = await _userService.FindOneAsync(u=> 
+                u.LoginProviders.Any(p => p.ProviderType == (int)request.ProviderType && p.Providertoken == request.ProviderToken));
 
             if (authUser == null)
                 return NotFound(Messages.UserNotFound);
@@ -413,12 +412,15 @@ namespace QReduction.Apis.Controllers.Membership
         [ApiExplorerSettings(GroupName = "Mobile")]
         public async Task<IActionResult> SocialMediaRegister([FromForm]ExternalRegistrationModel model)
         {
-            if (await _userService.AnyAsync(u =>
-                (u.PhoneNumber == model.PhoneNumber || u.Email == model.Email)))
-                return BadRequest(Messages.Exists_EmailOrPhone);
+             if (string.IsNullOrEmpty(model.Email))
+                 return BadRequest(Messages.EmailRequired);
+                  
+             if (string.IsNullOrEmpty(model.PhoneNumber)) 
+             return BadRequest(Messages.PhoneNumberRequired); 
 
-            if (string.IsNullOrEmpty(model.Email)) { return BadRequest(Messages.EmailRequired); }
-            if (string.IsNullOrEmpty(model.PhoneNumber)) { return BadRequest(Messages.PhoneNumberRequired); }
+           var existsUser = await _userService.FindOneAsync(u=> u.PhoneNumber == model.PhoneNumber || u.Email == model.Email);
+           if(existsUser != null)
+           return BadRequest(Messages.Exists_EmailOrPhone);
 
             User user = new User
             {
@@ -480,14 +482,15 @@ namespace QReduction.Apis.Controllers.Membership
        // [ApiExplorerSettings(GroupName = "SuperAdmin")]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
-            User authUser = (await _userService.FindAsync(user =>
-                ((user.Email.Equals(loginModel.EmailOrPhoneNumber, StringComparison.OrdinalIgnoreCase)) ||
-                (user.PhoneNumber.Equals(loginModel.EmailOrPhoneNumber, StringComparison.OrdinalIgnoreCase)))
-            )).SingleOrDefault();
+            User authUser = await _userService.FindOneAsync(u=> u.Email.ToLower() == loginModel.EmailOrPhoneNumber.ToLower() 
+            || u.PhoneNumber.ToLower() == loginModel.EmailOrPhoneNumber.ToLower());
 
-            if (authUser == null || !authUser.IsActive || !_encryptionProvider.VerifyPasswordHash(loginModel.Password, authUser.Password, authUser.PasswordSalt))
+            if (authUser == null || !authUser.IsActive)
                 return BadRequest(Messages.Login_Invalid);
 
+            if(!_encryptionProvider.VerifyPasswordHash(loginModel.Password, authUser.Password, authUser.PasswordSalt)){
+                  return BadRequest(Messages.Login_Invalid);
+            }
 
             string token = _tokenProvider.GenerateTokenIdentity(authUser.Id.ToString(), authUser.Email,authUser.OrganizationId.ToString(),((int)authUser.UserTypeId).ToString(), DateTime.Now.AddDays(300));
 

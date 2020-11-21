@@ -235,6 +235,11 @@ namespace QReduction.Services.Generic
             return _repository.MaxAsync<T>(predicate, predicateCondition);
         }
 
+        public Task<TEntity> FindOneAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _repository.FindOneAsync(predicate);
+        }
+
         #endregion
     }
 }
