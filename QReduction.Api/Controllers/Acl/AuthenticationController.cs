@@ -65,7 +65,7 @@ namespace QReduction.Apis.Controllers.Membership
 
 
         #region Actions SuperAdmin
-       
+
         [HttpPost]
         [Route("SuperAdminRegister")]
         [AllowAnonymous]
@@ -107,11 +107,11 @@ namespace QReduction.Apis.Controllers.Membership
         [ApiExplorerSettings(GroupName = "Mobile")]
         public async Task<IActionResult> MobileRegister(RegistrationModel model)
         {
-           
-            var exsistUser = await _userService.FindOneAsync(u=> u.PhoneNumber == model.PhoneNumber || u.Email == model.Email );
-            if(exsistUser != null)
+
+            var exsistUser = await _userService.FindOneAsync(u => u.PhoneNumber == model.PhoneNumber || u.Email == model.Email);
+            if (exsistUser != null)
             {
-                 return BadRequest(Messages.Exists_EmailOrPhone);
+                return BadRequest(Messages.Exists_EmailOrPhone);
             }
             _encryptionProvider.CreatePasswordHash(model.Password, out byte[] passwordHash, out byte[] passwordSalt);
             User user = new User
@@ -270,7 +270,7 @@ namespace QReduction.Apis.Controllers.Membership
 
         [HttpPut]
         [Route("Customer/ChangePassword")]
-      //  [Authorize(Roles = SystemKeys.MobileRole)]
+        //  [Authorize(Roles = SystemKeys.MobileRole)]
         [ApiExplorerSettings(GroupName = "Mobile")]
         public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
         {
@@ -278,7 +278,7 @@ namespace QReduction.Apis.Controllers.Membership
             if (model.NewPasswordConfirmation != model.NewPassword)
                 return BadRequest(Messages.NewPasswordError);
 
-            if(!_encryptionProvider.VerifyPasswordHash(model.OldPassword, user.Password, user.PasswordSalt))
+            if (!_encryptionProvider.VerifyPasswordHash(model.OldPassword, user.Password, user.PasswordSalt))
                 return BadRequest(Messages.OldPasswordError);
 
             _encryptionProvider.CreatePasswordHash(model.NewPassword, out byte[] passwordHash, out byte[] passwordSalt);
@@ -296,12 +296,12 @@ namespace QReduction.Apis.Controllers.Membership
 
 
 
-    
+
 
 
         //[HttpPost("Customer/googleLogin")]
         //[ApiExplorerSettings(GroupName = "Mobile")]
-       
+
         //public async Task<JsonResult> GoogleLogin(GoogleLoginRequest request)
         //{
         //    Payload payload = new Payload() ;
@@ -378,8 +378,8 @@ namespace QReduction.Apis.Controllers.Membership
         public async Task<IActionResult> SocialMediaLogin(ExterLoginRequest request)
         {
 
-                User authUser = await _userService.FindOneAsync(u=> 
-                u.LoginProviders.Any(p => p.ProviderType == (int)request.ProviderType && p.Providertoken == request.ProviderToken));
+            User authUser = await _userService.FindOneAsync(u =>
+            u.LoginProviders.Any(p => p.ProviderType == (int)request.ProviderType && p.Providertoken == request.ProviderToken));
 
             if (authUser == null)
                 return NotFound(Messages.UserNotFound);
@@ -398,6 +398,7 @@ namespace QReduction.Apis.Controllers.Membership
                 Photo = authUser.PhotoPath,
                 userGuid = authUser.UserGuid.ToString(),
                 branchId = authUser.BranchId,
+                isSocialMedia = true,
                 authUser.Id
             });
         }
@@ -410,17 +411,17 @@ namespace QReduction.Apis.Controllers.Membership
         [Route("ExternalMobileRegister")]
         [AllowAnonymous]
         [ApiExplorerSettings(GroupName = "Mobile")]
-        public async Task<IActionResult> SocialMediaRegister([FromForm]ExternalRegistrationModel model)
+        public async Task<IActionResult> SocialMediaRegister([FromForm] ExternalRegistrationModel model)
         {
-             if (string.IsNullOrEmpty(model.Email))
-                 return BadRequest(Messages.EmailRequired);
-                  
-             if (string.IsNullOrEmpty(model.PhoneNumber)) 
-             return BadRequest(Messages.PhoneNumberRequired); 
+            if (string.IsNullOrEmpty(model.Email))
+                return BadRequest(Messages.EmailRequired);
 
-           var existsUser = await _userService.FindOneAsync(u=> u.PhoneNumber == model.PhoneNumber || u.Email == model.Email);
-           if(existsUser != null)
-           return BadRequest(Messages.Exists_EmailOrPhone);
+            if (string.IsNullOrEmpty(model.PhoneNumber))
+                return BadRequest(Messages.PhoneNumberRequired);
+
+            var existsUser = await _userService.FindOneAsync(u => u.PhoneNumber == model.PhoneNumber || u.Email == model.Email);
+            if (existsUser != null)
+                return BadRequest(Messages.Exists_EmailOrPhone);
 
             User user = new User
             {
@@ -433,7 +434,8 @@ namespace QReduction.Apis.Controllers.Membership
                 LastLoginUtcDate = DateTime.UtcNow,
                 IsVerified = true,
                 UserTypeId = UserTypes.Mobile
-               ,LoginProviders = new List<LoginProviders>() { new LoginProviders() { Providertoken = model.ProviderToken, ProviderType = (int)model.ProviderType } }
+               ,
+                LoginProviders = new List<LoginProviders>() { new LoginProviders() { Providertoken = model.ProviderToken, ProviderType = (int)model.ProviderType } }
             };
             if (model.UserImage != null)
             {
@@ -455,7 +457,7 @@ namespace QReduction.Apis.Controllers.Membership
             await _userService.AddCustomerAsync(user);
             string token = _tokenProvider.GenerateTokenIdentity(user.Id.ToString(), user.Email, user.OrganizationId.ToString(), ((int)user.UserTypeId).ToString(), DateTime.Now.AddDays(300));
 
-           
+
 
             return Ok(new
             {
@@ -467,9 +469,9 @@ namespace QReduction.Apis.Controllers.Membership
                 userGuid = user.UserGuid.ToString(),
                 branchId = user.BranchId,
                 user.Id,
-               
+
             });
-         
+
         }
 
 
@@ -479,20 +481,21 @@ namespace QReduction.Apis.Controllers.Membership
         [HttpPost]
         [Route("Login")]
         [AllowAnonymous]
-       // [ApiExplorerSettings(GroupName = "SuperAdmin")]
+        // [ApiExplorerSettings(GroupName = "SuperAdmin")]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
-            User authUser = await _userService.FindOneAsync(u=> u.Email.ToLower() == loginModel.EmailOrPhoneNumber.ToLower() 
+            User authUser = await _userService.FindOneAsync(u => u.Email.ToLower() == loginModel.EmailOrPhoneNumber.ToLower()
             || u.PhoneNumber.ToLower() == loginModel.EmailOrPhoneNumber.ToLower());
 
             if (authUser == null || !authUser.IsActive)
                 return BadRequest(Messages.Login_Invalid);
 
-            if(!_encryptionProvider.VerifyPasswordHash(loginModel.Password, authUser.Password, authUser.PasswordSalt)){
-                  return BadRequest(Messages.Login_Invalid);
+            if (!_encryptionProvider.VerifyPasswordHash(loginModel.Password, authUser.Password, authUser.PasswordSalt))
+            {
+                return BadRequest(Messages.Login_Invalid);
             }
 
-            string token = _tokenProvider.GenerateTokenIdentity(authUser.Id.ToString(), authUser.Email,authUser.OrganizationId.ToString(),((int)authUser.UserTypeId).ToString(), DateTime.Now.AddDays(300));
+            string token = _tokenProvider.GenerateTokenIdentity(authUser.Id.ToString(), authUser.Email, authUser.OrganizationId.ToString(), ((int)authUser.UserTypeId).ToString(), DateTime.Now.AddDays(300));
 
             authUser.LastLoginUtcDate = DateTime.UtcNow;
             await _userService.EditAsync(authUser);
@@ -511,8 +514,8 @@ namespace QReduction.Apis.Controllers.Membership
                 ExpireOn = DateTime.Now.AddDays(300),
                 Permission = userPermissions,
                 Photo = authUser.PhotoPath,
-                userGuid=authUser.UserGuid.ToString(),
-                branchId=authUser.BranchId,
+                userGuid = authUser.UserGuid.ToString(),
+                branchId = authUser.BranchId,
                 authUser.Id,
                 IsFirstLogin = authUser.IsFirstLogin
             });
@@ -533,8 +536,8 @@ namespace QReduction.Apis.Controllers.Membership
         public ProviderTypes ProviderType { get; set; }
 
         public string ProviderToken { get; set; }
-      //  public string IdToken { get; set; }
+        //  public string IdToken { get; set; }
     }
 
- 
+
 }
