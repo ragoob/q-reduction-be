@@ -87,7 +87,7 @@ namespace QReduction.Api.Controllers
                             
                             StartAt = shift.StartAt,
                             QRCode = Guid.NewGuid().ToString(),
-                            IsEnded = false,
+                            IsEnded = true,
                             EndAt = shift.EndAt,
                             CreateAt = DateTime.UtcNow,
                             BranchId = Input.BranchId
