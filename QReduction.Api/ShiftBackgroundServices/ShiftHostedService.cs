@@ -38,14 +38,14 @@ namespace QReduction.Api.ShiftBackgroundServices
                 using (var scope = _scopeFactory.CreateScope())
                 {
                     var _shiftService = scope.ServiceProvider.GetRequiredService<IService<Shift>>();
-                    var shifts = await _shiftService.FindAsync(c => c.EndAt.HasValue);
+                    var shifts = await _shiftService.FindAsync(c => c.EndAt.HasValue );
                     foreach (var shift in shifts)
                     {
                         var StartTime = (DateTime.Now.Hour == shift.StartAt.Hour &&
                                         DateTime.Now.Minute == shift.StartAt.Minute) ||
 
                                        (DateTime.Now.Hour == shift.StartAt.Hour &&
-                                       DateTime.Now.Minute < shift.StartAt.Minute);
+                                         shift.StartAt.Minute < DateTime.Now.Minute);
 
                         var EndTime = (DateTime.Now.Hour == shift.EndAt.Value.Hour &&
                                        DateTime.Now.Minute == shift.EndAt.Value.Minute) ||
