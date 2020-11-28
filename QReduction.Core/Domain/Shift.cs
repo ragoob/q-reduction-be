@@ -7,6 +7,9 @@ namespace QReduction.Core.Domain
     {
         public int Id { get; set; }
         public int Code { get; set; }
+        public TimeSpan Start { get; set; }
+        public TimeSpan End { get; set; }
+
         public DateTime StartAt { get; set; }
         public DateTime? EndAt { get; set; }
         public int BranchId { get; set; }
