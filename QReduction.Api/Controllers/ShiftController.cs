@@ -84,11 +84,11 @@ namespace QReduction.Api.Controllers
                     DataList.Add(
                         new Shift()
                         {
-                            
-                            StartAt = shift.StartAt,
+                            StartAt =shift.StartAt,
+                            Start = shift.StartAt.TimeOfDay,
                             QRCode = Guid.NewGuid().ToString(),
                             IsEnded = true,
-                            EndAt = shift.EndAt,
+                            End = shift.EndAt.TimeOfDay,
                             CreateAt = DateTime.UtcNow,
                             BranchId = Input.BranchId
 
@@ -106,6 +106,23 @@ namespace QReduction.Api.Controllers
         }
 
 
+        [HttpGet]
+        [Route("GetOpenBranchShifts")]
+        [ApiExplorerSettings(GroupName = "Admin")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetOpenBranchShifts(int Id)
+        {
+            try
+            {
+                var shifts = await _shiftService.FindAsync(c => c.BranchId == Id&& c.End >= DateTime.Now.TimeOfDay  &&  c.Start <= DateTime.Now.TimeOfDay);
+                return Ok(shifts);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
 
         [HttpGet]
         [Route("GetBranchShifts")]

@@ -16,6 +16,6 @@ namespace QReduction.Api.Models
     public class ShiftModel
     {
         public DateTime StartAt { get; set; }
-        public DateTime? EndAt { get; set; }
+        public DateTime EndAt { get; set; }
     }
 }
