@@ -19,4 +19,5 @@ RUN dotnet publish "QReduction.Api.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY Privacy-policy.html /app/publish/rivacy-policy.html
 ENTRYPOINT ["dotnet", "QReduction.Api.dll"]
