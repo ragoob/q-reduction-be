@@ -9,6 +9,7 @@ using QReduction.Core.Domain.Acl;
 using QReduction.Core.Models;
 using QReduction.Core.Service.Custom;
 using QReduction.Core.Service.Generic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -57,6 +58,27 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             await _shiftUserService.AddAsync(shiftUser);
             return Ok();
         }
+
+        [HttpPost]
+        [Route("AssignUserToOpenShift")]
+        [CustomAuthorizationFilter("Shift.AssignUserShift")]
+        [ApiExplorerSettings(GroupName = "Admin")]
+        public async Task<IActionResult> AssignUserToOpenShift(ShiftUser shiftUser)
+        {
+
+            //if (await _shiftUserService.AnyAsync(s => s.Shift.Id == shiftUser.ShiftId ))
+            //    return BadRequest(Messages.ShiftIsClosed);
+
+            if (await _shiftUserService.AnyAsync(s => s.ShiftId == shiftUser.ShiftId && s.WindowNumber == shiftUser.WindowNumber
+            && s.CreatedAt.Date == DateTime.Now.Date && s.ServiceId == shiftUser.ServiceId))
+                return BadRequest(Messages.AlreadyAssignedToUser);
+
+            shiftUser.UserId = UserId;
+            shiftUser.CreatedAt = DateTime.Now;
+            await _shiftUserService.AddAsync(shiftUser);
+            return Ok();
+        }
+
         [HttpGet]
         [Route("GetOrganizationUser")]
         //[CustomAuthorizationFilter("Shift.GetUsers")]
