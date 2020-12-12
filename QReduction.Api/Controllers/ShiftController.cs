@@ -130,20 +130,26 @@ namespace QReduction.Api.Controllers
         [Route("GetAssignedShiftPerDayForBranch")]
         [CustomAuthorizationFilter("Shift.AssignUserShift")]
         [ApiExplorerSettings(GroupName = "Admin")]
-        public async Task<IActionResult> GetAssignedShiftPerDayForBranch()
+        public async Task<IActionResult> GetAssignedShiftPerDayForBranch(int branchId)
         {
             //var shifts = (await _shiftService.FindAsync(c => c.BranchId == Id && c.Start >= DateTime.UtcNow.TimeOfDay && c.End <= DateTime.UtcNow.TimeOfDay, "ShiftUsers"));///.Where(c=>c.ShiftUsers.Any(s=> s.UserId == UserId && c.CreateAt.Date ==DateTime.Now.Date ));
-            var _shiftUser = (await _shiftUserService.FindAsync(c => c.UserId == UserId && c.CreatedAt.Date == DateTime.Now.Date, "Shift"))
-                .Select(c=> new  { 
+            var _shiftUser = (await _shiftUserService.FindAsync(c => c.UserId == UserId && c.CreatedAt.Date == DateTime.Now.Date && c.Shift.BranchId == branchId, "Shift"))?
+                .Select(c => new
+                {
                     id = c.Id,
                     ShiftId = c?.ShiftId,
                     WindowNumber = c?.WindowNumber,
                     ServiceId = c?.ServiceId,
-                    ShiftStart =c?.Shift.Start,
+                    ShiftStart = c?.Shift.Start,
                     ShiftEnd = c?.Shift.End
 
                 }).FirstOrDefault();
 
+            if (!(_shiftUser is object))
+            {
+                var shifts = await _shiftService.FindAsync(c => c.BranchId == branchId && (c.End >= DateTime.UtcNow.TimeOfDay && c.Start <= DateTime.UtcNow.TimeOfDay));
+                return Ok(shifts);
+            }
             return Ok(_shiftUser);
 
             //if (await _shiftUserService.AnyAsync(s => s.Shift.Id == shiftUser.ShiftId ))
@@ -156,7 +162,8 @@ namespace QReduction.Api.Controllers
             //shiftUser.UserId = UserId;
             //shiftUser.CreatedAt = DateTime.Now;
             //await _shiftUserService.AddAsync(shiftUser);
-            return Ok();
+           // return Ok();
+           // return Ok();
         }
         [HttpGet]
         [Route("GetShiftById")]
