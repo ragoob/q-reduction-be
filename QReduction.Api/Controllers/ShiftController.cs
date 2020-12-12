@@ -148,7 +148,7 @@ namespace QReduction.Api.Controllers
 
             if (!(_shiftUser is object))
             {
-                var shifts = (await _shiftService.FindAsync(c => c.BranchId == branchId && (c.End >= DateTime.UtcNow.TimeOfDay && c.Start <= DateTime.UtcNow.TimeOfDay)))
+                var shifts = (await _shiftService.FindAsync(c => c.BranchId == branchId && (c.Start >= DateTime.UtcNow.TimeOfDay && c.End <= DateTime.UtcNow.TimeOfDay)))
                     .Select(
                     c => new
                     {
