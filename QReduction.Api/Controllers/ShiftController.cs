@@ -133,7 +133,8 @@ namespace QReduction.Api.Controllers
         public async Task<IActionResult> GetAssignedShiftPerDayForBranch(int branchId)
         {
             //var shifts = (await _shiftService.FindAsync(c => c.BranchId == Id && c.Start >= DateTime.UtcNow.TimeOfDay && c.End <= DateTime.UtcNow.TimeOfDay, "ShiftUsers"));///.Where(c=>c.ShiftUsers.Any(s=> s.UserId == UserId && c.CreateAt.Date ==DateTime.Now.Date ));
-            var _shiftUser = (await _shiftUserService.FindAsync(c => c.UserId == UserId && c.CreatedAt.Date == DateTime.Now.Date && c.Shift.BranchId == branchId, "Shift"))?
+            var _shiftUser = (await _shiftUserService.FindAsync(c => c.UserId == UserId
+            && c.CreatedAt.Date == DateTime.Now.Date && c.Shift.BranchId == branchId && c.Shift.Start >= DateTime.UtcNow.TimeOfDay && c.Shift.End <= DateTime.UtcNow.TimeOfDay, "Shift"))?
                 .Select(c => new
                 {
                     id = c.Id,
