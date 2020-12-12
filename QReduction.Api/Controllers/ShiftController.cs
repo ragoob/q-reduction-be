@@ -147,7 +147,17 @@ namespace QReduction.Api.Controllers
 
             if (!(_shiftUser is object))
             {
-                var shifts = await _shiftService.FindAsync(c => c.BranchId == branchId && (c.End >= DateTime.UtcNow.TimeOfDay && c.Start <= DateTime.UtcNow.TimeOfDay));
+                var shifts = (await _shiftService.FindAsync(c => c.BranchId == branchId && (c.End >= DateTime.UtcNow.TimeOfDay && c.Start <= DateTime.UtcNow.TimeOfDay)))
+                    .Select(
+                    c => new
+                    {
+                        id = c.Id,
+                        ShiftId = c?.Id,
+                        WindowNumber = string.Empty,
+                        ServiceId = 0,
+                        ShiftStart = c?.Start,
+                        ShiftEnd = c?.End
+                    });
                 return Ok(shifts);
             }
             return Ok(_shiftUser);
@@ -162,8 +172,8 @@ namespace QReduction.Api.Controllers
             //shiftUser.UserId = UserId;
             //shiftUser.CreatedAt = DateTime.Now;
             //await _shiftUserService.AddAsync(shiftUser);
-           // return Ok();
-           // return Ok();
+            // return Ok();
+            // return Ok();
         }
         [HttpGet]
         [Route("GetShiftById")]
