@@ -31,18 +31,19 @@ namespace QReduction.Api.Controllers
         #region Fields
         private readonly IService<Shift> _shiftService;
         private readonly IService<BranchService> _branchServiceService;
-        //private readonly IService<ShiftUser> _shiftUserService;
+        private readonly IService<ShiftUser> _shiftUserService;
         //     private readonly IShiftQueueService _shiftQueueService;
         #endregion
 
         #region ctor
-        public ShiftController(IShiftQueueService shiftQueueService, IService<Shift> shiftService, IService<BranchService> branchServiceService
+        public ShiftController(IShiftQueueService shiftQueueService, IService<Shift> shiftService, IService<BranchService> branchServiceService, IService<ShiftUser> shiftUserService
             //, IService<ShiftUser> shiftUserService
             )
         {
             _shiftService = shiftService;
             //  _shiftQueueService = shiftQueueService;
             _branchServiceService = branchServiceService;
+            _shiftUserService = shiftUserService;
         }
         #endregion
 
@@ -125,6 +126,38 @@ namespace QReduction.Api.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("GetAssignedShiftPerDayForBranch")]
+        [CustomAuthorizationFilter("Shift.AssignUserShift")]
+        [ApiExplorerSettings(GroupName = "Admin")]
+        public async Task<IActionResult> GetAssignedShiftPerDayForBranch()
+        {
+            //var shifts = (await _shiftService.FindAsync(c => c.BranchId == Id && c.Start >= DateTime.UtcNow.TimeOfDay && c.End <= DateTime.UtcNow.TimeOfDay, "ShiftUsers"));///.Where(c=>c.ShiftUsers.Any(s=> s.UserId == UserId && c.CreateAt.Date ==DateTime.Now.Date ));
+            var _shiftUser = (await _shiftUserService.FindAsync(c => c.UserId == UserId && c.CreatedAt.Date == DateTime.Now.Date, "Shift"))
+                .Select(c=> new  { 
+                    id = c.Id,
+                    ShiftId = c?.ShiftId,
+                    WindowNumber = c?.WindowNumber,
+                    ServiceId = c?.ServiceId,
+                    ShiftStart =c?.Shift.Start,
+                    ShiftEnd = c?.Shift.End
+
+                }).FirstOrDefault();
+
+            return Ok(_shiftUser);
+
+            //if (await _shiftUserService.AnyAsync(s => s.Shift.Id == shiftUser.ShiftId ))
+            //    return BadRequest(Messages.ShiftIsClosed);
+
+            //if (await _shiftUserService.AnyAsync(s => s.ShiftId == shiftUser.ShiftId && s.WindowNumber == shiftUser.WindowNumber
+            //&& s.CreatedAt.Date == DateTime.Now.Date && s.ServiceId == shiftUser.ServiceId))
+            //    return BadRequest(Messages.AlreadyAssignedToUser);
+
+            //shiftUser.UserId = UserId;
+            //shiftUser.CreatedAt = DateTime.Now;
+            //await _shiftUserService.AddAsync(shiftUser);
+            return Ok();
+        }
         [HttpGet]
         [Route("GetShiftById")]
         [ApiExplorerSettings(GroupName = "Admin")]

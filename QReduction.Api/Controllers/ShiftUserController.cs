@@ -69,15 +69,28 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             //if (await _shiftUserService.AnyAsync(s => s.Shift.Id == shiftUser.ShiftId ))
             //    return BadRequest(Messages.ShiftIsClosed);
 
-            if (await _shiftUserService.AnyAsync(s => s.ShiftId == shiftUser.ShiftId && s.WindowNumber == shiftUser.WindowNumber
-            && s.CreatedAt.Date == DateTime.Now.Date && s.ServiceId == shiftUser.ServiceId))
-                return BadRequest(Messages.AlreadyAssignedToUser);
+            try
+            {
+                if (await _shiftUserService.AnyAsync(s => s.ShiftId == shiftUser.ShiftId && s.WindowNumber == shiftUser.WindowNumber
+        && s.CreatedAt.Date == DateTime.Now.Date && s.ServiceId == shiftUser.ServiceId))
+                    return BadRequest(Messages.AlreadyAssignedToUser);
 
-            shiftUser.UserId = UserId;
-            shiftUser.CreatedAt = DateTime.Now;
-            await _shiftUserService.AddAsync(shiftUser);
-            return Ok();
+                
+
+                shiftUser.UserId = UserId;
+                shiftUser.CreatedAt = DateTime.Now;
+                await _shiftUserService.AddAsync(shiftUser);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
+
+        
+
 
         [HttpGet]
         [Route("GetOrganizationUser")]
