@@ -116,7 +116,7 @@ namespace QReduction.Api.Controllers
         {
             try
             {
-                var shifts = await _shiftService.FindAsync(c => c.BranchId == Id && (c.End >= DateTime.UtcNow.TimeOfDay && c.Start <= DateTime.UtcNow.TimeOfDay));
+                var shifts = await _shiftService.FindAsync(c => c.BranchId == Id && (c.Start >= DateTime.UtcNow.TimeOfDay && c.End <= DateTime.UtcNow.TimeOfDay));
                 return Ok(shifts);
             }
             catch (Exception ex)
@@ -213,7 +213,7 @@ namespace QReduction.Api.Controllers
                         BranchId = c.BranchId,
                         Start = c.Start,
                         End = c.End,
-                        IsEnded = c.Start >= DateTime.UtcNow.TimeOfDay && c.End <= DateTime.UtcNow.TimeOfDay //? false : true
+                        IsEnded = c.Start >= DateTime.UtcNow.TimeOfDay && c.End <= DateTime.UtcNow.TimeOfDay ? false : true
                     }
                     );
 
