@@ -96,19 +96,28 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 
             var stringPushId = SendMessage(new Record() { queueNumber = QueueNo, Counter = null, currentQueue = CurrentServiedQueueNo });
 
-            _shiftQueueService.Add(new ShiftQueue
+            try
             {
-                IsServiceDone = false,
-                UserIdBy = null,
-                UserTurn = QueueNo,
-                //WindowNumber=null,
-                UserIdMobile = UserId,
-                ServiceId = branchService.ServiceId,
-                ShiftId = OpenShift.Id,
-                PushId = stringPushId
-                , CreatedDate = DateTime.Now
-            });
+                _shiftQueueService.Add(new ShiftQueue
+                {
+                    IsServiceDone = false,
+                    UserIdBy = null,
+                    UserTurn = QueueNo,
+                    //WindowNumber=null,
+                    UserIdMobile = UserId,
+                    ServiceId = branchService.ServiceId,
+                    ShiftId = OpenShift.Id,
+                    PushId = stringPushId
+                        ,
+                    CreatedDate = DateTime.Now
+                });
 
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
 
 
 
@@ -271,16 +280,19 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         [ApiExplorerSettings(GroupName = "Mobile")]
         public async Task<IActionResult> LoadMobileUserQueus()
         {
-            //userId =UserId of mobile User
-
-            var queuse = (await _shiftQueueService.FindAsync(a => a.UserIdMobile == UserId && !a.IsServiceDone
+            ////userId =UserId of mobile User
+            //_shiftQueueService.FindAsync(a => a.ShiftId == OpenShift.Id && a.ServiceId == branchService.ServiceId
+            //                      && !a.IsServiceDone /*&& a.UserIdBy != null && a.WindowNumber != null*/ )).OrderBy(a => a.UserTurn).FirstOrDefault();
+            var queuse = (await _shiftQueueService.FindAsync(a => a.UserIdMobile == 73 /*UserId*/ && !a.IsServiceDone
                             && !a.Shift.IsEnded, "Service")).ToList();
             List<MobileUserQueue> mobileUserQueues = new List<MobileUserQueue>();
             foreach (var item in queuse)
             {
-               
-                var similerServicedQueue= (await _shiftQueueService.FindAsync(a => a.ShiftId == item.ShiftId && a.ServiceId == item.ServiceId
-                                  && !a.IsServiceDone && a.UserIdBy != null && a.WindowNumber != null, "Service")).OrderBy(a => a.UserTurn).LastOrDefault();
+                //(await _shiftQueueService.FindAsync(a => a.ShiftId == OpenShift.Id && a.ServiceId == branchService.ServiceId
+                //                     && !a.IsServiceDone /*&& a.UserIdBy != null && a.WindowNumber != null*/ )).OrderBy(a => a.UserTurn).FirstOrDefault();
+
+                var similerServicedQueue = (await _shiftQueueService.FindAsync(a => a.ShiftId == item.ShiftId && a.ServiceId == item.ServiceId
+                                  && !a.IsServiceDone /*&& a.UserIdBy != null && a.WindowNumber != null*/, "Service")).OrderBy(a => a.UserTurn).FirstOrDefault();
                 var CurrentQueueNo = similerServicedQueue == null ? 0 : similerServicedQueue.UserTurn;
 
                 mobileUserQueues.Add(new MobileUserQueue() {
