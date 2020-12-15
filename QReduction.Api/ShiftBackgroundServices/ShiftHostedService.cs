@@ -33,6 +33,7 @@ namespace QReduction.Api.ShiftBackgroundServices
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            /*
             while (!stoppingToken.IsCancellationRequested)
             {
                // using (var scope = _scopeFactory.CreateScope())
@@ -63,6 +64,7 @@ namespace QReduction.Api.ShiftBackgroundServices
               //  await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
 
             }
+            */
         }
 
         #region Helpers

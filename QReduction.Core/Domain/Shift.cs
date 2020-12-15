@@ -1,5 +1,6 @@
 using QReduction.Core.Domain.Acl;
 using System;
+using System.Collections.Generic;
 
 namespace QReduction.Core.Domain
 {
@@ -7,6 +8,9 @@ namespace QReduction.Core.Domain
     {
         public int Id { get; set; }
         public int Code { get; set; }
+        public TimeSpan Start { get; set; }
+        public TimeSpan End { get; set; }
+
         public DateTime StartAt { get; set; }
         public DateTime? EndAt { get; set; }
         public int BranchId { get; set; }
@@ -20,5 +24,7 @@ namespace QReduction.Core.Domain
 
         public Branch Branch { get; set; }
         public User UserSupport { get; set; }
+
+        //public ICollection<ShiftUser> ShiftUsers { get; set; }
     }
 }

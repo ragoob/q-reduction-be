@@ -1,4 +1,5 @@
 using QReduction.Core.Domain.Acl;
+using System;
 
 namespace QReduction.Core.Domain
 {
@@ -9,7 +10,7 @@ namespace QReduction.Core.Domain
         public int ShiftId { get; set; }
         public string WindowNumber { get; set; }
 
-
+        public DateTime CreatedAt { get; set; }
         public int? ServiceId { get; set; }
         public User User { get; set; }
         public Shift Shift { get; set; }

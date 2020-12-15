@@ -9,6 +9,7 @@ using QReduction.Core.Domain.Acl;
 using QReduction.Core.Models;
 using QReduction.Core.Service.Custom;
 using QReduction.Core.Service.Generic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -57,6 +58,39 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             await _shiftUserService.AddAsync(shiftUser);
             return Ok();
         }
+
+        [HttpPost]
+        [Route("AssignUserToOpenShift")]
+        [CustomAuthorizationFilter("Shift.AssignUserShift")]
+        [ApiExplorerSettings(GroupName = "Admin")]
+        public async Task<IActionResult> AssignUserToOpenShift(ShiftUser shiftUser)
+        {
+
+            try
+            {
+                var _ShiftUser = await _shiftUserService.FindOneAsync(s => s.ShiftId == shiftUser.ShiftId && s.UserId == UserId && s.CreatedAt.Date == DateTime.Now.Date);
+                if (_ShiftUser is object)
+                {
+                    _ShiftUser.ServiceId = shiftUser.ServiceId;
+                    _ShiftUser.WindowNumber = shiftUser.WindowNumber;
+                    await _shiftUserService.EditAsync(_ShiftUser);
+                    return Ok();
+                }
+                shiftUser.UserId = UserId;
+                shiftUser.CreatedAt = DateTime.Now;
+                await _shiftUserService.AddAsync(shiftUser);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+                //throw;
+            }
+        }
+
+
+
+
         [HttpGet]
         [Route("GetOrganizationUser")]
         //[CustomAuthorizationFilter("Shift.GetUsers")]
@@ -65,10 +99,10 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         {
             List<User> users = new List<User>();
             users = _shiftQueueService.GetOrganizationUsers(OrganizationId);
-            if(users!=null && users.Any())
+            if (users != null && users.Any())
                 return Ok(users.Select(u => new { Id = u.Id, Name = u.FirstName + " " + u.LastName, u.UserName }));
 
-            else 
+            else
                 return Ok(users.Select(u => new { Id = u.Id, Name = u.FirstName + " " + u.LastName, u.UserName }));
         }
 
@@ -102,7 +136,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 
             pagedList.DataList = await
                 _shiftUserService.FindAsync(pagedList.QueryOptions,
-                c => c.ShiftId == shiftId,"User","Service","Shift" 
+                c => c.ShiftId == shiftId, "User", "Service", "Shift"
                 );
 
             return Ok(pagedList);
@@ -110,13 +144,13 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 
         [HttpPut]
         [Route("DeleteUserShift/{id}")]
-       // [CustomAuthorizationFilter("Shift.Restore")]
+        // [CustomAuthorizationFilter("Shift.Restore")]
         [ApiExplorerSettings(GroupName = "Admin")]
-        public async Task<IActionResult> DeleteUserShift(int userId,int shiftId)
+        public async Task<IActionResult> DeleteUserShift(int userId, int shiftId)
         {
             var entity = (await _shiftUserService.FindAsync(a => a.ShiftId == shiftId && a.UserId == userId)).FirstOrDefault();
             if (entity != null)
-                 _shiftUserService.Remove(entity);
+                _shiftUserService.Remove(entity);
 
             return Ok();
         }
