@@ -284,7 +284,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             //_shiftQueueService.FindAsync(a => a.ShiftId == OpenShift.Id && a.ServiceId == branchService.ServiceId
             //                      && !a.IsServiceDone /*&& a.UserIdBy != null && a.WindowNumber != null*/ )).OrderBy(a => a.UserTurn).FirstOrDefault();
             var queuse = (await _shiftQueueService.FindAsync(a => a.UserIdMobile == UserId && !a.IsServiceDone
-                            && !a.Shift.IsEnded, "Service")).ToList();
+                           /* && !a.Shift.IsEnded*/, "Service")).ToList();
             List<MobileUserQueue> mobileUserQueues = new List<MobileUserQueue>();
             foreach (var item in queuse)
             {
