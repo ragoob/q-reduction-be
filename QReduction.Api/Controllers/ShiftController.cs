@@ -214,7 +214,7 @@ namespace QReduction.Api.Controllers
                         BranchId = c.BranchId,
                         Start = c.Start,
                         End = c.End,
-                        IsEnded = c.Start >= DateTime.UtcNow.TimeOfDay && c.End <= DateTime.UtcNow.TimeOfDay ? false : true
+                        IsEnded = c.Start >= DateTime.UtcNow.TimeOfDay && c.End <= DateTime.UtcNow.TimeOfDay ? true : false
                     }
                     );
 
