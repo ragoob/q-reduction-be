@@ -227,6 +227,28 @@ namespace QReduction.Api.Controllers
             }
         }
 
+        [HttpDelete]
+        [Route("DeleteShift")]
+        [ApiExplorerSettings(GroupName = "Admin")]
+        [AllowAnonymous]
+        public async Task<IActionResult> DeleteShift(int Id)
+        {
+            try
+            {
+                if (await _shiftUserService.AnyAsync(c => c.ShiftId == Id))
+                    return BadRequest("Shift already used");
+                var shift = _shiftService.GetById(Id);
+                await _shiftService.RemoveAsync(shift);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+
         [HttpPost]
         [Route("UpdateShift")]
         [ApiExplorerSettings(GroupName = "Admin")]
