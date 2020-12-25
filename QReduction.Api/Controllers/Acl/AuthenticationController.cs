@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 using QReduction.Api;
 using QReduction.Apis.Infrastructure;
 using QReduction.Apis.Models;
+using QReduction.Core.Domain;
 using QReduction.Core.Domain.Acl;
 using QReduction.Core.Domain.Acl.FacebookModels;
 using QReduction.Core.Infrastructure;
 using QReduction.Core.Service.Custom;
+using QReduction.Core.Service.Generic;
 using QReduction.Services.Custom;
 using System;
 using System.Collections.Generic;
@@ -37,6 +39,8 @@ namespace QReduction.Apis.Controllers.Membership
         private readonly ISMSService _smsService;
 
         private readonly FacebookService _facebookService;
+        private readonly IService<Branch> _branchService;
+
 
         #endregion
 
@@ -47,7 +51,8 @@ namespace QReduction.Apis.Controllers.Membership
             ITokenProvider tokenProvider,
             IEmailSender emailSender,
             ISMSService smsService,
-            IHostingEnvironment environment
+            IHostingEnvironment environment,
+            IService<Branch> branchService
             //IService<UserPagePermission> userPagePermissionService,
             //IService<SystemPagePermission> systemPagePermissionService
             )
@@ -58,6 +63,7 @@ namespace QReduction.Apis.Controllers.Membership
             _emailSender = emailSender;
             _smsService = smsService;
             _environment = environment ?? throw new ArgumentNullException(nameof(environment));
+            _branchService = branchService;
             //_userPagePermissionService = userPagePermissionService;
             //_systemPagePermissionService = systemPagePermissionService;
         }
@@ -504,8 +510,7 @@ namespace QReduction.Apis.Controllers.Membership
 
             userPermissions = null;// (await _userPagePermissionService.FindAsync(upp => upp.UserId == authUser.Id, "SystemPagePermission")).Select(p => p.SystemPagePermission.PermissionKey).ToList();
 
-
-
+           
             return Ok(new
             {
                 Token = token,
@@ -516,6 +521,8 @@ namespace QReduction.Apis.Controllers.Membership
                 Photo = authUser.PhotoPath,
                 userGuid = authUser.UserGuid.ToString(),
                 branchId = authUser.BranchId,
+                branchNameAr= authUser.BranchId.HasValue ? _branchService.GetById(authUser.BranchId.Value).NameAr:string.Empty ,
+                branchNameEn = authUser.BranchId.HasValue ? _branchService.GetById(authUser.BranchId.Value).NameEn : string.Empty,
                 authUser.Id,
                 IsFirstLogin = authUser.IsFirstLogin
             });

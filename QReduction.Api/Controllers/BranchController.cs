@@ -333,6 +333,10 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
                                     padding-bottom: 35px;
                                 }
 
+                                img {
+                                    max-width: 100%;
+                                    height: auto;
+                                }
                                 table {
                                     width: 80%;
                                     border-collapse: collapse;
