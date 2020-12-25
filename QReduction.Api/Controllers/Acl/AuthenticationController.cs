@@ -526,8 +526,10 @@ namespace QReduction.Apis.Controllers.Membership
                 branchId = authUser.BranchId,
                 branchNameAr= authUser.BranchId.HasValue ? _branchService.GetById(authUser.BranchId.Value).NameAr:string.Empty ,
                 branchNameEn = authUser.BranchId.HasValue ? _branchService.GetById(authUser.BranchId.Value).NameEn : string.Empty,
-                OrganizationNameAr = authUser.BranchId.HasValue ? _organizationService.GetById(_branchService.GetById(authUser.BranchId.Value).OrganizationId).NameAr : "",
-                OrganizationNameEn = authUser.BranchId.HasValue ? _organizationService.GetById(_branchService.GetById(authUser.BranchId.Value).OrganizationId).NameEn : "",
+                OrganizationId = authUser.OrganizationId,
+                OrganizationNameAr = authUser.OrganizationId.HasValue ?_organizationService.GetById(authUser.OrganizationId.Value).NameAr : "",
+                OrganizationNameEn = authUser.OrganizationId.HasValue ? _organizationService.GetById(authUser.OrganizationId.Value).NameEn : "",
+                
                 authUser.Id,
                 IsFirstLogin = authUser.IsFirstLogin
             });
