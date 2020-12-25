@@ -40,6 +40,7 @@ namespace QReduction.Apis.Controllers.Membership
 
         private readonly FacebookService _facebookService;
         private readonly IService<Branch> _branchService;
+        private readonly IService<Organization> _organizationService;
 
 
         #endregion
@@ -52,7 +53,8 @@ namespace QReduction.Apis.Controllers.Membership
             IEmailSender emailSender,
             ISMSService smsService,
             IHostingEnvironment environment,
-            IService<Branch> branchService
+            IService<Branch> branchService,
+            IService<Organization> organizationService
             //IService<UserPagePermission> userPagePermissionService,
             //IService<SystemPagePermission> systemPagePermissionService
             )
@@ -64,6 +66,7 @@ namespace QReduction.Apis.Controllers.Membership
             _smsService = smsService;
             _environment = environment ?? throw new ArgumentNullException(nameof(environment));
             _branchService = branchService;
+            _organizationService = organizationService;
             //_userPagePermissionService = userPagePermissionService;
             //_systemPagePermissionService = systemPagePermissionService;
         }
@@ -523,6 +526,8 @@ namespace QReduction.Apis.Controllers.Membership
                 branchId = authUser.BranchId,
                 branchNameAr= authUser.BranchId.HasValue ? _branchService.GetById(authUser.BranchId.Value).NameAr:string.Empty ,
                 branchNameEn = authUser.BranchId.HasValue ? _branchService.GetById(authUser.BranchId.Value).NameEn : string.Empty,
+                OrganizationNameAr = authUser.BranchId.HasValue ? _organizationService.GetById(_branchService.GetById(authUser.BranchId.Value).OrganizationId).NameAr : "",
+                OrganizationNameEn = authUser.BranchId.HasValue ? _organizationService.GetById(_branchService.GetById(authUser.BranchId.Value).OrganizationId).NameEn : "",
                 authUser.Id,
                 IsFirstLogin = authUser.IsFirstLogin
             });

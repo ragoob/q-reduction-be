@@ -333,10 +333,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
                                     padding-bottom: 35px;
                                 }
 
-                                img {
-                                    max-width: 100%;
-                                    height: auto;
-                                }
+                                
                                 table {
                                     width: 80%;
                                     border-collapse: collapse;
@@ -390,7 +387,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             QRCodeData QrCodeData = Qr.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
             QRCode qrCode = new QRCode(QrCodeData);
 
-            var QrImage = qrCode.GetGraphic(20);
+            var QrImage = qrCode.GetGraphic(90);
             // Convert.ToBase64String(QrImage);
             var MemoryStream = new MemoryStream();
             QrImage.Save(MemoryStream, ImageFormat.Png);
