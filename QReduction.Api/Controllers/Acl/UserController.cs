@@ -354,26 +354,48 @@ namespace QReduction.Controllers
             [FromQuery] string email,
             [FromQuery] string phoneNumber)
         {
-            PagedListModel<UserModel> pagedList = new PagedListModel<UserModel>(currentPage, pageSize);
+            try
+            {
+                PagedListModel<UserModel> pagedList = new PagedListModel<UserModel>(currentPage, pageSize);
 
-            List<User> usersList = (await _userService.FindAsync(pagedList.QueryOptions, c =>
-             (name == null || c.UserName.Contains(name)) && (email == null || c.Email.Contains(email))
-            && (phoneNumber == null || c.PhoneNumber.Contains(phoneNumber)))).ToList();
+                if (UserId == default(int))
+                    return Unauthorized();
+                var currentUserTypeId = (await _userService.GetByIdAsync(UserId)).UserTypeId;
 
-            if (usersList != null && usersList.Count > 0)
-                pagedList.DataList =
-                    usersList.Select(u =>
-                    new UserModel
-                    {
-                        Email = u.Email,
-                        Name = u.UserName,
-                        IsActive = u.IsActive,
-                        Id = u.Id,
-                        PhoneNumber = u.PhoneNumber
-                    }
-                );
 
-            return Ok(pagedList);
+
+                List<User> usersList = currentUserTypeId == UserTypes.OrganizationAdmin ?
+                    (await _userService.FindAsync(pagedList.QueryOptions, c => c.UserTypeId != UserTypes.Mobile && c.OrganizationId == OrganizationId &&
+                 (name == null || c.UserName.Contains(name)) && (email == null || c.Email.Contains(email))
+                && (phoneNumber == null || c.PhoneNumber.Contains(phoneNumber)))).ToList() : 
+
+                currentUserTypeId == UserTypes.SuperAdmin ?
+
+                (await _userService.FindAsync(pagedList.QueryOptions, c => c.UserTypeId != UserTypes.Mobile &&
+                (name == null || c.UserName.Contains(name)) && (email == null || c.Email.Contains(email))
+               && (phoneNumber == null || c.PhoneNumber.Contains(phoneNumber)))).ToList() : null
+               ;
+
+                if (usersList != null && usersList.Count > 0)
+                    pagedList.DataList =
+                        usersList.Select(u =>
+                        new UserModel
+                        {
+                            Email = u.Email,
+                            Name = u.UserName,
+                            IsActive = u.IsActive,
+                            Id = u.Id,
+                            PhoneNumber = u.PhoneNumber
+                        }
+                    );
+
+                return Ok(pagedList);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         [HttpGet]

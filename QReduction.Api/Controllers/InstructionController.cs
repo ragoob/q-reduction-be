@@ -206,7 +206,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         public async Task<ActionResult> GetItemList(string lang)
         {
             bool isArabic = lang.Equals("ar", StringComparison.OrdinalIgnoreCase);
-            IEnumerable<SelectItemModel> items = (await _instructionService.GetAllAsync())
+            IEnumerable<SelectItemModel> items = (await _instructionService.FindAsync(c=> c.OrganizationId.Value == OrganizationId))
                 .Select(info =>
                     new SelectItemModel
                     {
