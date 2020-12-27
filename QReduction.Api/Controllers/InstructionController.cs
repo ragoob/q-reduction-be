@@ -176,7 +176,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 
             pagedList.DataList = await 
                 _instructionService.FindAsync(pagedList.QueryOptions, 
-                c => c.IsDeleted == isDeleted && 
+                c => c.IsDeleted == isDeleted && c.OrganizationId == OrganizationId && 
                 (code == null || c.Code == code) &&
                 (nameAr == null || c.NameAr.Contains(nameAr)) &&
                 (nameEn == null || c.NameEn.Contains(nameEn)) &&
@@ -206,7 +206,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         public async Task<ActionResult> GetItemList(string lang)
         {
             bool isArabic = lang.Equals("ar", StringComparison.OrdinalIgnoreCase);
-            IEnumerable<SelectItemModel> items = (await _instructionService.FindAsync(c=> c.OrganizationId.Value == OrganizationId))
+            IEnumerable<SelectItemModel> items = (await _instructionService.GetAllAsync())
                 .Select(info =>
                     new SelectItemModel
                     {
