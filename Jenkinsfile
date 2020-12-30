@@ -38,8 +38,10 @@ pipeline {
     stage('Build  image lastest') {
       steps {
         script{
-            sh "docker build -t regoo707/q-reduction-api-qa:latest ."
-            sh "docker push regoo707/q-reduction-api-qa:latest"
+	   def devtest = docker.build("regoo707/q-reduction-api-qa:latest", './')
+            docker.withRegistry("https://docker.io", registryCredential) {
+              devtest.push()
+            }
             sh "docker rmi -f regoo707/q-reduction-api-qa:latest"
         }
       }
