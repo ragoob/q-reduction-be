@@ -87,10 +87,10 @@ namespace QReduction.Api.Controllers
                         new Shift()
                         {
                             StartAt = shift.StartAt,
-                            Start = shift.StartAt.TimeOfDay,
+                            Start = shift.StartAt.ToUniversalTime().TimeOfDay,
                             QRCode = Guid.NewGuid().ToString(),
                             IsEnded = true,
-                            End = shift.EndAt.TimeOfDay,
+                            End = shift.EndAt.ToUniversalTime().TimeOfDay,
                             CreateAt = DateTime.UtcNow,
                             BranchId = Input.BranchId
 
