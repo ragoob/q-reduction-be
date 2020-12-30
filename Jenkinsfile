@@ -36,9 +36,6 @@ pipeline {
   stages {
     
     stage('Build  image lastest') {
-      when {
-       expression { env.BRANCH_NAME == 'master'}
-      }
       steps {
         script{
             sh "docker build -t regoo707/q-reduction-api-qa:latest ."
