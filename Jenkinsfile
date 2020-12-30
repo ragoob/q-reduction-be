@@ -54,6 +54,7 @@ pipeline {
          
           withCredentials([string(credentialsId: 'rancher-token', variable: 'SECRET')]) {
                 rancherApiToken = "${SECRET}"
+		  sh "echo ${rancherApiToken}"
            }
           sh "curl -k --location --request POST '${Rancher_deploy_url}' --header 'Authorization: Bearer ${rancherApiToken}'"
         }
