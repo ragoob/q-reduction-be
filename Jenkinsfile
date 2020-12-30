@@ -39,9 +39,7 @@ pipeline {
       steps {
         script{
 	   def devtest = docker.build("regoo707/q-reduction-api-qa:latest", './')
-            docker.withRegistry("https://docker.io", registryCredential) {
-              devtest.push()
-            }
+            devtest.push()
             sh "docker rmi -f regoo707/q-reduction-api-qa:latest"
         }
       }
