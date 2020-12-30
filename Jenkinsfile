@@ -40,7 +40,7 @@ pipeline {
         script{
             sh "docker build -t regoo707/q-reduction-api-qa:latest ."
             sh "docker push regoo707/q-reduction-api-qa:latest"
-            sh "docker rmi -f registry.factory.aptargroup.biz/amlrt/${branchimageName}:latest"
+            sh "docker rmi -f regoo707/q-reduction-api-qa:latest"
         }
       }
     } 
