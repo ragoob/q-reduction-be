@@ -285,11 +285,19 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         [ApiExplorerSettings(GroupName = "Admin")]
         public async Task<IActionResult> GetOrganizationQRBranchesFile()
         {
-            var data = (await _branchService.FindAsync(b => b.OrganizationId == OrganizationId)).AsQueryable();
-            var html = GetHtmlForOrganizationBranches(data);
-            var file = HtmlToPdf.StaticRenderHtmlAsPdf(html) ;
+            try
+            {
+                var data = (await _branchService.FindAsync(b => b.OrganizationId == OrganizationId)).AsQueryable();
+                var html = GetHtmlForOrganizationBranches(data);
+                var file = HtmlToPdf.StaticRenderHtmlAsPdf(html);
 
-            return File(file.BinaryData , "application/pdf" , "Branches.pdf");
+                return File(file.BinaryData, "application/pdf", "Branches.pdf");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new StatusCodeResult(500);
+            }
         }
         // [HttpGet]
         // [Route("GetBranchServices")]
