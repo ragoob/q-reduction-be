@@ -319,14 +319,8 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         #endregion
 
         #region Helpers
-        private byte[] PdfFile(IQueryable<Branch> branches)
-        {
-           
+   
 
-            return  null;
-            
-
-        }
         private string GetHtmlForOrganizationBranches(IQueryable<Branch> branches)
         {
             var stringBuilder = new StringBuilder();
@@ -357,24 +351,11 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
                             </head>
                             <body>
                                 ");
-            /*<div class='header'><h1></h1></div>
-                                <table align='center'>
-                                    <tr>
-                                        <th>Name En</th>
-                                        <th>Name Ar</th>
-                                        <th>Phone</th>
-                                        <th>QR Code</th>
-                                    </tr>
-            */
+            
 
             foreach (var branch in branches)
             {
-                //stringBuilder.AppendFormat($@"<tr>
-                //                    <td>{branch.NameEn}</td>
-                //                    <td>{branch.NameAr}</td>
-                //                    <td>{branch.Phone}</td>
-                //                    <td> <img src='data:image/png;base64,{GenerateQrCode(branch.QrCode)}' width='100' height='100' /></td>
-                //                  </tr>");
+
                 stringBuilder.AppendFormat($@"<div class='main-container'>
 
                                  <div class='content-area'>
@@ -387,18 +368,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
                                 <div style='page-break-after: always;'> </div>
                             ");
 
-                /*
-<div class='main-container'>
 
-     <div class='content-area'>
-        <p>Title 01 EN</p>
-       <p>Title 01 AR</p>
-       <br />
-       <img src='img.png' />
-     </div>
-
-</div>
-                 */
             }
 
             stringBuilder.Append(@"
