@@ -39,7 +39,7 @@ pipeline {
       steps {
         script{
 	   def devtest = docker.build("regoo707/q-reduction-api-qa:latest", './')
-	  withDockerRegistry([ credentialsId: "registryCredential", url: "docker.io" ]) {
+	  withDockerRegistry([ credentialsId: "registryCredential", url: "https://docker.io" ]) {
            devtest.push()
           }
             devtest.push()
