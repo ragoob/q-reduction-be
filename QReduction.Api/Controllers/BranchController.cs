@@ -296,7 +296,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return  BadRequest( ex.Message) ;
+                return new StatusCodeResult(500) ;
             }
         }
         // [HttpGet]
