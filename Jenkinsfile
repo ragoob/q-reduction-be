@@ -42,7 +42,7 @@ pipeline {
 	  withDockerRegistry([ credentialsId: "registryCredential", url: "https://index.docker.io/v1/" ]) {
            devtest.push()
           }
-            devtest.push()
+          
             sh "docker rmi -f regoo707/q-reduction-api-qa:latest"
         }
       }
