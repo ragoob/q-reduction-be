@@ -87,10 +87,10 @@ namespace QReduction.Api.Controllers
                         new Shift()
                         {
                             StartAt = shift.StartAt,
-                            Start = shift.StartAt.TimeOfDay,
+                            Start = shift.StartAt.ToUniversalTime().TimeOfDay,
                             QRCode = Guid.NewGuid().ToString(),
                             IsEnded = true,
-                            End = shift.EndAt.TimeOfDay,
+                            End = shift.EndAt.ToUniversalTime().TimeOfDay,
                             CreateAt = DateTime.UtcNow,
                             BranchId = Input.BranchId
 
@@ -214,7 +214,7 @@ namespace QReduction.Api.Controllers
                         BranchId = c.BranchId,
                         Start = c.Start,
                         End = c.End,
-                        IsEnded = c.Start >= DateTime.UtcNow.TimeOfDay && c.End <= DateTime.UtcNow.TimeOfDay ? false : true
+                        IsEnded = c.End >= DateTime.UtcNow.TimeOfDay && c.Start <= DateTime.UtcNow.TimeOfDay ? false : true
                     }
                     );
 
@@ -226,6 +226,28 @@ namespace QReduction.Api.Controllers
                 throw;
             }
         }
+
+        [HttpDelete]
+        [Route("DeleteShift")]
+        [ApiExplorerSettings(GroupName = "Admin")]
+        [AllowAnonymous]
+        public async Task<IActionResult> DeleteShift(int Id)
+        {
+            try
+            {
+                if (await _shiftUserService.AnyAsync(c => c.ShiftId == Id))
+                    return BadRequest("Shift already used");
+                var shift = _shiftService.GetById(Id);
+                await _shiftService.RemoveAsync(shift);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
 
         [HttpPost]
         [Route("UpdateShift")]

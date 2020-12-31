@@ -58,7 +58,7 @@ namespace QReduction.Controllers
 
         #endregion
         #region Actions superAdmin
-        private string GeneratePassword(int length=6)
+        private string GeneratePassword(int length = 6)
         {
             Random random = new Random();
             string password = string.Empty;
@@ -97,8 +97,8 @@ namespace QReduction.Controllers
                 CreatedAt = DateTime.UtcNow,
                 CreatedBy = UserId,
                 LastUpdateDate = DateTime.UtcNow,
-                OrganizationId=model.OrganizationId,
-                IsFirstLogin=true
+                OrganizationId = model.OrganizationId,
+                IsFirstLogin = true
             };
 
             await _userService.AddWithDetailsAsync(user, model.UserRoles);
@@ -115,7 +115,7 @@ namespace QReduction.Controllers
             return Ok();
         }
 
-       
+
         //[HttpGet]
         //[CustomAuthorizationFilter("Users")]
         //[Route("{currentPage}/{pageSize}")]
@@ -165,13 +165,13 @@ namespace QReduction.Controllers
                 UserName = model.Name,
                 Password = passwordHash,
                 PasswordSalt = passwordSalt,
-                UserTypeId =(UserTypes)model.UserTypeId, // shift subervisor || tailor
+                UserTypeId = (UserTypes)model.UserTypeId, // shift subervisor || tailor
                 RowGuid = Guid.NewGuid(),
                 CreatedAt = DateTime.UtcNow,
                 CreatedBy = UserId,
                 LastUpdateDate = DateTime.UtcNow,
                 OrganizationId = OrganizationId,
-                BranchId=model.branchId,
+                BranchId = model.branchId,
                 IsFirstLogin = true
             };
 
@@ -181,7 +181,7 @@ namespace QReduction.Controllers
                 await _emailSender.SendMail(new string[] { user.Email }, "كلمه المرور", $" {_password} ");
 
             }
-            catch (Exception ex )
+            catch (Exception ex)
             {
 
                 throw;
@@ -201,7 +201,7 @@ namespace QReduction.Controllers
         {
             PagedListModel<UserModel> pagedList = new PagedListModel<UserModel>(currentPage, pageSize);
 
-            List<User> usersList = (await _userService.FindAsync(pagedList.QueryOptions, c => c.OrganizationId ==OrganizationId &&
+            List<User> usersList = (await _userService.FindAsync(pagedList.QueryOptions, c => c.OrganizationId == OrganizationId &&
              (name == null || c.UserName.Contains(name)) && (email == null || c.Email.Contains(email))
             && (phoneNumber == null || c.PhoneNumber.Contains(phoneNumber)))).ToList();
 
@@ -226,8 +226,8 @@ namespace QReduction.Controllers
         #region globale func
         [HttpPost]
         [Route("UpdateUser")]
-       // [CustomAuthorizationFilter("Users.Edit")]
-        public async Task<IActionResult> UpdateUser([FromForm]UserModel model)
+        // [CustomAuthorizationFilter("Users.Edit")]
+        public async Task<IActionResult> UpdateUser([FromForm] UserModel model)
         {
             if (await _userService.AnyAsync
                 (u =>
@@ -260,10 +260,10 @@ namespace QReduction.Controllers
                         await model.UserImage.CopyToAsync(fileStream);
                     }
                 }
-                user.PhotoPath = "UserUploads/"+user.UserGuid.ToString() + model.UserImage.FileName;
+                user.PhotoPath = "UserUploads/" + user.UserGuid.ToString() + model.UserImage.FileName;
             }
-            user.Email =string.IsNullOrEmpty(model.Email) ? user.Email:model.Email;
-            user.PhoneNumber =string.IsNullOrEmpty( model.PhoneNumber)?user.PhoneNumber:model.PhoneNumber;
+            user.Email = string.IsNullOrEmpty(model.Email) ? user.Email : model.Email;
+            user.PhoneNumber = string.IsNullOrEmpty(model.PhoneNumber) ? user.PhoneNumber : model.PhoneNumber;
             user.UserName = model.Name;
             user.UserTypeId = user.UserTypeId;
             user.UpdatedBy = UserId;
@@ -295,18 +295,18 @@ namespace QReduction.Controllers
                 PhoneNumber = user.PhoneNumber,
                 UserRoles = userRoles,
                 PhotoPath = user.PhotoPath,
-                OrganizationId =user.OrganizationId
+                OrganizationId = user.OrganizationId
             };
 
             return Ok(userModel);
         }
 
         [HttpGet("GetUserbyGuid/{guid}")]
-       // [CustomAuthorizationFilter("Users")]
+        // [CustomAuthorizationFilter("Users")]
         public async Task<IActionResult> Get(string guid)
         {
-            IEnumerable<User> users = await _userService.FindAsync(u=>u.UserGuid.ToString()==guid);
-           
+            IEnumerable<User> users = await _userService.FindAsync(u => u.UserGuid.ToString() == guid);
+
             if (users == null)
                 return NotFound();
 
@@ -354,26 +354,53 @@ namespace QReduction.Controllers
             [FromQuery] string email,
             [FromQuery] string phoneNumber)
         {
-            PagedListModel<UserModel> pagedList = new PagedListModel<UserModel>(currentPage, pageSize);
+            try
+            {
+                PagedListModel<UserModel> pagedList = new PagedListModel<UserModel>(currentPage, pageSize);
 
-            List<User> usersList = (await _userService.FindAsync(pagedList.QueryOptions, c =>
-             (name == null || c.UserName.Contains(name)) && (email == null || c.Email.Contains(email))
-            && (phoneNumber == null || c.PhoneNumber.Contains(phoneNumber)))).ToList();
+                if (UserId == default(int))
+                    return Unauthorized();
+                var currentUserTypeId = (await _userService.GetByIdAsync(UserId)).UserTypeId;
 
-            if (usersList != null && usersList.Count > 0)
-                pagedList.DataList =
-                    usersList.Select(u =>
-                    new UserModel
-                    {
-                        Email = u.Email,
-                        Name = u.UserName,
-                        IsActive = u.IsActive,
-                        Id = u.Id,
-                        PhoneNumber = u.PhoneNumber
-                    }
-                );
 
-            return Ok(pagedList);
+
+                List<User> usersList = currentUserTypeId == UserTypes.OrganizationAdmin ?
+                    (await _userService.FindAsync(pagedList.QueryOptions, c => c.UserTypeId != UserTypes.Mobile && c.OrganizationId == OrganizationId &&
+                 (name == null || c.UserName.Contains(name)) && (email == null || c.Email.Contains(email))
+                && (phoneNumber == null || c.PhoneNumber.Contains(phoneNumber)), "Organization" , "Branch")).ToList() :
+
+                currentUserTypeId == UserTypes.SuperAdmin ?
+
+                (await _userService.FindAsync(pagedList.QueryOptions, c => c.UserTypeId != UserTypes.Mobile &&
+                (name == null || c.UserName.Contains(name)) && (email == null || c.Email.Contains(email))
+               && (phoneNumber == null || c.PhoneNumber.Contains(phoneNumber)), "Organization", "Branch")).ToList() : null
+               ;
+
+                if (usersList != null && usersList.Count > 0)
+                    pagedList.DataList =
+                        usersList.Select(u =>
+                        new UserModel
+                        {
+                            Email = u.Email,
+                            Name = u.UserName,
+                            IsActive = u.IsActive,
+                            Id = u.Id,
+                            PhoneNumber = u.PhoneNumber,
+                            OrganizationId = u.OrganizationId,
+                            branchId = u.OrganizationId,
+                            UserTypeId = u.UserTypeId
+                           
+                             
+                        }
+                    );
+
+                return Ok(pagedList);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         [HttpGet]

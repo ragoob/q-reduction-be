@@ -327,48 +327,70 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
                         <html>
                             <head>
                                 <style>
-                                header {
-                                    text-align: center;
-                                    color: green;
-                                    padding-bottom: 35px;
-                                }
+                                .main-container{
+                                  display: flex;
+                                  align-items: center;
+                                  justify-content: center;
+                                  height: 100vh;
+                                  width: 100%;
 
-                                table {
-                                    width: 80%;
-                                    border-collapse: collapse;
                                 }
-
-                                td, th {
-                                    border: 1px solid gray;
-                                    padding: 15px;
-                                    font-size: 22px;
-                                    text-align: center;
+                                .content-area{
+                                  width: 300px;
+                                  height: 300px;
+                                  margin-left:210px;  
+                                  text-align: center;
+                                
+                                  padding: 30px;
+                                  border-radius: 10px;
                                 }
-
-                                table th {
-                                    background-color: green;
-                                    color: white;
-                                }
+                               
                                 </style>
                             </head>
                             <body>
-                                <div class='header'><h1></h1></div>
+                                ");
+            /*<div class='header'><h1></h1></div>
                                 <table align='center'>
                                     <tr>
                                         <th>Name En</th>
                                         <th>Name Ar</th>
                                         <th>Phone</th>
                                         <th>QR Code</th>
-                                    </tr>");
+                                    </tr>
+            */
 
             foreach (var branch in branches)
             {
-                stringBuilder.AppendFormat($@"<tr>
-                                    <td>{branch.NameEn}</td>
-                                    <td>{branch.NameAr}</td>
-                                    <td>{branch.Phone}</td>
-                                    <td> <img src='data:image/png;base64,{GenerateQrCode(branch.QrCode)}' width='100' height='100' /></td>
-                                  </tr>");
+                //stringBuilder.AppendFormat($@"<tr>
+                //                    <td>{branch.NameEn}</td>
+                //                    <td>{branch.NameAr}</td>
+                //                    <td>{branch.Phone}</td>
+                //                    <td> <img src='data:image/png;base64,{GenerateQrCode(branch.QrCode)}' width='100' height='100' /></td>
+                //                  </tr>");
+                stringBuilder.AppendFormat($@"<div class='main-container'>
+
+                                 <div class='content-area'>
+                                    <p>{branch.NameEn}</p>
+                                   <p>{branch.NameAr}</p>
+                                   <br />
+                                   <img src='data:image/png;base64,{GenerateQrCode(branch.QrCode)}' width='350' height='350' />
+                                 </div>
+                                </div>
+                                <div style='page-break-after: always;'> </div>
+                            ");
+
+                /*
+<div class='main-container'>
+
+     <div class='content-area'>
+        <p>Title 01 EN</p>
+       <p>Title 01 AR</p>
+       <br />
+       <img src='img.png' />
+     </div>
+
+</div>
+                 */
             }
 
             stringBuilder.Append(@"
@@ -386,7 +408,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             QRCodeData QrCodeData = Qr.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
             QRCode qrCode = new QRCode(QrCodeData);
 
-            var QrImage = qrCode.GetGraphic(20);
+            var QrImage = qrCode.GetGraphic(350);
             // Convert.ToBase64String(QrImage);
             var MemoryStream = new MemoryStream();
             QrImage.Save(MemoryStream, ImageFormat.Png);
