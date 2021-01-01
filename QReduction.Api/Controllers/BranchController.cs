@@ -288,11 +288,10 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             Console.WriteLine("Starting generate file");
             try
             {
-                // var data = await _branchService.FindAsync(b => b.OrganizationId == OrganizationId);
-                // Console.WriteLine($"Branches count {data.Count()}");
-                // var html = GetHtmlForOrganizationBranches(data);
-                // Console.WriteLine("Html generated successfully");
-                string html = "<html><body style=\"color:red;font-size:22px;\">test<body></html>";
+                var data = await _branchService.FindAsync(b => b.OrganizationId == OrganizationId);
+                Console.WriteLine($"Branches count {data.Count()}");
+                var html = GetHtmlForOrganizationBranches(data);
+                Console.WriteLine("Html generated successfully");
                 var file = HtmlToPdf.StaticRenderHtmlAsPdf(html);
 
                 return File(file.BinaryData, "application/pdf", "Branches.pdf");
