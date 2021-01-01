@@ -291,6 +291,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
                 var data = await _branchService.FindAsync(b => b.OrganizationId == OrganizationId);
                 Console.WriteLine($"Branches count {data.Count()}");
                 var html = GetHtmlForOrganizationBranches(data);
+                Console.WriteLine("Html generated successfully");
                 var file = HtmlToPdf.StaticRenderHtmlAsPdf(html);
 
                 return File(file.BinaryData, "application/pdf", "Branches.pdf");
