@@ -204,8 +204,7 @@ namespace QReduction.Api.Controllers
             try
             {
 
-                //var openShifts = await _shiftService.FindAsync(c => c.BranchId == Id && c.End >= DateTime.Now.TimeOfDay && c.Start <= DateTime.Now.TimeOfDay);
-                //openShifts.ForEach(c => c.IsEnded = false);
+                Console.WriteLine($"Date now {DateTime.UtcNow.TimeOfDay}");
 
                 var shifts = (await _shiftService.FindAsync(c => c.BranchId == Id)).Select(
                     c => new
