@@ -285,9 +285,10 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         [ApiExplorerSettings(GroupName = "Admin")]
         public async Task<IActionResult> GetOrganizationQRBranchesFile()
         {
+            Console.WriteLine("Starting generate file");
             try
             {
-                var data = (await _branchService.FindAsync(b => b.OrganizationId == OrganizationId)).ToList();
+                var data = await _branchService.FindAsync(b => b.OrganizationId == OrganizationId);
                 var html = GetHtmlForOrganizationBranches(data);
                 var file = HtmlToPdf.StaticRenderHtmlAsPdf(html);
 
@@ -321,7 +322,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         #region Helpers
 
 
-        private string GetHtmlForOrganizationBranches(List<Branch> branches)
+        private string GetHtmlForOrganizationBranches(IEnumerable<Branch> branches)
         {
             var stringBuilder = new StringBuilder();
 
