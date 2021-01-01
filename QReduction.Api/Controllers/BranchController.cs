@@ -287,7 +287,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         {
             try
             {
-                var data = (await _branchService.FindAsync(b => b.OrganizationId == OrganizationId)).AsQueryable();
+                var data = (await _branchService.FindAsync(b => b.OrganizationId == OrganizationId)).ToList();
                 var html = GetHtmlForOrganizationBranches(data);
                 var file = HtmlToPdf.StaticRenderHtmlAsPdf(html);
 
@@ -296,7 +296,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return new StatusCodeResult(500) ;
+                return BadRequest("Error in generating qr code branches dpf file");
             }
         }
         // [HttpGet]
@@ -319,9 +319,9 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         #endregion
 
         #region Helpers
-   
 
-        private string GetHtmlForOrganizationBranches(IQueryable<Branch> branches)
+
+        private string GetHtmlForOrganizationBranches(List<Branch> branches)
         {
             var stringBuilder = new StringBuilder();
 
@@ -356,17 +356,21 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             foreach (var branch in branches)
             {
 
-                stringBuilder.AppendFormat($@"<div class='main-container'>
+                string qrCode = GenerateQrCode(branch.QrCode);
+                if (!string.IsNullOrEmpty(qrCode))
+                {
+                   stringBuilder.AppendFormat($@"<div class='main-container'>
 
                                  <div class='content-area'>
                                     <p>{branch.NameEn}</p>
                                    <p>{branch.NameAr}</p>
                                    <br />
-                                   <img src='data:image/png;base64,{GenerateQrCode(branch.QrCode)}' width='350' height='350' />
+                                   <img src='data:image/png;base64,{qrCode}' width='350' height='350' />
                                  </div>
                                 </div>
                                 <div style='page-break-after: always;'> </div>
                             ");
+                }
 
 
             }
@@ -388,14 +392,28 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 
             var QrImage = qrCode.GetGraphic(350);
             // Convert.ToBase64String(QrImage);
-            var MemoryStream = new MemoryStream();
-            QrImage.Save(MemoryStream, ImageFormat.Png);
+            using (var MemoryStream = new MemoryStream())
+            {
+                try
+                {
+                    QrImage.Save(MemoryStream, ImageFormat.Png);
             var bytes = MemoryStream.ToArray();
 
             var base64 = Convert.ToBase64String(bytes);
+                    return base64;
+                }
+                catch (System.Exception ex)
+                {
+                    Console.WriteLine($"Error in GenerateQrCode function {ex.Message}");
+                     MemoryStream.Dispose();
+                    return string.Empty;
+                }
+            }
 
-            MemoryStream.Dispose();
-            return base64;
+
+
+
+
         }
 
         #endregion
