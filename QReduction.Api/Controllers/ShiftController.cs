@@ -204,7 +204,11 @@ namespace QReduction.Api.Controllers
             try
             {
                 
-              
+              var time =    TimeSpan.Parse("04:00:00");
+              var timeNow = DateTime.UtcNow.TimeOfDay;
+
+              Console.WriteLine($"{time}   -   {timeNow}" );
+              Console.WriteLine("Is ended = " + (time <= timeNow).ToString());
                 var shifts = (await _shiftService.FindAsync(c => c.BranchId == Id)).Select(
                     c => new
                     {
