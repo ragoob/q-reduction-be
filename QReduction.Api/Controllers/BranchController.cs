@@ -34,7 +34,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         private readonly IService<Branch> _branchService;
         private readonly IService<BranchService> _branchServicesService;
         private readonly IService<Service> _servicesService;
-       
+
         #endregion
 
         #region ctor
@@ -289,6 +289,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             try
             {
                 var data = await _branchService.FindAsync(b => b.OrganizationId == OrganizationId);
+                Console.WriteLine($"Branches count {data.Count()}");
                 var html = GetHtmlForOrganizationBranches(data);
                 var file = HtmlToPdf.StaticRenderHtmlAsPdf(html);
 
@@ -352,7 +353,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
                             </head>
                             <body>
                                 ");
-            
+
 
             foreach (var branch in branches)
             {
@@ -360,7 +361,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
                 string qrCode = GenerateQrCode(branch.QrCode);
                 if (!string.IsNullOrEmpty(qrCode))
                 {
-                   stringBuilder.AppendFormat($@"<div class='main-container'>
+                    stringBuilder.AppendFormat($@"<div class='main-container'>
 
                                  <div class='content-area'>
                                     <p>{branch.NameEn}</p>
@@ -387,6 +388,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 
         private string GenerateQrCode(string data)
         {
+            Console.WriteLine("Start generate qr code");
             QRCodeGenerator Qr = new QRCodeGenerator();
             QRCodeData QrCodeData = Qr.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
             QRCode qrCode = new QRCode(QrCodeData);
@@ -397,16 +399,16 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             {
                 try
                 {
-                    QrImage.Save(MemoryStream, ImageFormat.Png);
-            var bytes = MemoryStream.ToArray();
 
-            var base64 = Convert.ToBase64String(bytes);
+                    QrImage.Save(MemoryStream, ImageFormat.Png);
+                    var bytes = MemoryStream.ToArray();
+                    var base64 = Convert.ToBase64String(bytes);
                     return base64;
                 }
                 catch (System.Exception ex)
                 {
                     Console.WriteLine($"Error in GenerateQrCode function {ex.Message}");
-                     MemoryStream.Dispose();
+                    MemoryStream.Dispose();
                     return string.Empty;
                 }
             }
