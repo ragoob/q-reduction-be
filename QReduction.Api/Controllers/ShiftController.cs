@@ -10,6 +10,7 @@ using QReduction.Core.Domain;
 using QReduction.Core.Extensions;
 using QReduction.Core.Infrastructure;
 using QReduction.Core.Models;
+using QReduction.Core.Repository.Custom;
 using QReduction.Core.Service.Custom;
 using QReduction.Core.Service.Generic;
 using System;
@@ -32,11 +33,13 @@ namespace QReduction.Api.Controllers
         private readonly IService<Shift> _shiftService;
         private readonly IService<BranchService> _branchServiceService;
         private readonly IService<ShiftUser> _shiftUserService;
+        private readonly IShiftRepository _shiftRepository;
         //     private readonly IShiftQueueService _shiftQueueService;
         #endregion
 
         #region ctor
-        public ShiftController(IShiftQueueService shiftQueueService, IService<Shift> shiftService, IService<BranchService> branchServiceService, IService<ShiftUser> shiftUserService
+        public ShiftController(IShiftQueueService shiftQueueService, IService<Shift> shiftService, IService<BranchService> branchServiceService, IService<ShiftUser> shiftUserService,
+            IShiftRepository shiftRepository
             //, IService<ShiftUser> shiftUserService
             )
         {
@@ -44,6 +47,7 @@ namespace QReduction.Api.Controllers
             //  _shiftQueueService = shiftQueueService;
             _branchServiceService = branchServiceService;
             _shiftUserService = shiftUserService;
+            _shiftRepository = shiftRepository;
         }
         #endregion
 
@@ -87,10 +91,10 @@ namespace QReduction.Api.Controllers
                         new Shift()
                         {
                             StartAt = shift.StartAt,
-                            Start = shift.StartAt.ToUniversalTime().TimeOfDay,
+                            Start = shift.StartAt.TimeOfDay,
                             QRCode = Guid.NewGuid().ToString(),
                             IsEnded = true,
-                            End = shift.EndAt.ToUniversalTime().TimeOfDay,
+                            End = shift.EndAt.TimeOfDay,
                             CreateAt = DateTime.UtcNow,
                             BranchId = Input.BranchId
 
@@ -199,26 +203,37 @@ namespace QReduction.Api.Controllers
         [Route("GetBranchShifts")]
         [ApiExplorerSettings(GroupName = "Admin")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetBranchShifts(int Id)
+        public async Task<IActionResult> GetBranchShifts(int Id, string ClientTime)
         {
             try
             {
-                
-              var time =    TimeSpan.Parse("04:00:00");
-              var timeNow = DateTime.UtcNow.TimeOfDay;
 
-              Console.WriteLine($"{time}   -   {timeNow}" );
-              Console.WriteLine("Is ended = " + (time <= timeNow).ToString());
-                var shifts = (await _shiftService.FindAsync(c => c.BranchId == Id)).Select(
-                    c => new
-                    {
-                        Id = c.Id,
-                        BranchId = c.BranchId,
-                        Start = c.Start,
-                        End = c.End,
-                        IsEnded = c.End <= DateTime.UtcNow.TimeOfDay  ? true : false
-                    }
+                var time = TimeSpan.Parse("04:00:00");
+                var timeNow = DateTime.UtcNow.TimeOfDay;
+
+
+                Console.WriteLine($"{time}   -   {timeNow}");
+                Console.WriteLine("Is ended = " + (time <= timeNow).ToString());
+                var shifts = _shiftRepository.GetBranchOpenShiftIds(Id, ClientTime).ToList(). Select(
+                        c => new
+                        {
+                            Id = c.Id,
+                            BranchId = c.BranchId,
+                            Start = c.Start,
+                            End = c.End,
+                            IsEnded = c.IsEnded
+                        }
                     );
+                //var shifts = (await _shiftService.FindAsync(c => c.BranchId == Id)).Select(
+                //    c => new
+                //    {
+                //        Id = c.Id,
+                //        BranchId = c.BranchId,
+                //        Start = c.Start,
+                //        End = c.End,
+                //        IsEnded = !openedShifts.Contains(c.Id)
+                //    }
+                //    ); 
 
                 return Ok(shifts);
             }

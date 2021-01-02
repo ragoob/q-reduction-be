@@ -38,7 +38,7 @@ namespace QReduction.Apis.Infrastructure
             services.AddTransient(typeof(IUserGridColumnRepository), typeof(UserGridColumnRepository));
             services.AddTransient(typeof(ISystemSettingRepostory), typeof(SystemSettingRepostory));
             services.AddTransient(typeof(IShiftQueueRepository), typeof(ShiftQueueRepository));
-
+            services.AddTransient(typeof(IShiftRepository), typeof(ShiftRepository));
 
             #endregion
 
