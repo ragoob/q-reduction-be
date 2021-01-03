@@ -39,7 +39,7 @@ namespace QReduction.Apis.Infrastructure
             services.AddTransient(typeof(ISystemSettingRepostory), typeof(SystemSettingRepostory));
             services.AddTransient(typeof(IShiftQueueRepository), typeof(ShiftQueueRepository));
             services.AddTransient(typeof(IShiftRepository), typeof(ShiftRepository));
-
+            services.AddTransient(typeof(IShiftUserViewRepository), typeof(ShiftUserViewRepository));
             #endregion
 
             #region AddHostedService

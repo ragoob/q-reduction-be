@@ -34,12 +34,17 @@ namespace QReduction.Api.Controllers
         private readonly IService<BranchService> _branchServiceService;
         private readonly IService<ShiftUser> _shiftUserService;
         private readonly IShiftRepository _shiftRepository;
+        private readonly IShiftUserViewRepository _shiftUserViewRepository;
         //     private readonly IShiftQueueService _shiftQueueService;
         #endregion
 
         #region ctor
-        public ShiftController(IShiftQueueService shiftQueueService, IService<Shift> shiftService, IService<BranchService> branchServiceService, IService<ShiftUser> shiftUserService,
-            IShiftRepository shiftRepository
+        public ShiftController(IShiftQueueService shiftQueueService,
+            IService<Shift> shiftService,
+            IService<BranchService> branchServiceService, 
+            IService<ShiftUser> shiftUserService,
+            IShiftRepository shiftRepository,
+            IShiftUserViewRepository shiftUserViewRepository
             //, IService<ShiftUser> shiftUserService
             )
         {
@@ -48,6 +53,7 @@ namespace QReduction.Api.Controllers
             _branchServiceService = branchServiceService;
             _shiftUserService = shiftUserService;
             _shiftRepository = shiftRepository;
+            _shiftUserViewRepository = shiftUserViewRepository;
         }
         #endregion
 
@@ -116,11 +122,12 @@ namespace QReduction.Api.Controllers
         [Route("GetOpenBranchShifts")]
         [ApiExplorerSettings(GroupName = "Admin")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetOpenBranchShifts(int Id)
+        public async Task<IActionResult> GetOpenBranchShifts(int Id , string CurrentTime)
         {
             try
             {
-                var shifts = await _shiftService.FindAsync(c => c.BranchId == Id && (c.Start >= DateTime.UtcNow.TimeOfDay && c.End <= DateTime.UtcNow.TimeOfDay));
+                //var shifts = await _shiftService.FindAsync(c => c.BranchId == Id && (c.Start >= DateTime.UtcNow.TimeOfDay && c.End <= DateTime.UtcNow.TimeOfDay));
+                var shifts = _shiftRepository.GetBranchOpenShiftIds(Id, CurrentTime).Where(c => c.IsEnded == false).ToList();
                 return Ok(shifts);
             }
             catch (Exception ex)
@@ -134,34 +141,34 @@ namespace QReduction.Api.Controllers
         [Route("GetAssignedShiftPerDayForBranch")]
         [CustomAuthorizationFilter("Shift.AssignUserShift")]
         [ApiExplorerSettings(GroupName = "Admin")]
-        public async Task<IActionResult> GetAssignedShiftPerDayForBranch(int branchId)
+        public async Task<IActionResult> GetAssignedShiftPerDayForBranch(int branchId, string currentTime)
         {
             //var shifts = (await _shiftService.FindAsync(c => c.BranchId == Id && c.Start >= DateTime.UtcNow.TimeOfDay && c.End <= DateTime.UtcNow.TimeOfDay, "ShiftUsers"));///.Where(c=>c.ShiftUsers.Any(s=> s.UserId == UserId && c.CreateAt.Date ==DateTime.Now.Date ));
-            var _shiftUser = (await _shiftUserService.FindAsync(c => c.UserId == UserId
-            && c.CreatedAt.Date == DateTime.Now.Date && c.Shift.BranchId == branchId && c.Shift.Start >= DateTime.UtcNow.TimeOfDay && c.Shift.End <= DateTime.UtcNow.TimeOfDay, "Shift"))?
-                .Select(c => new
-                {
-                    id = c.Id,
-                    ShiftId = c?.ShiftId,
-                    WindowNumber = c?.WindowNumber,
-                    ServiceId = c?.ServiceId,
-                    ShiftStart = c?.Shift.Start,
-                    ShiftEnd = c?.Shift.End
+            //var _shiftUser = (await _shiftUserService.FindAsync(c => c.UserId == UserId
+            //&& c.CreatedAt.Date == DateTime.Now.Date && c.Shift.BranchId == branchId && c.Shift.Start >= DateTime.UtcNow.TimeOfDay && c.Shift.End <= DateTime.UtcNow.TimeOfDay, "Shift"))?
+            //    .Select(c => new
+            //    {
+            //        id = c.Id,
+            //        ShiftId = c?.ShiftId,
+            //        WindowNumber = c?.WindowNumber,
+            //        ServiceId = c?.ServiceId,
+            //        ShiftStart = c?.Shift.Start,
+            //        ShiftEnd = c?.Shift.End
 
-                }).FirstOrDefault();
-
+            //    }).FirstOrDefault();
+            var _shiftUser = _shiftUserViewRepository.ShiftUserPerDay(UserId, branchId, currentTime).FirstOrDefault();
             if (!(_shiftUser is object))
             {
-                var shifts = (await _shiftService.FindAsync(c => c.BranchId == branchId && (c.Start >= DateTime.UtcNow.TimeOfDay && c.End <= DateTime.UtcNow.TimeOfDay)))
+                var shifts = _shiftRepository.GetBranchOpenShiftIds(branchId, currentTime).ToList()
                     .Select(
                     c => new
                     {
                         id = c.Id,
-                        ShiftId = c?.Id,
+                        ShiftId = c.Id,
                         WindowNumber = string.Empty,
                         ServiceId = 0,
-                        ShiftStart = c?.Start,
-                        ShiftEnd = c?.End
+                        ShiftStart = c.Start,
+                        ShiftEnd = c.End
                     });
                 return Ok(shifts);
             }
