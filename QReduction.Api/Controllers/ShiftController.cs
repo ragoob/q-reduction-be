@@ -41,7 +41,7 @@ namespace QReduction.Api.Controllers
         #region ctor
         public ShiftController(IShiftQueueService shiftQueueService,
             IService<Shift> shiftService,
-            IService<BranchService> branchServiceService, 
+            IService<BranchService> branchServiceService,
             IService<ShiftUser> shiftUserService,
             IShiftRepository shiftRepository,
             IShiftUserViewRepository shiftUserViewRepository
@@ -122,7 +122,7 @@ namespace QReduction.Api.Controllers
         [Route("GetOpenBranchShifts")]
         [ApiExplorerSettings(GroupName = "Admin")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetOpenBranchShifts(int Id , string CurrentTime)
+        public async Task<IActionResult> GetOpenBranchShifts(int Id, string CurrentTime)
         {
             try
             {
@@ -156,10 +156,21 @@ namespace QReduction.Api.Controllers
             //        ShiftEnd = c?.Shift.End
 
             //    }).FirstOrDefault();
-            var _shiftUser = _shiftUserViewRepository.ShiftUserPerDay(UserId, branchId, currentTime).FirstOrDefault();
+            var _shiftUser = _shiftUserViewRepository.ShiftUserPerDay(UserId, branchId, currentTime).Select(
+                c => new
+                {
+
+                    id = c.Id,
+                    ShiftId = c.ShiftId,
+                    WindowNumber = c.WindowNumber,
+                    ServiceId = c.ServiceId,
+                    ShiftStart = c.Start,
+                    ShiftEnd = c.End
+
+                }).FirstOrDefault();
             if (!(_shiftUser is object))
             {
-                var shifts = _shiftRepository.GetBranchOpenShiftIds(branchId, currentTime).Where(c=> !c.IsEnded).ToList()
+                var shifts = _shiftRepository.GetBranchOpenShiftIds(branchId, currentTime).Where(c => !c.IsEnded).ToList()
                     .Select(
                     c => new
                     {
@@ -221,7 +232,7 @@ namespace QReduction.Api.Controllers
 
                 Console.WriteLine($"{time}   -   {timeNow}");
                 Console.WriteLine("Is ended = " + (time <= timeNow).ToString());
-                var shifts = _shiftRepository.GetBranchOpenShiftIds(Id, ClientTime).ToList(). Select(
+                var shifts = _shiftRepository.GetBranchOpenShiftIds(Id, ClientTime).ToList().Select(
                         c => new
                         {
                             Id = c.Id,
