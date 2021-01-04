@@ -159,7 +159,7 @@ namespace QReduction.Api.Controllers
             var _shiftUser = _shiftUserViewRepository.ShiftUserPerDay(UserId, branchId, currentTime).FirstOrDefault();
             if (!(_shiftUser is object))
             {
-                var shifts = _shiftRepository.GetBranchOpenShiftIds(branchId, currentTime).ToList()
+                var shifts = _shiftRepository.GetBranchOpenShiftIds(branchId, currentTime).Where(c=> !c.IsEnded).ToList()
                     .Select(
                     c => new
                     {
