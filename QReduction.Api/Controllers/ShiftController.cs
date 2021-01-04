@@ -174,7 +174,7 @@ namespace QReduction.Api.Controllers
                     .Select(
                     c => new
                     {
-                        id = c.Id,
+                        id = 0,
                         ShiftId = c.Id,
                         WindowNumber = string.Empty,
                         ServiceId = 0,
