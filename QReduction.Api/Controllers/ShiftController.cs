@@ -169,7 +169,7 @@ namespace QReduction.Api.Controllers
                         ServiceId = 0,
                         ShiftStart = c.Start,
                         ShiftEnd = c.End
-                    });
+                    }).FirstOrDefault();
                 return Ok(shifts);
             }
             return Ok(_shiftUser);
