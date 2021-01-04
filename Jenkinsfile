@@ -35,11 +35,14 @@ pipeline {
 
   stages {
     
-    stage('Build  image lastest') {
+    stage('Build  image qa lastest') {
+       when {
+          expression { env.BRANCH_NAME == "Development" }
+            }
       steps {
         script{
-	   def devtest = docker.build("regoo707/q-reduction-api-qa:latest", './')
-	  withDockerRegistry([ credentialsId: "registryCredential", url: "https://index.docker.io/v1/" ]) {
+	        def devtest = docker.build("regoo707/q-reduction-api-qa:latest", './')
+	        withDockerRegistry([ credentialsId: "registryCredential", url: "https://index.docker.io/v1/" ]) {
            devtest.push()
           }
           
@@ -48,15 +51,36 @@ pipeline {
       }
     } 
 
+    stage('Build  image prod lastest') {
+       when {
+          expression { env.BRANCH_NAME == "master" || env.BRANCH_NAME == "main" }
+            }
+      steps {
+        script{
+	        def masterimage = docker.build("regoo707/q-reduction-api:latest", './')
+	        withDockerRegistry([ credentialsId: "registryCredential", url: "https://index.docker.io/v1/" ]) {
+           masterimage.push()
+          }
+          
+            sh "docker rmi -f regoo707/q-reduction-api:latest"
+        }
+      }
+    } 
+
       stage('Update Rancher Catalog and Upgrade App') {
       steps {
+        when {
+          expression { env.BRANCH_NAME == "dev" }
+            }
+            
         script {
          
           withCredentials([string(credentialsId: 'rancher-token', variable: 'SECRET')]) {
                 rancherApiToken = "${SECRET}"
 		  sh "echo ${rancherApiToken}"
            }
-          sh "curl -k --location --request POST '${Rancher_deploy_url}' --header 'Authorization: Bearer ${rancherApiToken}'"
+             
+            sh "curl -k --location --request POST '${Rancher_deploy_url}' --header 'Authorization: Bearer ${rancherApiToken}'"
         }
       }
     }
