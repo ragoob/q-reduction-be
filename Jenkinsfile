@@ -68,11 +68,10 @@ pipeline {
     } 
 
       stage('Update Rancher Catalog and Upgrade App') {
-      steps {
-        when {
-          expression { env.BRANCH_NAME == "dev" }
+	      when {
+          expression { env.BRANCH_NAME == "Development" }
             }
-            
+      steps {
         script {
          
           withCredentials([string(credentialsId: 'rancher-token', variable: 'SECRET')]) {
