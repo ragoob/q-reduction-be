@@ -68,7 +68,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 
             try
             {
-                var _ShiftUser = await _shiftUserService.FindOneAsync(s => s.ShiftId == shiftUser.ShiftId && s.UserId == UserId && s.CreatedAt.Date == DateTime.Now.Date);
+                var _ShiftUser = await _shiftUserService.FindOneAsync(s => s.Id == shiftUser.Id/*s.ShiftId == shiftUser.ShiftId && s.UserId == UserId && s.CreatedAt.Date == DateTime.Now.Date*/);
                 if (_ShiftUser is object)
                 {
                     _ShiftUser.ServiceId = shiftUser.ServiceId;
