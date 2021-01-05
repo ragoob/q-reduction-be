@@ -8,6 +8,7 @@ using QReduction.Apis.Controllers;
 using QReduction.Apis.Infrastructure;
 using QReduction.Core.Domain;
 using QReduction.Core.Domain.Acl;
+using QReduction.Core.Repository.Custom;
 using QReduction.Core.Service.Custom;
 using QReduction.Core.Service.Generic;
 using System;
@@ -35,20 +36,24 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         private readonly IService<BranchService> _branchServiceService;
         private readonly IService<Evaluation> _evaluationService;
         private readonly IService<User> _UserService;
+        private readonly IShiftRepository _shiftRepository;
         IConfiguration _configuration;
 
         #endregion
 
         #region ctor
         public ShiftQueueController(IShiftQueueService shiftQueueService, IService<ShiftUser> shiftUserService, IService<Shift> shiftService,
-            IService<BranchService> branchServiceService, IService<Evaluation> evaluationService, IService<User> UserService, IConfiguration configuration)
+            IService<BranchService> branchServiceService, IService<Evaluation> evaluationService,
+            IService<User> UserService,
+            IShiftRepository shiftRepository, 
+            IConfiguration configuration)
         {
             _shiftQueueService = shiftQueueService;
             _shiftUserService = shiftUserService;
             _shiftService = shiftService;
             _branchServiceService = branchServiceService;
             _evaluationService = evaluationService;
-
+            _shiftRepository = shiftRepository;
             _configuration = configuration;
             _UserService = UserService;
         }
@@ -60,7 +65,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         //[CustomAuthorizationFilter("Shift.Add")]
         
         [ApiExplorerSettings(GroupName = "Mobile")]
-        public async Task<IActionResult> SetMobileUserQueue(int branchServiceId)
+        public async Task<IActionResult> SetMobileUserQueue(int branchServiceId, string currentTime)
         {
 
             if (branchServiceId == 0)
@@ -72,7 +77,8 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
                 return BadRequest(Messages.InvalidQueueId);
 
             // get oppening shift
-            Shift OpenShift = (await _shiftService.FindAsync(a => !a.IsEnded && a.BranchId == branchService.BranchId)).FirstOrDefault();
+            
+            Shift OpenShift = _shiftRepository.GetBranchOpenShiftIds(branchService.BranchId, currentTime).Where(c => !c.IsEnded).FirstOrDefault();
             if (OpenShift == null)
                 return BadRequest(Messages.NoShiftOpenInThisBranch);
 
