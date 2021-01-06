@@ -37,6 +37,8 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         private readonly IService<Evaluation> _evaluationService;
         private readonly IService<User> _UserService;
         private readonly IShiftRepository _shiftRepository;
+        private readonly IShiftUserViewRepository _shiftUserViewRepository;
+
         IConfiguration _configuration;
 
         #endregion
@@ -45,7 +47,8 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         public ShiftQueueController(IShiftQueueService shiftQueueService, IService<ShiftUser> shiftUserService, IService<Shift> shiftService,
             IService<BranchService> branchServiceService, IService<Evaluation> evaluationService,
             IService<User> UserService,
-            IShiftRepository shiftRepository, 
+            IShiftRepository shiftRepository,
+            IShiftUserViewRepository shiftUserViewRepository,
             IConfiguration configuration)
         {
             _shiftQueueService = shiftQueueService;
@@ -54,6 +57,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             _branchServiceService = branchServiceService;
             _evaluationService = evaluationService;
             _shiftRepository = shiftRepository;
+            _shiftUserViewRepository = shiftUserViewRepository;
             _configuration = configuration;
             _UserService = UserService;
         }
@@ -63,7 +67,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         [HttpGet]
         [Route("SetMobileUserQueue")]
         //[CustomAuthorizationFilter("Shift.Add")]
-        
+
         [ApiExplorerSettings(GroupName = "Mobile")]
         public async Task<IActionResult> SetMobileUserQueue(int branchServiceId, string currentTime)
         {
@@ -77,7 +81,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
                 return BadRequest(Messages.InvalidQueueId);
 
             // get oppening shift
-            
+
             Shift OpenShift = _shiftRepository.GetBranchOpenShiftIds(branchService.BranchId, currentTime).Where(c => !c.IsEnded).FirstOrDefault();
             if (OpenShift == null)
                 return BadRequest(Messages.NoShiftOpenInThisBranch);
@@ -131,9 +135,9 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             {
                 QueueNo,
                 CurrentServiedQueueNo,
-                WaitNo =  QueueNo - CurrentServiedQueueNo ,//- 1,
+                WaitNo = QueueNo - CurrentServiedQueueNo,//- 1,
                 branchService.ServiceId,
-                PushId=stringPushId
+                PushId = stringPushId
             });
 
         }
@@ -142,10 +146,10 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         [Route("GetFirstQueueUser")]
         [CustomAuthorizationFilter("Shift.Add")]
         [ApiExplorerSettings(GroupName = "Customer")]
-        public async Task<IActionResult> GetFirstQueueUser()
+        public async Task<IActionResult> GetFirstQueueUser(string currentTime)
         {
             // UserId=Login Tailor UserId
-            var firstQueue =await GetNextQueue(UserId);
+            var firstQueue = await GetNextQueue(UserId, currentTime);
             return Ok(firstQueue);
         }
 
@@ -153,7 +157,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         [Route("GetQueueNextUser")]
         [CustomAuthorizationFilter("Shift.Add")]
         [ApiExplorerSettings(GroupName = "Customer")]
-        public async Task<IActionResult> GetQueueNextUser(ShiftQueue shift)
+        public async Task<IActionResult> GetQueueNextUser(ShiftQueueVM shift)
         {
 
             if (shift.Id == 0)
@@ -161,8 +165,19 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             if (shift.ShiftId == 0)
                 return BadRequest(Messages.InvalidQueueId);
 
-            shift.IsServiceDone = true;
-            _shiftQueueService.UpdateQueue(shift);
+
+            var _shift = _shiftQueueService.GetById(shift.Id);
+            _shift.Id = shift.Id;
+            _shift.UserTurn = shift.UserTurn;
+            _shift.ShiftId = shift.ShiftId;
+            _shift.UserIdMobile = shift.UserIdMobile;
+            _shift.UserIdBy = shift.UserIdBy;
+            _shift.ServiceId = shift.ServiceId;
+            _shift.WindowNumber = shift.WindowNumber;
+            _shift.PushId = shift.PushId;
+
+            _shift.IsServiceDone = true;
+            _shiftQueueService.UpdateQueue(_shift);
 
             // remove PushId
             DeleteRecord(shift.PushId);
@@ -172,7 +187,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             {
                 ShiftQueueId = shift.Id,
                 IsDeleted = false,
-              //  EvaluationValue = null,
+                //  EvaluationValue = null,
                 CreateAt = DateTime.UtcNow,
             };
             _evaluationService.Add(evaluation);
@@ -180,19 +195,19 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 
 
 
-            var nextQueue =await GetNextQueue(UserId);
+            var nextQueue = await GetNextQueue(UserId,shift.currentTime);
             //if(nextQueue!=null)
             //{
             //    nextQueue.UserIdBy = UserId;
             //    nextQueue.WindowNumber = shift.WindowNumber;
             //    _shiftQueueService.UpdateQueue(nextQueue);
             //}
-           var userMobile= _UserService.GetById(shift.UserIdMobile);
+            var userMobile = _UserService.GetById(shift.UserIdMobile);
 
 
             var data = new FirebaseMessage()
             {
-                to = userMobile.UserDeviceId, 
+                to = userMobile.UserDeviceId,
                 data = new MessageData()
                 {
 
@@ -211,60 +226,64 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 
 
             };
-            new Thread(delegate () {
+            new Thread(delegate ()
+            {
                 SendNotification(data);
             }).Start();
-           
-          //  if (SendNotification(data) == 1)
-              
+
+            //  if (SendNotification(data) == 1)
+
 
 
             return Ok(nextQueue);
         }
-        
+
         [HttpPost]
         [Route("CancelCurrentMobileUser")]
         [CustomAuthorizationFilter("Shift.Add")]
         [ApiExplorerSettings(GroupName = "Customer")]
-        public async Task<IActionResult> CancelAndGetNextUser(ShiftQueue shift)
+        public async Task<IActionResult> CancelAndGetNextUser(ShiftQueueVM shift)
         {
             if (shift.Id == 0)
                 return BadRequest(Messages.InvalidShiftId);
             if (shift.ShiftId == 0)
                 return BadRequest(Messages.InvalidQueueId);
 
-            //remove current queue
-            _shiftQueueService.Remove(shift);
-            var nextQueue =await GetNextQueue(UserId);
+            var _shift = _shiftQueueService.GetById(shift.Id);
+            _shiftQueueService.Remove(_shift);
+            var nextQueue = await GetNextQueue(UserId, shift.currentTime);
 
             return Ok(nextQueue);
         }
 
 
-        private async Task<ShiftQueue> GetNextQueue(int UserID)
+        private async Task<ShiftQueue> GetNextQueue(int UserID, string currentTime)
         {
-            ShiftUser shiftUser = (await _shiftUserService.FindAsync(a => a.UserId == UserID && !a.Shift.IsEnded)).FirstOrDefault();
+            User authUser = await _UserService.FindOneAsync(u => u.Id == UserID);
+            ShiftUserView shiftUserView = _shiftUserViewRepository.ShiftUserPerDay(UserId, authUser.BranchId.Value, currentTime).FirstOrDefault();
+
+            ShiftUser shiftUser = await _shiftUserService.FindOneAsync(a => a.Id == shiftUserView.Id);
             if (shiftUser == null)
                 return null;
 
             ShiftQueue firstQueue = null;
             // Check If Teller has Pending User
 
-            var Queues=(await _shiftQueueService.FindAsync(a => a.ShiftId == shiftUser.ShiftId && !a.IsServiceDone
-               && a.UserIdBy == shiftUser.UserId && a.WindowNumber == shiftUser.WindowNumber && a.ServiceId == shiftUser.ServiceId, "UserMobile"));
+            var Queues = (await _shiftQueueService.FindAsync(a => a.ShiftId == shiftUser.ShiftId && !a.IsServiceDone
+                 && a.UserIdBy == shiftUser.UserId && a.WindowNumber == shiftUser.WindowNumber && a.ServiceId == shiftUser.ServiceId, "UserMobile"));
 
-            if(Queues!=null && Queues.Any())
+            if (Queues != null && Queues.Any())
             {
                 firstQueue = Queues.OrderBy(a => a.UserTurn).FirstOrDefault();
-                
+
                 return firstQueue;
             }
             //
             Queues = (await _shiftQueueService.FindAsync(a => a.ShiftId == shiftUser.ShiftId && !a.IsServiceDone
                && a.UserIdBy == null && a.WindowNumber == null && a.ServiceId == shiftUser.ServiceId, "UserMobile"));
 
-            
-             firstQueue = Queues.OrderBy(a => a.UserTurn).FirstOrDefault();
+
+            firstQueue = Queues.OrderBy(a => a.UserTurn).FirstOrDefault();
             if (firstQueue == null)
                 return null;
             //update this queue
@@ -274,7 +293,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             var similerServicedQueue = (await _shiftQueueService.FindAsync(a => a.ShiftId == firstQueue.ShiftId && a.ServiceId == firstQueue.ServiceId
                                   && !a.IsServiceDone && a.UserIdBy != null && a.WindowNumber != null, "Service")).OrderBy(a => a.UserTurn).LastOrDefault();
             var CurrentQueueNo = similerServicedQueue == null ? 0 : similerServicedQueue.UserTurn;
-            UpdateRecord(new UpdateQueueRequest() { PushId = firstQueue.PushId, UpdatedRecord = new Record() {Counter= shiftUser.WindowNumber,queueNumber=firstQueue.UserTurn,currentQueue= CurrentQueueNo } });
+            UpdateRecord(new UpdateQueueRequest() { PushId = firstQueue.PushId, UpdatedRecord = new Record() { Counter = shiftUser.WindowNumber, queueNumber = firstQueue.UserTurn, currentQueue = CurrentQueueNo } });
             _shiftQueueService.UpdateQueue(firstQueue);
 
             return firstQueue;
@@ -290,7 +309,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             //_shiftQueueService.FindAsync(a => a.ShiftId == OpenShift.Id && a.ServiceId == branchService.ServiceId
             //                      && !a.IsServiceDone /*&& a.UserIdBy != null && a.WindowNumber != null*/ )).OrderBy(a => a.UserTurn).FirstOrDefault();
             var queuse = (await _shiftQueueService.FindAsync(a => a.UserIdMobile == UserId && !a.IsServiceDone
-                            && !a.Shift.IsEnded, "Service")).ToList();
+                           /* && !a.Shift.IsEnded*/, "Service")).ToList();
             List<MobileUserQueue> mobileUserQueues = new List<MobileUserQueue>();
             foreach (var item in queuse)
             {
@@ -301,14 +320,15 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
                                   && !a.IsServiceDone /*&& a.UserIdBy != null && a.WindowNumber != null*/, "Service")).OrderBy(a => a.UserTurn).FirstOrDefault();
                 var CurrentQueueNo = similerServicedQueue == null ? 0 : similerServicedQueue.UserTurn;
 
-                mobileUserQueues.Add(new MobileUserQueue() {
-                    QueueNo=item.UserTurn,
-                    CurrentServiedQueueNo=CurrentQueueNo,
+                mobileUserQueues.Add(new MobileUserQueue()
+                {
+                    QueueNo = item.UserTurn,
+                    CurrentServiedQueueNo = CurrentQueueNo,
                     WaitNo = item.UserTurn - CurrentQueueNo - 1,
-                    ServiceId=item.ServiceId,
-                    PushId=item.PushId,
-                    Service=item.Service,
-                    WindowNumber=item.WindowNumber
+                    ServiceId = item.ServiceId,
+                    PushId = item.PushId,
+                    Service = item.Service,
+                    WindowNumber = item.WindowNumber
                 });
             }
 
@@ -333,7 +353,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             var response = request.GetResponse();
             json = (new StreamReader(response.GetResponseStream())).ReadToEnd();
 
-          var obj=  Newtonsoft.Json.JsonConvert.DeserializeObject<PushIdObj>(json);
+            var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<PushIdObj>(json);
 
             return obj.Name;
 
@@ -344,13 +364,13 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             var request = WebRequest.CreateHttp("https://qreduction.firebaseio.com/" + PushId + ".json?auth=QkVyC6849JtnoWmNi0dNPcuXBS5XxLwLsaf0y1k4");
             request.Method = "DELETE";
             request.ContentType = "application/json";
-          
+
             var response = request.GetResponse();
             var json = (new StreamReader(response.GetResponseStream())).ReadToEnd();
 
 
 
-           // return Ok(json);
+            // return Ok(json);
 
 
 
@@ -652,7 +672,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 
         }
 
-    
+
 
     }
     #region Models
@@ -737,11 +757,11 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 
     public class LoadQueueResponse
     {
-        public  Service ServiceToProvide { get; set; }
+        public Service ServiceToProvide { get; set; }
 
-        public  List<ShiftQueue> Queue { get; set; }
+        public List<ShiftQueue> Queue { get; set; }
     }
-  
+
     public class MobileUserQueue
     {
         public int QueueNo { get; set; }
@@ -751,7 +771,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         public string PushId { get; set; }
         public Service Service { get; set; }
         public string WindowNumber { get; set; }
-      //  public int ServiceName { get; set; }
+        //  public int ServiceName { get; set; }
 
     }
 
