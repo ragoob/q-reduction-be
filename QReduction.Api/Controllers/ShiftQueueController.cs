@@ -260,8 +260,9 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         private async Task<ShiftQueue> GetNextQueue(int UserID, string currentTime)
         {
             User authUser = await _UserService.FindOneAsync(u => u.Id == UserID);
-            ShiftUserView shiftUserView = _shiftUserViewRepository.ShiftUserPerDay(UserId, authUser.BranchId.Value, currentTime).FirstOrDefault();
+            ShiftUserView shiftUserView = _shiftUserViewRepository.ShiftUserPerDay(UserId, authUser.BranchId.Value, currentTime).LastOrDefault();
 
+           // ShiftUser shiftUser = (await _shiftUserService.FindAsync(a => a.UserId == UserID && !a.Shift.IsEnded)).FirstOrDefault();
             ShiftUser shiftUser = await _shiftUserService.FindOneAsync(a => a.Id == shiftUserView.Id);
             if (shiftUser == null)
                 return null;

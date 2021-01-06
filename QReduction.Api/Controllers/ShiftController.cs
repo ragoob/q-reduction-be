@@ -167,7 +167,7 @@ namespace QReduction.Api.Controllers
                      ShiftStart = c.Start,
                      ShiftEnd = c.End
 
-                 }).FirstOrDefault();
+                 }).LastOrDefault();
             if (!(_shiftUser is object))
             {
                 var shifts = _shiftRepository.GetBranchOpenShiftIds(branchId, currentTime).Where(c => !c.IsEnded).ToList()
