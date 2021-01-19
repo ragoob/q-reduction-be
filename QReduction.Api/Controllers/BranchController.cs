@@ -19,7 +19,9 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Hosting;
+using QReduction.Core.Domain.Acl;
+using System.Threading;
 
 namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 {
@@ -34,15 +36,23 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         private readonly IService<Branch> _branchService;
         private readonly IService<BranchService> _branchServicesService;
         private readonly IService<Service> _servicesService;
+        private readonly IService<User> _userService;
+
+        private readonly IHostingEnvironment _env;
+        private readonly IEmailSender _emailSender;
 
         #endregion
 
         #region ctor
-        public BranchController(IService<Branch> branchService, IService<BranchService> branchServicesService, IService<Service> servicesService)
+        public BranchController(IHostingEnvironment env, IEmailSender emailSender, IService<Branch> branchService, IService<BranchService> branchServicesService, IService<Service> servicesService, IService<User> userService)
         {
             _branchService = branchService;
             _branchServicesService = branchServicesService;
             _servicesService = servicesService;
+            _userService = userService;
+            _env = env;
+            _emailSender = emailSender;
+
         }
         #endregion
 
@@ -288,13 +298,21 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             Console.WriteLine("Starting generate file");
             try
             {
-                var data = await _branchService.FindAsync(b => b.OrganizationId == OrganizationId);
-                Console.WriteLine($"Branches count {data.Count()}");
-                var html = GetHtmlForOrganizationBranches(data);
-                Console.WriteLine("Html generated successfully");
-                var file = HtmlToPdf.StaticRenderHtmlAsPdf(html);
+                //var data = await _branchService.FindAsync(b => b.OrganizationId == OrganizationId);
+                //Console.WriteLine($"Branches count {data.Count()}");
+                //var html = GetHtmlForOrganizationBranches(data);
+                //Console.WriteLine("Html generated successfully");
+                //var file = HtmlToPdf.StaticRenderHtmlAsPdf(html);
+                //file.SaveAs($"{_env.WebRootPath}/Branches/{Guid.NewGuid()}");
+                //SendPdfFile(OrganizationId, UserId);
 
-                return File(file.BinaryData, "application/pdf", "Branches.pdf");
+                new Thread(delegate ()
+                {
+                    SendPdfFile(OrganizationId, UserId);
+                }).Start();
+
+                
+                return Ok("File Will be sent in your mail soon");
             }
             catch (Exception ex)
             {
@@ -302,6 +320,8 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
                 return BadRequest("Error in generating qr code branches dpf file");
             }
         }
+
+
         // [HttpGet]
         // [Route("GetBranchServices")]
         //// [CustomAuthorizationFilter("Branch.GetBranchServices")]
@@ -323,6 +343,22 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 
         #region Helpers
 
+        private void SendPdfFile(int organiztionId, int userId)
+        {
+            var data = _branchService.Find(b => b.OrganizationId == organiztionId);
+
+            Console.WriteLine($"Branches count {data.Count()}");
+            var html = GetHtmlForOrganizationBranches(data);
+            Console.WriteLine("Html generated successfully");
+            var file = HtmlToPdf.StaticRenderHtmlAsPdf(html);
+            var filePath = $"{ _env.WebRootPath }/ Branches /{ Guid.NewGuid()}";
+            file.SaveAs(filePath);
+
+           var user= _userService.GetById (userId);
+            if (!(user is object))
+                return;
+            _emailSender.SendMail(to:new  string[] { user.Email } , $"Branchs {DateTime.Now.Date}" ,string.Empty, filePath);
+        }
 
         private string GetHtmlForOrganizationBranches(IEnumerable<Branch> branches)
         {

@@ -7,6 +7,6 @@ namespace QReduction.Apis.Infrastructure
 {
     public interface IEmailSender
     {
-        Task SendMail(string[] to, string subject, string body);
+        Task SendMail(string[] to, string subject, string body, string attachmentPath = null);
     }
 }

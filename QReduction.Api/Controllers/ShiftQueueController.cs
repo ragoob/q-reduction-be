@@ -294,6 +294,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             var similerServicedQueue = (await _shiftQueueService.FindAsync(a => a.ShiftId == firstQueue.ShiftId && a.ServiceId == firstQueue.ServiceId
                                   && !a.IsServiceDone && a.UserIdBy != null && a.WindowNumber != null, "Service")).OrderBy(a => a.UserTurn).LastOrDefault();
             var CurrentQueueNo = similerServicedQueue == null ? 0 : similerServicedQueue.UserTurn;
+
             UpdateRecord(new UpdateQueueRequest() { PushId = firstQueue.PushId, UpdatedRecord = new Record() { Counter = shiftUser.WindowNumber, queueNumber = firstQueue.UserTurn, currentQueue = CurrentQueueNo } });
             _shiftQueueService.UpdateQueue(firstQueue);
 

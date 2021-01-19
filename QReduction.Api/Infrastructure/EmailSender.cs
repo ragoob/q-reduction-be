@@ -18,7 +18,7 @@ namespace QReduction.Apis.Infrastructure
             _configuration = configuration;
         }
 
-        public Task SendMail(string[] to, string subject, string body)
+        public Task SendMail(string[] to, string subject, string body, string attachmentPath)
         {
             var appSettings = _configuration.GetSection("AppSettings");
 
@@ -38,7 +38,8 @@ namespace QReduction.Apis.Infrastructure
 
             mailMessage.Subject = subject;
             mailMessage.Body = body;
-
+            if (!string.IsNullOrEmpty(attachmentPath))
+                mailMessage.Attachments.Add(new Attachment(attachmentPath));
             foreach (var item in to)
                 mailMessage.To.Add(item);
 
