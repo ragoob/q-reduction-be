@@ -1,3 +1,4 @@
 bin
 obj
 .vs
+/QReduction.Api/wwwroot/Branches

@@ -305,13 +305,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
                 //var file = HtmlToPdf.StaticRenderHtmlAsPdf(html);
                 //file.SaveAs($"{_env.WebRootPath}/Branches/{Guid.NewGuid()}");
                 //SendPdfFile(OrganizationId, UserId);
-
-                new Thread(delegate ()
-                {
-                    SendPdfFile(OrganizationId, UserId);
-                }).Start();
-
-                
+                SendPdfFile(_branchService, OrganizationId, UserId);
                 return Ok("File Will be sent in your mail soon");
             }
             catch (Exception ex)
@@ -343,21 +337,21 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 
         #region Helpers
 
-        private void SendPdfFile(int organiztionId, int userId)
+        private async Task SendPdfFile(IService<Branch> branchService, int organiztionId, int userId)
         {
-            var data = _branchService.Find(b => b.OrganizationId == organiztionId);
+            var data = await branchService.FindAsync(b => b.OrganizationId == organiztionId);
 
             Console.WriteLine($"Branches count {data.Count()}");
             var html = GetHtmlForOrganizationBranches(data);
             Console.WriteLine("Html generated successfully");
             var file = HtmlToPdf.StaticRenderHtmlAsPdf(html);
-            var filePath = $"{ _env.WebRootPath }/ Branches /{ Guid.NewGuid()}";
-            file.SaveAs(filePath);
+            var filePath = $@"{_env.WebRootPath}\Branches\{Guid.NewGuid()}.pdf";
+            var isSaved = file.TrySaveAs(filePath);
 
-           var user= _userService.GetById (userId);
+            var user = _userService.GetById(userId);
             if (!(user is object))
                 return;
-            _emailSender.SendMail(to:new  string[] { user.Email } , $"Branchs {DateTime.Now.Date}" ,string.Empty, filePath);
+            _emailSender.SendMail(to: new string[] { user.Email }, $"Branchs {DateTime.Now.Date}", string.Empty, filePath);
         }
 
         private string GetHtmlForOrganizationBranches(IEnumerable<Branch> branches)

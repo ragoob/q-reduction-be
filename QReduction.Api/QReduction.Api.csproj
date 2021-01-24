@@ -48,7 +48,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Branches\" />
     <Folder Include="wwwroot\UserUploads\" />
   </ItemGroup>
 
