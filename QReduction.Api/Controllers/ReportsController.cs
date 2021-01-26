@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using IronPdf;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -15,6 +16,8 @@ using QReduction.Core.Service.Generic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
@@ -146,7 +149,36 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             return Ok(ReturendModel);
         }
 
+        [HttpPost]
+        [Route("OrganizationVisitorTotalReportFile")]
+        [CustomAuthorizationFilter("Evaluation.Add")]
+        [ApiExplorerSettings(GroupName = "Admin")]
+        public async Task<IActionResult> OrganizationVisitorTotalReportFile(OragnizationTotalVisitorRequest oragnizationTotalVisitorRequest)
+        {
+            var dataList = oragnizationTotalVisitorRequest.BranchId.HasValue ? await _shiftQueueService.FindAsync(v => v.UserBy.OrganizationId == OrganizationId &&
+                   v.Shift.BranchId == oragnizationTotalVisitorRequest.BranchId.Value &&
+                    v.IsServiceDone == true
 
+                     , "UserMobile",
+                     "Shift.Branch"
+
+             ) :
+               await _shiftQueueService.FindAsync(v => v.UserBy.OrganizationId == OrganizationId &&
+                     v.IsServiceDone == true
+
+                     , "UserMobile",
+                     "Shift.Branch"
+             );
+            var dataListVm = dataList.Distinct().GroupBy(r => r.UserMobile).Select
+                (r => new OragnizationTotalVisitorResponse() { MobileUser = r.Key, NumberOfVisits = r.Count() }).OrderByDescending(c => c.NumberOfVisits)
+                .AsQueryable();
+
+            var OragnizationTotalVisitorResponseHtml = GetHtmlForOragnizationTotalVisitor(dataListVm);
+
+            var file = HtmlToPdf.StaticRenderHtmlAsPdf(OragnizationTotalVisitorResponseHtml);
+            return File(file.BinaryData, "application/pdf", "OragnizationTotalVisitor.pdf");
+
+        }
 
         [HttpPost]
         [Route("VisitorTotalReport")]
@@ -185,7 +217,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             var VisitorResponse = new VisitorResponse()
             {
                 NumberOfVisits = queryGroup.Sum(c => c.NumberOfVisits),
-                NumberOfUsers = queryGroup.Count( )
+                NumberOfUsers = queryGroup.Count()
             };
 
 
@@ -238,10 +270,64 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         }
 
 
+        private string GetHtmlForOragnizationTotalVisitor(IQueryable<OragnizationTotalVisitorResponse> OragnizationTotalVisitorResponses)
+        {
+            var stringBuilder = new StringBuilder();
 
+            stringBuilder.Append(@"
+                        <html>
+                            <head>
+                                <style>
+                                header {
+                                    text-align: center;
+                                    color: green;
+                                    padding-bottom: 35px;
+                                }
 
+                                table {
+                                    width: 80%;
+                                    border-collapse: collapse;
+                                }
 
+                                td, th {
+                                    border: 1px solid gray;
+                                    padding: 15px;
+                                    font-size: 22px;
+                                    text-align: center;
+                                }
 
+                                table th {
+                                    background-color: green;
+                                    color: white;
+                                }
+                                </style>
+                            </head>
+                            <body>
+                                <div class='header'><h1></h1></div>
+                                <table align='center'>
+                                    <tr>
+                                        <th>First name </th>
+                                        <th>Last name</th>
+                                        <th>Number Of Visits</th>
+                                    </tr>");
+
+            foreach (var vistor in OragnizationTotalVisitorResponses)
+            {
+                stringBuilder.AppendFormat($@"<tr>
+                                    <td>{vistor.MobileUser.FirstName}</td>
+                                    <td>{vistor.MobileUser.LastName}</td>
+                                    <td>{vistor.NumberOfVisits}</td>
+                                  </tr>");
+            }
+
+            stringBuilder.Append(@"
+                                </table>
+                            </body>
+                        </html>");
+
+            return stringBuilder.ToString();
+
+        }
 
         #endregion
     }
