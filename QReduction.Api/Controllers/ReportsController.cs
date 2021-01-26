@@ -290,7 +290,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             PagedListModel<OragnizationDetailVisitorResponse> ReturendModel = new PagedListModel<OragnizationDetailVisitorResponse>();
 
             ReturendModel.DataList = pagedListModel.DataList.Select
-                (r => new OragnizationDetailVisitorResponse() { MobileUser = r.UserMobile, TellerUser = r.UserBy, Service = r.Service, DateTime = DateTime.Now });
+                (r => new OragnizationDetailVisitorResponse() { MobileUser = r.UserMobile, TellerUser = r.UserBy, Service = r.Service, DateTime = r.CreatedDate});
 
             ReturendModel.QueryOptions = pagedListModel.QueryOptions;
 
