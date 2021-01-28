@@ -25,6 +25,7 @@ namespace QReduction.Api.BackgroundJobs
         private readonly IServiceProvider _serviceProvider;
 
 
+        #region CommentedCtor
         //public GenerateOrganizationBranchReportJob(
         //    DatabaseContext databaseContext,
         //    IEmailSender emailSender,
@@ -32,7 +33,8 @@ namespace QReduction.Api.BackgroundJobs
         //{
         //    _databaseContext = databaseContext;
         //    _emailSender = emailSender;
-        //}
+        //} 
+        #endregion
 
         public GenerateOrganizationBranchReportJob(IServiceProvider serviceProvider)
         {
@@ -42,28 +44,29 @@ namespace QReduction.Api.BackgroundJobs
         {
             try
             {
-                //_databaseContext = _serviceProvider.GetRequiredService<DatabaseContext>(); 
                 using (var scope = _serviceProvider.CreateScope())
                 {
                     _databaseContext = scope.ServiceProvider.GetService<IDatabaseContext>();
                     _emailSender = scope.ServiceProvider.GetRequiredService<IEmailSender>();
 
-                   
-                        var JobRequests = _databaseContext.Set<JobRequest>()
-                                                .Where(c => !c.IsDone && c.JobId == (int)Core.Job.BranchReport).
-                                                Include(c => c.JobRequestParameters);
 
-                        foreach (var _request in JobRequests)
-                        {
-                            var organization = _request.JobRequestParameters.FirstOrDefault(c => c.Name == "organiztionId");
-                            var email = _request.JobRequestParameters.FirstOrDefault(c => c.Name == "Email");
-                            var orgId = int.Parse(organization.Value);
-                            var mail = email.Value;
-                            await SendPdfFile(orgId, mail);
-                            _request.IsDone = true;
-                        }
+                    var JobRequests = _databaseContext.Set<JobRequest>()
+                                            .Where(c => !c.IsDone && c.JobId == (int)Core.Job.BranchReport).
+                                            Include(c => c.JobRequestParameters);
+
+                    foreach (var _request in JobRequests)
+                    {
+                        var organization = _request.JobRequestParameters.FirstOrDefault(c => c.Name == "organiztionId");
+                        var email = _request.JobRequestParameters.FirstOrDefault(c => c.Name == "Email");
+                        var orgId = int.Parse(organization.Value);
+                        var mail = email.Value;
+                        await SendPdfFile(orgId, mail);
+                        _request.IsDone = true;
+                    }
+                    if (JobRequests.Count() > 0)
                         await _databaseContext.SaveChangesAsync();
-                   
+                    
+
                 }
 
             }
