@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using QReduction.Core;
+using QReduction.Core.Domain;
 using QReduction.Infrastructure.DbMappings;
 using System;
 using System.Collections.Generic;
@@ -36,6 +38,7 @@ namespace QReduction.Infrastructure.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             RegisterDomainModels(modelBuilder);
+            SeedData(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
 
@@ -188,6 +191,10 @@ namespace QReduction.Infrastructure.DbContexts
                 });
         }
 
+        private void SeedData(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Core.Domain.Job>().HasData(new Core.Domain.Job {Id = (int)Core.Job.BranchReport , Name =$"{Core.Job.BranchReport}"});
+        }
         #endregion
     }
 }

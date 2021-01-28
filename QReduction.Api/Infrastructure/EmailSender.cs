@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,7 +20,7 @@ namespace QReduction.Apis.Infrastructure
             _configuration = configuration;
         }
 
-        public Task SendMail(string[] to, string subject, string body, string attachmentPath)
+        public Task SendMail(string[] to, string subject, string body, string contentType = null, byte[] contentByte = null, string fileName =null)
         {
             var appSettings = _configuration.GetSection("AppSettings");
 
@@ -38,8 +40,12 @@ namespace QReduction.Apis.Infrastructure
 
             mailMessage.Subject = subject;
             mailMessage.Body = body;
-            if (!string.IsNullOrEmpty(attachmentPath))
-                mailMessage.Attachments.Add(new Attachment(attachmentPath));
+            if (!string.IsNullOrEmpty(contentType))
+            {
+                var attach = new Attachment(contentStream: new MemoryStream(contentByte), contentType: new ContentType(contentType));
+                attach.ContentDisposition.FileName = fileName;
+                mailMessage.Attachments.Add(attach);
+            }
             foreach (var item in to)
                 mailMessage.To.Add(item);
 

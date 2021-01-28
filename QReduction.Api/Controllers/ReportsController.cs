@@ -227,7 +227,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 
 
         [HttpPost]
-        [Route("VisitorTotalReport")]
+        [Route("VisitorTotalReportFile")]
         [CustomAuthorizationFilter("Evaluation.Add")]
         [ApiExplorerSettings(GroupName = "Admin")]
         public async Task<IActionResult> VisitorTotalReportFile(VisitorTotalRequest VisitorTotalRequest)

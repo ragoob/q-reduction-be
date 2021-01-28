@@ -15,6 +15,10 @@ using QReduction.Infrastructure.UnitOfWorks;
 using QReduction.Services.Generic;
 using QReduction.Services.Custom;
 using QReduction.Api.ShiftBackgroundServices;
+using QReduction.Api.BackgroundJobs;
+using Quartz.Spi;
+using Quartz;
+using Quartz.Impl;
 
 namespace QReduction.Apis.Infrastructure
 {
@@ -43,7 +47,7 @@ namespace QReduction.Apis.Infrastructure
             #endregion
 
             #region AddHostedService
-            services.AddHostedService<ShiftHostedService>();
+           // services.AddHostedService<ShiftHostedService>();
 
             #endregion
 
@@ -67,7 +71,13 @@ namespace QReduction.Apis.Infrastructure
             #endregion
 
 
-            #region SingleTonePdf
+            #region SingleTone
+
+            services.AddSingleton<IJobFactory, SingletonJobFactory>();
+            services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+            services.AddSingleton<GenerateOrganizationBranchReportJob>();
+            services.AddSingleton(new JobSchedule(jobType: typeof(GenerateOrganizationBranchReportJob), intervals: 5, true, 5));
+            services.AddHostedService<QuartizHostService>();
 
             //services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 

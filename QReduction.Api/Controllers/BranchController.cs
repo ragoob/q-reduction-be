@@ -38,18 +38,20 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         private readonly IService<Service> _servicesService;
         private readonly IService<User> _userService;
 
+        private readonly IService<JobRequest> _jobRequestService;
         private readonly IHostingEnvironment _env;
         private readonly IEmailSender _emailSender;
 
         #endregion
 
         #region ctor
-        public BranchController(IHostingEnvironment env, IEmailSender emailSender, IService<Branch> branchService, IService<BranchService> branchServicesService, IService<Service> servicesService, IService<User> userService)
+        public BranchController(IHostingEnvironment env, IEmailSender emailSender, IService<Branch> branchService, IService<BranchService> branchServicesService, IService<JobRequest> jobRequestService, IService<Service> servicesService, IService<User> userService)
         {
             _branchService = branchService;
             _branchServicesService = branchServicesService;
             _servicesService = servicesService;
             _userService = userService;
+            _jobRequestService = jobRequestService;
             _env = env;
             _emailSender = emailSender;
 
@@ -298,14 +300,27 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             Console.WriteLine("Starting generate file");
             try
             {
-                //var data = await _branchService.FindAsync(b => b.OrganizationId == OrganizationId);
-                //Console.WriteLine($"Branches count {data.Count()}");
-                //var html = GetHtmlForOrganizationBranches(data);
-                //Console.WriteLine("Html generated successfully");
-                //var file = HtmlToPdf.StaticRenderHtmlAsPdf(html);
-                //file.SaveAs($"{_env.WebRootPath}/Branches/{Guid.NewGuid()}");
-                //SendPdfFile(OrganizationId, UserId);
-                SendPdfFile(_branchService, OrganizationId, UserId);
+                
+                var user = _userService.GetById(UserId);
+                var request = new JobRequest()
+                {
+                    IsDone = false,
+                    JobId = (int)Core.Job.BranchReport
+                };
+                
+                request.JobRequestParameters.Add (new JobRequestParameter()
+                {
+                    Name = "organiztionId",
+                    ValueType = "int",
+                    Value = $"{OrganizationId}"
+                });
+                request.JobRequestParameters.Add(new JobRequestParameter()
+                {
+                    Name = "Email",
+                    ValueType = "string",
+                    Value = $"{user.Email}"
+                });
+                await _jobRequestService.AddAsync(request);
                 return Ok("File Will be sent in your mail soon");
             }
             catch (Exception ex)
@@ -351,7 +366,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             var user = _userService.GetById(userId);
             if (!(user is object))
                 return;
-            _emailSender.SendMail(to: new string[] { user.Email }, $"Branchs {DateTime.Now.Date}", string.Empty, filePath);
+           await _emailSender.SendMail(to: new string[] { user.Email }, $"Branchs {DateTime.Now.Date}", string.Empty, filePath);
         }
 
         private string GetHtmlForOrganizationBranches(IEnumerable<Branch> branches)
