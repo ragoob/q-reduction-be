@@ -7,7 +7,6 @@ RUN ["apt-get", "-y", "install", "libgdiplus"]
 RUN ["apt-get", "-y", "install", "xvfb", "libfontconfig", "wkhtmltopdf"]
 RUN ["apt-get", "-y", "install", "libc6-dev"]
 RUN ["apt-get", "-y", "install", "openssl"]
-RUN ["apt-get", "-y", "install", "libssl1.0-dev"]
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 
@@ -17,7 +16,6 @@ RUN ["apt-get", "-y", "install", "libgdiplus"]
 RUN ["apt-get", "-y", "install", "xvfb", "libfontconfig", "wkhtmltopdf"]
 RUN ["apt-get", "-y", "install", "libc6-dev"]
 RUN ["apt-get", "-y", "install", "openssl"]
-RUN ["apt-get", "-y", "install", "libssl1.0-dev"]
 
 WORKDIR /src
 COPY ["QReduction.Api/QReduction.Api.csproj", "QReduction.Api/"]
