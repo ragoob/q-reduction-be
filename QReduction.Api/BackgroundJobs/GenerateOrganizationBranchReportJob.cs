@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using IronPdf;
+using Microsoft.EntityFrameworkCore;
 using QRCoder;
 using QReduction.Core.Domain;
 using QReduction.Infrastructure.DbContexts;
@@ -12,11 +13,6 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
-using Syncfusion.Pdf;
-using Syncfusion.Pdf.Graphics;
-using Syncfusion.Drawing;
-using Microsoft.AspNetCore.Mvc;
-using Syncfusion.HtmlConverter;
 
 namespace QReduction.Api.BackgroundJobs
 {
@@ -66,9 +62,11 @@ namespace QReduction.Api.BackgroundJobs
                         var mail = email.Value;
                         await SendPdfFile(orgId, mail);
                         _request.IsDone = true;
+                        _databaseContext.Set<JobRequest>().Update(_request);
+                       await _databaseContext.SaveChangesAsync();
+
                     }
-                    if (JobRequests.Count() > 0)
-                        await _databaseContext.SaveChangesAsync();
+                    
                 }
 
             }
@@ -89,24 +87,8 @@ namespace QReduction.Api.BackgroundJobs
                 Console.WriteLine($"Branches count {data.Count()}");
                 var html = GetHtmlForOrganizationBranches(data);
                 Console.WriteLine("Html generated successfully");
-                //var file = HtmlToPdf.StaticRenderHtmlAsPdf(html);
-
-                HtmlToPdfConverter htmlConverter = new HtmlToPdfConverter();
-                WebKitConverterSettings settings = new WebKitConverterSettings();
-
-                PdfDocument document = htmlConverter.Convert(html, "");
-                PdfPage page = document.Pages.Add();
-                PdfGraphics graphics = page.Graphics;
-                PdfFont font = new PdfStandardFont(PdfFontFamily.Helvetica, 20);
-                graphics.DrawString(html, font, PdfBrushes.Black, new PointF(0, 0));
-                MemoryStream stream = new MemoryStream();
-
-                document.Save(stream);
-                stream.Position = 0;
-
-                //Download the PDF document in the browser
-                var file = stream.ToArray();
-                  await _emailSender.SendMail(to: new string[] { mail }, $"Branchs {DateTime.Now.Date}", string.Empty, "application/pdf", file, "Branches.pdf");
+                var file = await HtmlToPdf.StaticRenderHtmlAsPdfAsync(html);
+                await _emailSender.SendMail(to: new string[] { mail }, $"Branchs {DateTime.Now.Date}", string.Empty, "application/pdf", file.BinaryData, "Branches.pdf");
             }
             catch (Exception ex)
             {
@@ -193,7 +175,7 @@ namespace QReduction.Api.BackgroundJobs
                 try
                 {
 
-                    QrImage.Save(MemoryStream, System.Drawing.Imaging.ImageFormat.Png);
+                    QrImage.Save(MemoryStream, ImageFormat.Png);
                     var bytes = MemoryStream.ToArray();
                     var base64 = Convert.ToBase64String(bytes);
                     return base64;
@@ -206,8 +188,6 @@ namespace QReduction.Api.BackgroundJobs
                 }
             }
         }
-
-        
 
     }
 }
