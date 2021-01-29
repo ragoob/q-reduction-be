@@ -31,14 +31,12 @@ namespace QReduction.Apis.Controllers.Membership
         #region fields
         private readonly IUserService _userService;
         private readonly IEncryptionProvider _encryptionProvider;
-        private readonly IHostingEnvironment _environment;
+        private readonly IWebHostEnvironment _environment;
         private readonly ITokenProvider _tokenProvider;
         //private readonly IService<UserPagePermission> _userPagePermissionService;
         //private readonly IService<SystemPagePermission> _systemPagePermissionService;
         private readonly Infrastructure.IEmailSender _emailSender;
         private readonly ISMSService _smsService;
-
-        private readonly FacebookService _facebookService;
         private readonly IService<Branch> _branchService;
         private readonly IService<Organization> _organizationService;
 
@@ -52,7 +50,7 @@ namespace QReduction.Apis.Controllers.Membership
             ITokenProvider tokenProvider,
             IEmailSender emailSender,
             ISMSService smsService,
-            IHostingEnvironment environment,
+            IWebHostEnvironment environment,
             IService<Branch> branchService,
             IService<Organization> organizationService
             //IService<UserPagePermission> userPagePermissionService,

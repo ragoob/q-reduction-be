@@ -126,7 +126,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
 
 

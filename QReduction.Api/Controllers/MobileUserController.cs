@@ -16,7 +16,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
 using QReduction.Api.Models;
-using Swashbuckle.AspNetCore.Annotations;
+//using Swashbuckle.AspNetCore.Annotations;
 using QReduction.Apis.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860

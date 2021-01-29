@@ -39,13 +39,13 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         private readonly IService<User> _userService;
 
         private readonly IService<JobRequest> _jobRequestService;
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
         private readonly IEmailSender _emailSender;
 
         #endregion
 
         #region ctor
-        public BranchController(IHostingEnvironment env, IEmailSender emailSender, IService<Branch> branchService, IService<BranchService> branchServicesService, IService<JobRequest> jobRequestService, IService<Service> servicesService, IService<User> userService)
+        public BranchController(IWebHostEnvironment env, IEmailSender emailSender, IService<Branch> branchService, IService<BranchService> branchServicesService, IService<JobRequest> jobRequestService, IService<Service> servicesService, IService<User> userService)
         {
             _branchService = branchService;
             _branchServicesService = branchServicesService;
