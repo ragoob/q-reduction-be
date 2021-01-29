@@ -2,20 +2,22 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
 EXPOSE 80
 
-RUN ["apt-get", "update"]
-RUN ["apt-get", "-y", "install", "libgdiplus"]
-RUN ["apt-get", "-y", "install", "xvfb", "libfontconfig", "wkhtmltopdf"]
-RUN ["apt-get", "-y", "install", "libc6-dev"]
-RUN ["apt-get", "-y", "install", "openssl"]
+RUN apt-get update \
+    && apt-get install -y --allow-unauthenticated \
+        libc6-dev \
+        libgdiplus \
+        libx11-dev \
+     && rm -rf /var/lib/apt/lists/*
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 
 
-RUN ["apt-get", "update"]
-RUN ["apt-get", "-y", "install", "libgdiplus"]
-RUN ["apt-get", "-y", "install", "xvfb", "libfontconfig", "wkhtmltopdf"]
-RUN ["apt-get", "-y", "install", "libc6-dev"]
-RUN ["apt-get", "-y", "install", "openssl"]
+RUN apt-get update \
+    && apt-get install -y --allow-unauthenticated \
+        libc6-dev \
+        libgdiplus \
+        libx11-dev \
+     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /src
 COPY ["QReduction.Api/QReduction.Api.csproj", "QReduction.Api/"]

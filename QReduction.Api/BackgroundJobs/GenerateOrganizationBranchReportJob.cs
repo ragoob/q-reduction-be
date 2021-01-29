@@ -87,7 +87,7 @@ namespace QReduction.Api.BackgroundJobs
                 Console.WriteLine($"Branches count {data.Count()}");
                 var html = GetHtmlForOrganizationBranches(data);
                 Console.WriteLine("Html generated successfully");
-                var file = HtmlToPdf.StaticRenderHtmlAsPdf(html);
+                var file = await HtmlToPdf.StaticRenderHtmlAsPdfAsync(html);
                 await _emailSender.SendMail(to: new string[] { mail }, $"Branchs {DateTime.Now.Date}", string.Empty, "application/pdf", file.BinaryData, "Branches.pdf");
             }
             catch (Exception ex)
