@@ -76,7 +76,7 @@ namespace QReduction.Apis.Infrastructure
             services.AddSingleton<IJobFactory, SingletonJobFactory>();
             services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
             services.AddSingleton<GenerateOrganizationBranchReportJob>();
-            services.AddSingleton(new JobSchedule(jobType: typeof(GenerateOrganizationBranchReportJob), intervals: 5, true, 5));
+            services.AddSingleton(new JobSchedule(jobType: typeof(GenerateOrganizationBranchReportJob), intervals: 5,false, 5));
             services.AddHostedService<QuartizHostService>();
 
             //services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
