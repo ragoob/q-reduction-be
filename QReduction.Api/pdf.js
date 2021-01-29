@@ -9,7 +9,7 @@
                 recipe: 'phantom-pdf'
             },
             data: {
-                foo: "world"
+           
             }
         }).then(function (resp) {
             callback(/* error */ null, resp.content.toJSON().data);
