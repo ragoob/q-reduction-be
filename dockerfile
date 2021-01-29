@@ -10,7 +10,6 @@ RUN ["apt-get", "-y", "install", "libssl1.0-dev"]
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
 
-RUN apt-get install -y libgdiplus xvfb libfontconfig wkhtmltopdf libc6-dev openssl libssl1.0-dev
 
 RUN ["apt-get", "update"]
 RUN ["apt-get", "-y", "install", "libgdiplus"]
