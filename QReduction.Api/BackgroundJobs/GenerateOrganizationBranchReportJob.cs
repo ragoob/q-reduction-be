@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.NodeServices;
+using System.Drawing;
 
 namespace QReduction.Api.BackgroundJobs
 {
@@ -54,7 +55,8 @@ namespace QReduction.Api.BackgroundJobs
 
                     var JobRequests = _databaseContext.Set<JobRequest>()
                                             .Where(c => !c.IsDone && c.JobId == (int)Core.Job.BranchReport).
-                                            Include(c => c.JobRequestParameters);
+                                            Include(c => c.JobRequestParameters).ToList();
+
 
                     foreach (var _request in JobRequests)
                     {
@@ -97,7 +99,7 @@ namespace QReduction.Api.BackgroundJobs
             catch (Exception ex)
             {
                 Console.WriteLine($"SendPdfFile function error {ex.Message}");
-                throw;
+               
             }
         }
 
@@ -146,7 +148,7 @@ namespace QReduction.Api.BackgroundJobs
                                     <p>{branch.NameEn}</p>
                                    <p>{branch.NameAr}</p>
                                    <br />
-                                   <img src='data:image/png;base64,{qrCode}' width='450' height='450' />
+                                   <img src='data:image/jpeg;base64,{qrCode}' width='450' height='450' />
                                  </div>
                                 </div>
                                 <div style='page-break-after: always;'> </div>
@@ -167,29 +169,32 @@ namespace QReduction.Api.BackgroundJobs
 
         private string GenerateQrCode(string data)
         {
-            Console.WriteLine("Start generate qr code");
-            QRCodeGenerator Qr = new QRCodeGenerator();
-            QRCodeData QrCodeData = Qr.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
-            QRCode qrCode = new QRCode(QrCodeData);
-
-            var QrImage = qrCode.GetGraphic(550);
-            // Convert.ToBase64String(QrImage);
-            using (var MemoryStream = new MemoryStream())
+            try
             {
-                try
-                {
+                QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(data,
+                QRCodeGenerator.ECCLevel.Q);
+                QRCode qrCode = new QRCode(qrCodeData);
+                Bitmap qrCodeImage = qrCode.GetGraphic(550);
+                byte[] imageByte = BitmapToBytes(qrCodeImage);
+                string base64String = Convert.ToBase64String(imageByte);
 
-                    QrImage.Save(MemoryStream, ImageFormat.Png);
-                    var bytes = MemoryStream.ToArray();
-                    var base64 = Convert.ToBase64String(bytes);
-                    return base64;
-                }
-                catch (System.Exception ex)
-                {
-                    Console.WriteLine($"Error in GenerateQrCode function {ex.Message}");
-                    MemoryStream.Dispose();
-                    return string.Empty;
-                }
+                return base64String;
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"Failed to generate QRCode {ex.Message}");
+                return string.Empty;
+            }
+        }
+
+        private  Byte[] BitmapToBytes(Bitmap img)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                return stream.ToArray();
             }
         }
 
