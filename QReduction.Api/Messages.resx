@@ -222,4 +222,7 @@
   <data name="PhoneNumberRequired" xml:space="preserve">
     <value>Phone Required</value>
   </data>
+  <data name="FileWillBeSentSoon" xml:space="preserve">
+    <value>File Wil lBe Sent Soon</value>
+  </data>
 </root>

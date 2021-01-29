@@ -65,29 +65,34 @@ namespace QReduction.Api.BackgroundJobs
                     }
                     if (JobRequests.Count() > 0)
                         await _databaseContext.SaveChangesAsync();
-                    
-
                 }
 
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Execute function error {ex.Message}");
 
-                throw;
             }
 
         }
 
         private async Task SendPdfFile(int organiztionId, string mail)
         {
-            var data = _databaseContext.Set<Branch>().Where(c => c.OrganizationId == organiztionId).AsNoTracking();
+            try
+            {
+                var data = _databaseContext.Set<Branch>().Where(c => c.OrganizationId == organiztionId).AsNoTracking();
 
-            Console.WriteLine($"Branches count {data.Count()}");
-            var html = GetHtmlForOrganizationBranches(data);
-            Console.WriteLine("Html generated successfully");
-            var file = HtmlToPdf.StaticRenderHtmlAsPdf(html);
-
-            await _emailSender.SendMail(to: new string[] { mail }, $"Branchs {DateTime.Now.Date}", string.Empty, "application/pdf", file.BinaryData, "Branches.pdf");
+                Console.WriteLine($"Branches count {data.Count()}");
+                var html = GetHtmlForOrganizationBranches(data);
+                Console.WriteLine("Html generated successfully");
+                var file = HtmlToPdf.StaticRenderHtmlAsPdf(html);
+                await _emailSender.SendMail(to: new string[] { mail }, $"Branchs {DateTime.Now.Date}", string.Empty, "application/pdf", file.BinaryData, "Branches.pdf");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"SendPdfFile function error {ex.Message}");
+                throw;
+            }
         }
 
 

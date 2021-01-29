@@ -321,7 +321,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
                     Value = $"{user.Email}"
                 });
                 await _jobRequestService.AddAsync(request);
-                return Ok("File Will be sent in your mail soon");
+                return Ok(Messages.FileWillBeSentSoon);
             }
             catch (Exception ex)
             {

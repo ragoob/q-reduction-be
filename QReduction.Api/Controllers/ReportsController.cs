@@ -138,6 +138,12 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 
             );
 
+            if (oragnizationTotalVisitorRequest.DateFrom.HasValue && oragnizationTotalVisitorRequest.DateTo.HasValue)
+            {
+                pagedListModel.DataList = pagedListModel.DataList.Where(c => c.CreatedDate >= oragnizationTotalVisitorRequest.DateFrom.Value
+              && c.CreatedDate <= oragnizationTotalVisitorRequest.DateTo.Value);
+            }
+
             PagedListModel<OragnizationTotalVisitorResponse> ReturendModel = new PagedListModel<OragnizationTotalVisitorResponse>();
 
 
@@ -208,7 +214,11 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
             );
 
             //PagedListModel<OragnizationTotalVisitorResponse> ReturendModel = new PagedListModel<OragnizationTotalVisitorResponse>();
-
+            if (VisitorTotalRequest.DateFrom.HasValue && VisitorTotalRequest.DateTo.HasValue)
+            {
+                pagedListModel.DataList = pagedListModel.DataList.Where(c => c.CreatedDate >= VisitorTotalRequest.DateFrom.Value
+              && c.CreatedDate <= VisitorTotalRequest.DateTo.Value);
+            }
 
             var queryGroup = pagedListModel.DataList.Distinct().GroupBy(r => r.UserMobile).Select
                 (r => new OragnizationTotalVisitorResponse() { MobileUser = r.Key, NumberOfVisits = r.Count() }).OrderByDescending(c => c.NumberOfVisits);
