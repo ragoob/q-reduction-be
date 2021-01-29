@@ -13,6 +13,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.NodeServices;
 
 namespace QReduction.Api.BackgroundJobs
 {
@@ -23,7 +24,7 @@ namespace QReduction.Api.BackgroundJobs
         private IEmailSender _emailSender;
 
         private readonly IServiceProvider _serviceProvider;
-
+        private readonly INodeServices _nodeServices;
 
         #region CommentedCtor
         //public GenerateOrganizationBranchReportJob(
@@ -36,9 +37,10 @@ namespace QReduction.Api.BackgroundJobs
         //} 
         #endregion
 
-        public GenerateOrganizationBranchReportJob(IServiceProvider serviceProvider)
+        public GenerateOrganizationBranchReportJob(IServiceProvider serviceProvider, INodeServices nodeServices)
         {
             _serviceProvider = serviceProvider;
+            _nodeServices = nodeServices;
         }
         public async Task Execute(IJobExecutionContext context)
         {
@@ -87,8 +89,10 @@ namespace QReduction.Api.BackgroundJobs
                 Console.WriteLine($"Branches count {data.Count()}");
                 var html = GetHtmlForOrganizationBranches(data);
                 Console.WriteLine("Html generated successfully");
-                var file = await HtmlToPdf.StaticRenderHtmlAsPdfAsync(html);
-                await _emailSender.SendMail(to: new string[] { mail }, $"Branchs {DateTime.Now.Date}", string.Empty, "application/pdf", file.BinaryData, "Branches.pdf");
+                //var file = await HtmlToPdf.StaticRenderHtmlAsPdfAsync(html);
+                var file = await _nodeServices.InvokeAsync<byte[]>("./pdf",html);
+
+                await _emailSender.SendMail(to: new string[] { mail }, $"Branchs {DateTime.Now.Date}", string.Empty, "application/pdf", file, "Branches.pdf");
             }
             catch (Exception ex)
             {

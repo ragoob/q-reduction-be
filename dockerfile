@@ -1,40 +1,12 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-stretch-slim AS base
 WORKDIR /app
 EXPOSE 80
-RUN ["apt-get", "update"]
-RUN ["apt-get", "-y", "install", "libgdiplus"]
-RUN ["apt-get", "-y", "install", "xvfb", "libfontconfig", "wkhtmltopdf"]
-RUN ["apt-get", "-y", "install", "libc6-dev"]
-RUN ["apt-get", "-y", "install", "openssl"]
-RUN ["apt-get", "-y", "install", "libssl1.0-dev"]
-RUN echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
-    && echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories \
-    && apk add --no-cache \
-    harfbuzz@edge \
-    nss@edge \
-    freetype@edge \
-    ttf-freefont@edge \
-    && rm -rf /var/cache/* \
-    && mkdir /var/cache/apk
+
+
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && apt-get install -yq nodejs build-essential
 
 
-RUN ["apt-get", "update"]
-RUN ["apt-get", "-y", "install", "libgdiplus"]
-RUN ["apt-get", "-y", "install", "xvfb", "libfontconfig", "wkhtmltopdf"]
-RUN ["apt-get", "-y", "install", "libc6-dev"]
-RUN ["apt-get", "-y", "install", "openssl"]
-RUN ["apt-get", "-y", "install", "libssl1.0-dev"]
-RUN echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
-    && echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories \
-    && apk add --no-cache \
-    harfbuzz@edge \
-    nss@edge \
-    freetype@edge \
-    ttf-freefont@edge \
-    && rm -rf /var/cache/* \
-    && mkdir /var/cache/apk
-     
 WORKDIR /src
 COPY ["QReduction.Api/QReduction.Api.csproj", "QReduction.Api/"]
 COPY ["QReduction.Core/QReduction.Core.csproj", "QReduction.Core/"]
@@ -43,6 +15,9 @@ COPY ["QReduction.Services/QReduction.Services.csproj", "QReduction.Services/"]
 RUN dotnet restore "QReduction.Api/QReduction.Api.csproj"
 COPY . .
 WORKDIR "/src/QReduction.Api"
+RUN npm install -g npm
+RUN npm install
+
 RUN dotnet build "QReduction.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish

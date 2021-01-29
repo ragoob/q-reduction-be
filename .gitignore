@@ -1,3 +1,4 @@
 bin
 obj
 .vs
+/QReduction.Api/node_modules

@@ -37,7 +37,7 @@ namespace QReduction.Api
         );
 
             DependancyInjectionConfig.Config(services, Configuration);
-
+            services.AddNodeServices();
             JWTConfig.Config(services, Configuration);
            
             services.AddCors(o => o.AddPolicy("QReductionPolicy", buillder =>

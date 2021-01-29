@@ -1,0 +1,16 @@
+{
+  "name": "qreduction.api",
+  "version": "1.0.0",
+  "description": "generate pdf job",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mohammed ragab",
+  "license": "ISC",
+  "dependencies": {
+    "jsreport-core": "^2.10.1",
+    "jsreport-jsrender": "^2.1.1",
+    "jsreport-phantom-pdf": "^2.6.1"
+  }
+}
