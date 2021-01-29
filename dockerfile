@@ -27,8 +27,7 @@ COPY ["QReduction.Services/QReduction.Services.csproj", "QReduction.Services/"]
 RUN dotnet restore "QReduction.Api/QReduction.Api.csproj"
 COPY . .
 WORKDIR "/src/QReduction.Api"
-RUN npm install -g npm
-RUN npm install
+
 
 RUN dotnet build "QReduction.Api.csproj" -c Release -o /app/build
 
