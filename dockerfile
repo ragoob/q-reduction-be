@@ -8,9 +8,8 @@ RUN apt-get update \
         libgdiplus \
         libx11-dev \
      && rm -rf /var/lib/apt/lists/*
-
-RUN apt-get -y install curl dirmngr apt-transport-https lsb-release ca-certificates
-RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+RUN apt-get -y install curl
+RUN curl -sL https://deb.nodesource.com/setup_12.x  | bash -
 RUN apt-get -y install nodejs
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
@@ -22,9 +21,8 @@ RUN apt-get update \
         libgdiplus \
         libx11-dev \
      && rm -rf /var/lib/apt/lists/*
-
-RUN apt-get -y install curl dirmngr apt-transport-https lsb-release ca-certificates
-RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+RUN apt-get -y install curl
+RUN curl -sL https://deb.nodesource.com/setup_12.x  | bash -
 RUN apt-get -y install nodejs
 
 WORKDIR /src
