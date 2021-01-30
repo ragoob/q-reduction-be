@@ -25,7 +25,7 @@ namespace QReduction.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors("QReductionPolicy")]
+   // [EnableCors("QReductionPolicy")]
     [ValidateModelFilter]
   //  [ApiExplorerSettings(GroupName = "Mobile")]
  

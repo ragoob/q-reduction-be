@@ -22,7 +22,7 @@ using static Google.Apis.Auth.GoogleJsonWebSignature;
 namespace QReduction.Apis.Controllers.Membership
 {
     //LoginGmail
-    [EnableCors("QReductionPolicy")]
+    //[EnableCors("QReductionPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthenticationController : CustomBaseController

@@ -18,7 +18,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors("QReductionPolicy")]
+    //[EnableCors("QReductionPolicy")]
     [ValidateModelFilter]
     [ApiExplorerSettings(GroupName = "Admin")]
     public class ServiceController : CustomBaseController
