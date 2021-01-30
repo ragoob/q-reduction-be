@@ -65,7 +65,7 @@ namespace QReduction.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors();
+            app.UseCors("QReductionPolicy");
 
             //app.UseCors();
             app.UseHttpsRedirection();
