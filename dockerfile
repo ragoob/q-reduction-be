@@ -2,16 +2,6 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
 EXPOSE 80
 
-RUN apt-get update \
-    && apt-get install -y --allow-unauthenticated \
-        libc6-dev \
-        libgdiplus \
-        libx11-dev \
-     && rm -rf /var/lib/apt/lists/*
-RUN apt-get -y install curl
-RUN curl -sL https://deb.nodesource.com/setup_12.x  | bash -
-RUN apt-get -y install nodejs
-
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 
 
