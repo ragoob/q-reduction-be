@@ -1,6 +1,4 @@
-﻿using IronPdf;
-using Microsoft.EntityFrameworkCore;
-using QRCoder;
+﻿using Microsoft.EntityFrameworkCore;
 using QReduction.Core.Domain;
 using QReduction.Infrastructure.DbContexts;
 using QReduction.Apis.Infrastructure;
@@ -166,33 +164,7 @@ namespace QReduction.Api.BackgroundJobs
 
         }
 
-        private string GenerateQrCode(string data)
-        {
-            Console.WriteLine("Start generate qr code");
-            QRCodeGenerator Qr = new QRCodeGenerator();
-            QRCodeData QrCodeData = Qr.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
-            QRCode qrCode = new QRCode(QrCodeData);
-
-            var QrImage = qrCode.GetGraphic(550);
-            // Convert.ToBase64String(QrImage);
-            using (var MemoryStream = new MemoryStream())
-            {
-                try
-                {
-
-                    QrImage.Save(MemoryStream, ImageFormat.Png);
-                    var bytes = MemoryStream.ToArray();
-                    var base64 = Convert.ToBase64String(bytes);
-                    return base64;
-                }
-                catch (System.Exception ex)
-                {
-                    Console.WriteLine($"Error in GenerateQrCode function {ex.Message}");
-                    MemoryStream.Dispose();
-                    return string.Empty;
-                }
-            }
-        }
+       
 
     }
 }

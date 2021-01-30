@@ -1,7 +1,7 @@
-﻿using IronPdf;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.NodeServices;
 using Microsoft.EntityFrameworkCore.Internal;
 using QReduction.Api;
 using QReduction.Api.Models;
@@ -32,18 +32,18 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         #region Fields
         private readonly IService<Evaluation> _EvaluationService;
         private readonly IService<EvaluationQuestionAnswer> _EvaluationQuestionAnswerService;
-
+        private readonly INodeServices _nodeServices;
         private readonly IShiftQueueService _shiftQueueService;
         #endregion
 
         #region ctor
-        public ReportsController(IShiftQueueService shiftQueueService, IService<Evaluation> EvaluationService, IService<EvaluationQuestionAnswer> EvalutionQuestionAnswer)
+        public ReportsController(IShiftQueueService shiftQueueService, IService<Evaluation> EvaluationService, IService<EvaluationQuestionAnswer> EvalutionQuestionAnswer, INodeServices nodeServices)
         {
 
             _shiftQueueService = shiftQueueService;
             _EvaluationService = EvaluationService;
             _EvaluationQuestionAnswerService = EvalutionQuestionAnswer;
-
+            _nodeServices = nodeServices;
         }
 
         #endregion
@@ -181,8 +181,9 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 
             var OragnizationTotalVisitorResponseHtml = GetHtmlForOragnizationTotalVisitor(dataListVm);
 
-            var file = HtmlToPdf.StaticRenderHtmlAsPdf(OragnizationTotalVisitorResponseHtml);
-            return File(file.BinaryData, "application/pdf", "OragnizationTotalVisitor.pdf");
+            var file = await _nodeServices.InvokeAsync<byte[]>("./html-to-pdf", OragnizationTotalVisitorResponseHtml);
+
+            return File(file, "application/pdf", "OragnizationTotalVisitor.pdf");
 
         }
 
@@ -278,8 +279,8 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 
             var VisitorResponseHtml = GetHtmlVisitorTotalReport(VisitorResponse);
 
-            var file = HtmlToPdf.StaticRenderHtmlAsPdf(VisitorResponseHtml);
-            return File(file.BinaryData, "application/pdf", "OragnizationTotalVisitor.pdf");
+            var file = await _nodeServices.InvokeAsync<byte[]>("./html-to-pdf", VisitorResponseHtml);
+            return File(file, "application/pdf", "OragnizationTotalVisitor.pdf");
 
         }
 
