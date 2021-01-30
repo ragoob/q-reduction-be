@@ -36,6 +36,6 @@ FROM build AS publish
 RUN dotnet publish "QReduction.Api.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
-RUN npm install
 COPY --from=publish /app/publish .
+RUN npm install
 ENTRYPOINT ["dotnet", "QReduction.Api.dll"]
