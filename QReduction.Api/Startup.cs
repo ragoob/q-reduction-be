@@ -13,6 +13,8 @@ using Microsoft.Extensions.Options;
 using QReduction.Apis.Infrastructure;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc.Cors;
+
 namespace QReduction.Api
 {
     public class Startup
@@ -39,6 +41,8 @@ namespace QReduction.Api
                 buillder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
             }));
 
+            services.AddMvc();
+            
             //Google Plus
             //services.AddAuthentication().AddGoogle(googleOptions =>
             //{
@@ -64,13 +68,13 @@ namespace QReduction.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseHttpsRedirection();
+            app.UseRouting();
 
             app.UseCors("QReductionPolicy");
 
             //app.UseCors();
-            app.UseHttpsRedirection();
             app.UseAuthentication();
-            app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {

@@ -22,7 +22,7 @@ namespace QReduction.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[EnableCors("QReductionPolicy")]
+    [EnableCors("QReductionPolicy")]
     [ValidateModelFilter]
     [ApiExplorerSettings(GroupName = "Admin")]
     public class ShiftController : CustomBaseController

@@ -25,11 +25,11 @@ namespace QReduction.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-   // [EnableCors("QReductionPolicy")]
+    [EnableCors("QReductionPolicy")]
     [ValidateModelFilter]
-  //  [ApiExplorerSettings(GroupName = "Mobile")]
- 
-    public class MobileUserController :CustomBaseController
+    //  [ApiExplorerSettings(GroupName = "Mobile")]
+
+    public class MobileUserController : CustomBaseController
     {
         private readonly IConfiguration _configuration;
         private readonly IService<Shift> _shiftService;
@@ -57,10 +57,10 @@ namespace QReduction.Api.Controllers
         }
         [HttpGet]
         [Route("GetBranchServicesByQrCode/{qrCode}")]
-     
+
         [ProducesResponseType(typeof(ScanResponse), 200)]
         [ProducesResponseType(typeof(string), 404)]
-       
+
         public async Task<IActionResult> GetBranchServicesByQrCode(string qrCode)
         {
             Branch branch = (await _branchService.FindAsync(s => s.QrCode == qrCode, "Organization", "BranchServices")).SingleOrDefault();
@@ -71,18 +71,18 @@ namespace QReduction.Api.Controllers
             IEnumerable<BranchService> services =
               (await _branchServiceService.FindAsync(bs => bs.BranchId == branch.Id,
               "Service"));
-            
 
-            
+
+
             return Ok(
                 new ScanResponse
                 {
-                    Message="success",
-                    data= new ScanData()
+                    Message = "success",
+                    data = new ScanData()
                     {
-                        
+
                         Serivces = services?.ToList(),
-                        Instructions = _OrgInstructions.Find(i=>i.OrganizationId==branch.OrganizationId)?.ToList()
+                        Instructions = _OrgInstructions.Find(i => i.OrganizationId == branch.OrganizationId)?.ToList()
                     }
                 });
         }
@@ -90,8 +90,8 @@ namespace QReduction.Api.Controllers
 
         [HttpPost]
         [Route("UpdateUserDeviceId")]
-    
-      
+
+
         [ApiExplorerSettings(GroupName = "Mobile")]
         public async Task<IActionResult> UpdateUserDeviceId(UserDeviceRequest userDeviceRequest)
         {
@@ -166,11 +166,11 @@ namespace QReduction.Api.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         public int SendNotification(object data)
         {
-          
+
 
             var json = JsonConvert.SerializeObject(data, Formatting.Indented);
 
-           
+
             Byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(json);
 
             return SendNotification(byteArray);
@@ -213,7 +213,7 @@ namespace QReduction.Api.Controllers
 
         }
 
-        
+
     }
 
 

@@ -22,7 +22,7 @@ namespace QReduction.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[EnableCors("QReductionPolicy")]
+    [EnableCors("QReductionPolicy")]
     [ValidateModelFilter]
     public class UserController : CustomBaseController
     {
