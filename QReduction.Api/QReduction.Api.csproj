@@ -59,4 +59,13 @@
     <Folder Include="wwwroot\UserUploads\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="html-to-pdf.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="qr-code.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
