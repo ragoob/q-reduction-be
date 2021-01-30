@@ -2,11 +2,22 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
 EXPOSE 80
 
+FROM node:12.13.0-stretch-slim AS client 
+ARG skip_client_build=false 
+WORKDIR /app 
+COPY QReduction.Api/package.json . 
+COPY QReduction.Api/package-lock.json . 
+COPY QReduction.Api/*.js . 
+RUN npm install 
+RUN npm i puppeteer \
+    # Add user so we don't need --no-sandbox.
+    # same layer as npm install to keep re-chowned files from using up several hundred MBs more space
+    && groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
+    && mkdir -p /home/pptruser/Downloads \
+    && chown -R pptruser:pptruser /home/pptruser \
+    && chown -R pptruser:pptruser /node_modules
+
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
-
-
-
-
 RUN apt-get update \
     && apt-get install -y --allow-unauthenticated \
         libc6-dev \
@@ -26,15 +37,6 @@ RUN apt-get update \
       --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
-RUN npm i puppeteer \
-    # Add user so we don't need --no-sandbox.
-    # same layer as npm install to keep re-chowned files from using up several hundred MBs more space
-    && groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
-    && mkdir -p /home/pptruser/Downloads \
-    && chown -R pptruser:pptruser /home/pptruser \
-    && chown -R pptruser:pptruser /node_modules
-
-
 WORKDIR /src
 COPY ["QReduction.Api/QReduction.Api.csproj", "QReduction.Api/"]
 COPY ["QReduction.Core/QReduction.Core.csproj", "QReduction.Core/"]
@@ -48,12 +50,8 @@ RUN dotnet build "QReduction.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "QReduction.Api.csproj" -c Release -o /app/publish
-
+COPY --from=client /app/ /app/
 FROM base AS final
 WORKDIR /app
-COPY *.js /app/
-COPY package.json /app/
-COPY package-lock.json /app/
-RUN npm install
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "QReduction.Api.dll"]
