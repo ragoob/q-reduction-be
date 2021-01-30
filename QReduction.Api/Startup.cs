@@ -27,7 +27,7 @@ namespace QReduction.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-          
+
 
             DependancyInjectionConfig.Config(services, Configuration);
             JWTConfig.Config(services, Configuration);
@@ -49,7 +49,7 @@ namespace QReduction.Api
             //options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 
-             SwaggerConfig(services);
+            //SwaggerConfig(services);
             services.AddControllers().AddNewtonsoftJson(options =>
        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
      );
@@ -60,7 +60,7 @@ namespace QReduction.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-           
+
 
 
             if (env.IsDevelopment())
@@ -81,33 +81,33 @@ namespace QReduction.Api
                 endpoints.MapControllers();
             });
             // Enable middleware to serve generated Swagger as a JSON endpoint.
-             app.UseSwagger();
+            app.UseSwagger();
             // Enable middleware to serve swagger-ui(HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            });
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            //});
         }
 
         #region Private
 
-        private void SwaggerConfig(IServiceCollection services)
-        {
-            services.AddSwaggerGen(c =>
-            {
+        ////private void SwaggerConfig(IServiceCollection services)
+        //{
+        //    services.AddSwaggerGen(c =>
+        //    {
 
-                c.OperationFilter<SwaggerAddRequiredHeaderParameter>();
-                c.SwaggerDoc("Admin", new Info { Description = "QReduction web api Documentation", Title = "QReduction Admin", Version = "Admin" });
-                c.SwaggerDoc("Mobile", new Info { Description = "QReduction Mobile api Documentation", Title = "QReduction Mobile", Version = "Mobile" });
-                c.SwaggerDoc("Customer", new Info { Description = "QReduction Customer api Documentation", Title = "QReduction Customer", Version = "Customer" });
-                c.DescribeAllEnumsAsStrings();
-                c.EnableAnnotations();
-            });
-        }
-
-    }
-        #endregion
+        //        c.OperationFilter<SwaggerAddRequiredHeaderParameter>();
+        //        c.SwaggerDoc("Admin", new Info { Description = "QReduction web api Documentation", Title = "QReduction Admin", Version = "Admin" });
+        //        c.SwaggerDoc("Mobile", new Info { Description = "QReduction Mobile api Documentation", Title = "QReduction Mobile", Version = "Mobile" });
+        //        c.SwaggerDoc("Customer", new Info { Description = "QReduction Customer api Documentation", Title = "QReduction Customer", Version = "Customer" });
+        //        c.DescribeAllEnumsAsStrings();
+        //        c.EnableAnnotations();
+        //    });
+        //}
 
     }
+    #endregion
+
 }
+
