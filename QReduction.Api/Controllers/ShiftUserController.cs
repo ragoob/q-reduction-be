@@ -18,7 +18,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors("QReductionPolicy")]
+    //[EnableCors("QReductionPolicy")]
     [ValidateModelFilter]
     [ApiExplorerSettings(GroupName = "Admin")]
     public class ShiftUserController : CustomBaseController
@@ -81,7 +81,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
                 await _shiftUserService.AddAsync(shiftUser);
                 return Ok();
             }
-            catch (Exception ex)
+            catch 
             {
                 return BadRequest();
                 //throw;
@@ -95,7 +95,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         [Route("GetOrganizationUser")]
         //[CustomAuthorizationFilter("Shift.GetUsers")]
         [ApiExplorerSettings(GroupName = "Admin")]
-        public async Task<IActionResult> GetOrganizationUsers()
+        public IActionResult GetOrganizationUsers()
         {
             List<User> users = new List<User>();
             users = _shiftQueueService.GetOrganizationUsers(OrganizationId);

@@ -15,7 +15,7 @@ namespace QReduction.Apis.Controllers.Acl
 {
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors("QReductionPolicy")]
+    //[EnableCors("QReductionPolicy")]
     [ValidateModelFilter]
     public class PageController : CustomBaseController
     {

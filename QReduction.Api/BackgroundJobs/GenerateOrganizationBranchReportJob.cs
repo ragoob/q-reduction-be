@@ -1,6 +1,4 @@
-﻿using IronPdf;
-using Microsoft.EntityFrameworkCore;
-using QRCoder;
+﻿using Microsoft.EntityFrameworkCore;
 using QReduction.Core.Domain;
 using QReduction.Infrastructure.DbContexts;
 using QReduction.Apis.Infrastructure;
@@ -13,6 +11,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.NodeServices;
 
 namespace QReduction.Api.BackgroundJobs
 {
@@ -23,7 +22,7 @@ namespace QReduction.Api.BackgroundJobs
         private IEmailSender _emailSender;
 
         private readonly IServiceProvider _serviceProvider;
-
+        private readonly INodeServices _nodeServices;
 
         #region CommentedCtor
         //public GenerateOrganizationBranchReportJob(
@@ -36,9 +35,11 @@ namespace QReduction.Api.BackgroundJobs
         //} 
         #endregion
 
-        public GenerateOrganizationBranchReportJob(IServiceProvider serviceProvider)
+        public GenerateOrganizationBranchReportJob(IServiceProvider serviceProvider, INodeServices nodeServices)
         {
             _serviceProvider = serviceProvider;
+            _nodeServices = nodeServices;
+            
         }
         public async Task Execute(IJobExecutionContext context)
         {
@@ -52,7 +53,8 @@ namespace QReduction.Api.BackgroundJobs
 
                     var JobRequests = await _databaseContext.Set<JobRequest>()
                                             .Where(c => !c.IsDone && c.JobId == (int)Core.Job.BranchReport).
-                                            Include(c => c.JobRequestParameters).ToListAsync();
+                                            Include(c => c.JobRequestParameters)
+                                            .ToListAsync();
 
                     foreach (var _request in JobRequests)
                     {
@@ -85,10 +87,11 @@ namespace QReduction.Api.BackgroundJobs
                     .ToListAsync();
 
                 Console.WriteLine($"Branches count {data.Count()}");
-                var html = GetHtmlForOrganizationBranches(data);
+                var html = await GetHtmlForOrganizationBranches(data);
                 Console.WriteLine("Html generated successfully");
-                var file = HtmlToPdf.StaticRenderHtmlAsPdf(html);
-                await _emailSender.SendMail(to: new string[] { mail }, $"Branchs {DateTime.Now.Date}", string.Empty, "application/pdf", file.BinaryData, "Branches.pdf");
+                //var file = await HtmlToPdf.StaticRenderHtmlAsPdfAsync(html);
+                var file = await _nodeServices.InvokeAsync<byte[]>("./html-to-pdf", html);
+                await _emailSender.SendMail(to: new string[] { mail }, $"Branchs {DateTime.Now.Date}", string.Empty, "application/pdf", file, "Branches.pdf");
             }
             catch (Exception ex)
             {
@@ -98,7 +101,7 @@ namespace QReduction.Api.BackgroundJobs
         }
 
 
-        private string GetHtmlForOrganizationBranches(IEnumerable<Branch> branches)
+        private async Task< string> GetHtmlForOrganizationBranches(IEnumerable<Branch> branches)
         {
             var stringBuilder = new StringBuilder();
 
@@ -132,7 +135,9 @@ namespace QReduction.Api.BackgroundJobs
             foreach (var branch in branches)
             {
 
-                string qrCode = GenerateQrCode(branch.QrCode);
+                //string qrCode = GenerateQrCode(branch.QrCode);
+                string qrCode = await _nodeServices.InvokeAsync<string>("./qr-code", branch.QrCode);
+
                 if (!string.IsNullOrEmpty(qrCode))
                 {
                     stringBuilder.AppendFormat($@"<div class='main-container'>
@@ -140,7 +145,7 @@ namespace QReduction.Api.BackgroundJobs
                                     <p>{branch.NameEn}</p>
                                    <p>{branch.NameAr}</p>
                                    <br />
-                                   <img src='data:image/png;base64,{qrCode}' width='450' height='450' />
+                                   <img src='{qrCode}' width='450' height='450' />
                                  </div>
                                 </div>
                                 <div style='page-break-after: always;'> </div>
@@ -159,33 +164,7 @@ namespace QReduction.Api.BackgroundJobs
 
         }
 
-        private string GenerateQrCode(string data)
-        {
-            Console.WriteLine("Start generate qr code");
-            QRCodeGenerator Qr = new QRCodeGenerator();
-            QRCodeData QrCodeData = Qr.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
-            QRCode qrCode = new QRCode(QrCodeData);
-
-            var QrImage = qrCode.GetGraphic(550);
-            // Convert.ToBase64String(QrImage);
-            using (var MemoryStream = new MemoryStream())
-            {
-                try
-                {
-
-                    QrImage.Save(MemoryStream, ImageFormat.Png);
-                    var bytes = MemoryStream.ToArray();
-                    var base64 = Convert.ToBase64String(bytes);
-                    return base64;
-                }
-                catch (System.Exception ex)
-                {
-                    Console.WriteLine($"Error in GenerateQrCode function {ex.Message}");
-                    MemoryStream.Dispose();
-                    return string.Empty;
-                }
-            }
-        }
+       
 
     }
 }

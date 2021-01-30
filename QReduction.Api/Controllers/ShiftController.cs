@@ -22,7 +22,7 @@ namespace QReduction.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors("QReductionPolicy")]
+    //[EnableCors("QReductionPolicy")]
     [ValidateModelFilter]
     [ApiExplorerSettings(GroupName = "Admin")]
     public class ShiftController : CustomBaseController
@@ -113,7 +113,7 @@ namespace QReduction.Api.Controllers
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
 
@@ -122,7 +122,7 @@ namespace QReduction.Api.Controllers
         [Route("GetOpenBranchShifts")]
         [ApiExplorerSettings(GroupName = "Admin")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetOpenBranchShifts(int Id, string CurrentTime)
+        public IActionResult GetOpenBranchShifts(int Id, string CurrentTime)
         {
             try
             {
@@ -133,7 +133,7 @@ namespace QReduction.Api.Controllers
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
 
@@ -141,7 +141,7 @@ namespace QReduction.Api.Controllers
         [Route("GetAssignedShiftPerDayForBranch")]
         [CustomAuthorizationFilter("Shift.AssignUserShift")]
         [ApiExplorerSettings(GroupName = "Admin")]
-        public async Task<IActionResult> GetAssignedShiftPerDayForBranch(int branchId, string currentTime)
+        public IActionResult GetAssignedShiftPerDayForBranch(int branchId, string currentTime)
         {
             //var shifts = (await _shiftService.FindAsync(c => c.BranchId == Id && c.Start >= DateTime.UtcNow.TimeOfDay && c.End <= DateTime.UtcNow.TimeOfDay, "ShiftUsers"));///.Where(c=>c.ShiftUsers.Any(s=> s.UserId == UserId && c.CreateAt.Date ==DateTime.Now.Date ));
             //var _shiftUser = (await _shiftUserService.FindAsync(c => c.UserId == UserId
@@ -212,7 +212,7 @@ namespace QReduction.Api.Controllers
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
 
@@ -221,7 +221,7 @@ namespace QReduction.Api.Controllers
         [Route("GetBranchShifts")]
         [ApiExplorerSettings(GroupName = "Admin")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetBranchShifts(int Id, string ClientTime)
+        public IActionResult GetBranchShifts(int Id, string ClientTime)
         {
             try
             {
@@ -258,7 +258,7 @@ namespace QReduction.Api.Controllers
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
 
@@ -279,7 +279,7 @@ namespace QReduction.Api.Controllers
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
 
@@ -304,7 +304,7 @@ namespace QReduction.Api.Controllers
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
 

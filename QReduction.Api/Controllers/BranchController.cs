@@ -1,9 +1,7 @@
-using IronPdf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
-using QRCoder;
 using QReduction.Api;
 using QReduction.Apis.Controllers;
 using QReduction.Apis.Infrastructure;
@@ -27,7 +25,7 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors("QReductionPolicy")]
+    //[EnableCors("QReductionPolicy")]
     [ValidateModelFilter]
     [ApiExplorerSettings(GroupName = "OrganizationAdmin")]
     public class BranchController : CustomBaseController
@@ -39,13 +37,13 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
         private readonly IService<User> _userService;
 
         private readonly IService<JobRequest> _jobRequestService;
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
         private readonly IEmailSender _emailSender;
 
         #endregion
 
         #region ctor
-        public BranchController(IHostingEnvironment env, IEmailSender emailSender, IService<Branch> branchService, IService<BranchService> branchServicesService, IService<JobRequest> jobRequestService, IService<Service> servicesService, IService<User> userService)
+        public BranchController(IWebHostEnvironment env, IEmailSender emailSender, IService<Branch> branchService, IService<BranchService> branchServicesService, IService<JobRequest> jobRequestService, IService<Service> servicesService, IService<User> userService)
         {
             _branchService = branchService;
             _branchServicesService = branchServicesService;
@@ -352,118 +350,118 @@ namespace QReduction.QReduction.Infrastructure.DbMappings.Domain.Controllers
 
         #region Helpers
 
-        private async Task SendPdfFile(IService<Branch> branchService, int organiztionId, int userId)
-        {
-            var data = await branchService.FindAsync(b => b.OrganizationId == organiztionId);
+        //private async Task SendPdfFile(IService<Branch> branchService, int organiztionId, int userId)
+        //{
+        //    var data = await branchService.FindAsync(b => b.OrganizationId == organiztionId);
 
-            Console.WriteLine($"Branches count {data.Count()}");
-            var html = GetHtmlForOrganizationBranches(data);
-            Console.WriteLine("Html generated successfully");
-            var file = HtmlToPdf.StaticRenderHtmlAsPdf(html);
-            var filePath = $@"{_env.WebRootPath}\Branches\{Guid.NewGuid()}.pdf";
-            var isSaved = file.TrySaveAs(filePath);
+        //    Console.WriteLine($"Branches count {data.Count()}");
+        //    var html = GetHtmlForOrganizationBranches(data);
+        //    Console.WriteLine("Html generated successfully");
+        //    var file = HtmlToPdf.StaticRenderHtmlAsPdf(html);
+        //    var filePath = $@"{_env.WebRootPath}\Branches\{Guid.NewGuid()}.pdf";
+        //    var isSaved = file.TrySaveAs(filePath);
 
-            var user = _userService.GetById(userId);
-            if (!(user is object))
-                return;
-           await _emailSender.SendMail(to: new string[] { user.Email }, $"Branchs {DateTime.Now.Date}", string.Empty, filePath);
-        }
+        //    var user = _userService.GetById(userId);
+        //    if (!(user is object))
+        //        return;
+        //   await _emailSender.SendMail(to: new string[] { user.Email }, $"Branchs {DateTime.Now.Date}", string.Empty, filePath);
+        //}
 
-        private string GetHtmlForOrganizationBranches(IEnumerable<Branch> branches)
-        {
-            var stringBuilder = new StringBuilder();
+        //private string GetHtmlForOrganizationBranches(IEnumerable<Branch> branches)
+        //{
+        //    var stringBuilder = new StringBuilder();
 
-            stringBuilder.Append(@"
-                        <html>
-                            <head>
-                                <style>
-                                .main-container{
-                                  display: flex;
-                                  align-items: center;
-                                  justify-content: center;
-                                  height: 100vh;
-                                  width: 100%;
+        //    stringBuilder.Append(@"
+        //                <html>
+        //                    <head>
+        //                        <style>
+        //                        .main-container{
+        //                          display: flex;
+        //                          align-items: center;
+        //                          justify-content: center;
+        //                          height: 100vh;
+        //                          width: 100%;
 
-                                }
-                                .content-area{
-                                  width: 300px;
-                                  height: 300px;
-                                  margin-left:210px;  
-                                  text-align: center;
+        //                        }
+        //                        .content-area{
+        //                          width: 300px;
+        //                          height: 300px;
+        //                          margin-left:210px;  
+        //                          text-align: center;
                                 
-                                  padding: 30px;
-                                  border-radius: 10px;
-                                }
+        //                          padding: 30px;
+        //                          border-radius: 10px;
+        //                        }
                                
-                                </style>
-                            </head>
-                            <body>
-                                ");
+        //                        </style>
+        //                    </head>
+        //                    <body>
+        //                        ");
 
 
-            foreach (var branch in branches)
-            {
+        //    foreach (var branch in branches)
+        //    {
 
-                string qrCode = GenerateQrCode(branch.QrCode);
-                if (!string.IsNullOrEmpty(qrCode))
-                {
-                    stringBuilder.AppendFormat($@"<div class='main-container'>
+        //        string qrCode = GenerateQrCode(branch.QrCode);
+        //        if (!string.IsNullOrEmpty(qrCode))
+        //        {
+        //            stringBuilder.AppendFormat($@"<div class='main-container'>
 
-                                 <div class='content-area'>
-                                    <p>{branch.NameEn}</p>
-                                   <p>{branch.NameAr}</p>
-                                   <br />
-                                   <img src='data:image/png;base64,{qrCode}' width='350' height='350' />
-                                 </div>
-                                </div>
-                                <div style='page-break-after: always;'> </div>
-                            ");
-                }
-
-
-            }
-
-            stringBuilder.Append(@"
-                                </table>
-                            </body>
-                        </html>");
-
-            return stringBuilder.ToString();
-
-        }
-
-        private string GenerateQrCode(string data)
-        {
-            Console.WriteLine("Start generate qr code");
-            QRCodeGenerator Qr = new QRCodeGenerator();
-            QRCodeData QrCodeData = Qr.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
-            QRCode qrCode = new QRCode(QrCodeData);
-
-            var QrImage = qrCode.GetGraphic(350);
-            // Convert.ToBase64String(QrImage);
-            using (var MemoryStream = new MemoryStream())
-            {
-                try
-                {
-
-                    QrImage.Save(MemoryStream, ImageFormat.Png);
-                    var bytes = MemoryStream.ToArray();
-                    var base64 = Convert.ToBase64String(bytes);
-                    return base64;
-                }
-                catch (System.Exception ex)
-                {
-                    Console.WriteLine($"Error in GenerateQrCode function {ex.Message}");
-                    MemoryStream.Dispose();
-                    return string.Empty;
-                }
-            }
+        //                         <div class='content-area'>
+        //                            <p>{branch.NameEn}</p>
+        //                           <p>{branch.NameAr}</p>
+        //                           <br />
+        //                           <img src='data:image/png;base64,{qrCode}' width='350' height='350' />
+        //                         </div>
+        //                        </div>
+        //                        <div style='page-break-after: always;'> </div>
+        //                    ");
+        //        }
 
 
+        //    }
+
+        //    stringBuilder.Append(@"
+        //                        </table>
+        //                    </body>
+        //                </html>");
+
+        //    return stringBuilder.ToString();
+
+        //}
+
+        //private string GenerateQrCode(string data)
+        //{
+        //    Console.WriteLine("Start generate qr code");
+        //    QRCodeGenerator Qr = new QRCodeGenerator();
+        //    QRCodeData QrCodeData = Qr.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q);
+        //    QRCode qrCode = new QRCode(QrCodeData);
+
+        //    var QrImage = qrCode.GetGraphic(350);
+        //    // Convert.ToBase64String(QrImage);
+        //    using (var MemoryStream = new MemoryStream())
+        //    {
+        //        try
+        //        {
+
+        //            QrImage.Save(MemoryStream, ImageFormat.Png);
+        //            var bytes = MemoryStream.ToArray();
+        //            var base64 = Convert.ToBase64String(bytes);
+        //            return base64;
+        //        }
+        //        catch (System.Exception ex)
+        //        {
+        //            Console.WriteLine($"Error in GenerateQrCode function {ex.Message}");
+        //            MemoryStream.Dispose();
+        //            return string.Empty;
+        //        }
+        //    }
 
 
 
-        }
+
+
+        //}
 
         #endregion
 

@@ -14,7 +14,6 @@ using QReduction.Infrastructure.Repositories.Generic;
 using QReduction.Infrastructure.UnitOfWorks;
 using QReduction.Services.Generic;
 using QReduction.Services.Custom;
-using QReduction.Api.ShiftBackgroundServices;
 using QReduction.Api.BackgroundJobs;
 using Quartz.Spi;
 using Quartz;

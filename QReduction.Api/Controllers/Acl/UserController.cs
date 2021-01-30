@@ -22,12 +22,12 @@ namespace QReduction.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors("QReductionPolicy")]
+    //[EnableCors("QReductionPolicy")]
     [ValidateModelFilter]
     public class UserController : CustomBaseController
     {
         #region Fields
-        private readonly IHostingEnvironment _environment;
+        private readonly IWebHostEnvironment _environment;
         private readonly IUserService _userService;
         private readonly IEncryptionProvider _encryptionProvider;
         private readonly IEmailSender _emailSender;
@@ -42,7 +42,7 @@ namespace QReduction.Controllers
 
         public UserController(IUserService userService, IEncryptionProvider encryptionProvider,
             IService<UserRole> userRoleService,
-            IHostingEnvironment environment,
+            IWebHostEnvironment environment,
             IEmailSender emailSender
             )
         {
@@ -110,7 +110,7 @@ namespace QReduction.Controllers
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
             return Ok();
         }
@@ -184,7 +184,7 @@ namespace QReduction.Controllers
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
 
             return Ok();
@@ -399,7 +399,7 @@ namespace QReduction.Controllers
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
 
