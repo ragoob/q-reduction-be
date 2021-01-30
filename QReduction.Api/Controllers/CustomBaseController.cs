@@ -11,6 +11,7 @@ namespace QReduction.Apis.Controllers
 {
     public class CustomBaseController : ControllerBase
     {
+     
         public int UserId
         {
             get
@@ -23,6 +24,7 @@ namespace QReduction.Apis.Controllers
                 else return 0;
             }
         }
+        
         public int OrganizationId
         {
             get
@@ -44,7 +46,7 @@ namespace QReduction.Apis.Controllers
         {
             return DateTime.ParseExact(dateString, "dd-MM-yyyy", CultureInfo.GetCultureInfo("en-GB"));
         }
-
+       // [NonAction]
         public T ShallowMap<T>(object fromObject, T toObject = null) where T : class, new()
         {
             if (fromObject == null)
