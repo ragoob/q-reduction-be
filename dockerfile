@@ -9,9 +9,9 @@ RUN apt-get update \
         libx11-dev \
      && rm -rf /var/lib/apt/lists/*
 
-RUN apt -y install curl dirmngr apt-transport-https lsb-release ca-certificates
+RUN apt-get -y install curl dirmngr apt-transport-https lsb-release ca-certificates
 RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-RUN apt -y install nodejs
+RUN apt-get -y install nodejs
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 
@@ -23,10 +23,9 @@ RUN apt-get update \
         libx11-dev \
      && rm -rf /var/lib/apt/lists/*
 
-RUN apt -y install curl dirmngr apt-transport-https lsb-release ca-certificates
+RUN apt-get -y install curl dirmngr apt-transport-https lsb-release ca-certificates
 RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-RUN apt -y install nodejs
-
+RUN apt-get -y install nodejs
 
 WORKDIR /src
 COPY ["QReduction.Api/QReduction.Api.csproj", "QReduction.Api/"]
