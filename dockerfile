@@ -7,7 +7,8 @@ ARG skip_client_build=false
 WORKDIR /app 
 COPY QReduction.Api/package.json . 
 COPY QReduction.Api/package-lock.json . 
-COPY QReduction.Api/*.js . 
+COPY QReduction.Api/html-to-pdf.js . 
+COPY QReduction.Api/qr-code.js . 
 RUN npm install 
 RUN npm i puppeteer \
     # Add user so we don't need --no-sandbox.
