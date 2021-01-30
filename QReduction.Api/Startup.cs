@@ -33,7 +33,7 @@ namespace QReduction.Api
             JWTConfig.Config(services, Configuration);
             services.AddHttpContextAccessor();
             services.AddControllers();
-        
+            services.AddNodeServices();
             services.AddCors(o => o.AddPolicy("QReductionPolicy", buillder =>
             {
                 buillder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
