@@ -202,6 +202,6 @@
     <value>رقم الهاتف مطلوب</value>
   </data>
   <data name="FileWillBeSentSoon" xml:space="preserve">
-    <value>سيتم إرسال الملف قريبا</value>
+    <value>سيتم إرسال التقرير علي البريد خلال دقائق</value>
   </data>
 </root>

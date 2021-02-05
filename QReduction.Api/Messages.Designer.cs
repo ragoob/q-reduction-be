@@ -196,7 +196,7 @@ namespace QReduction.Api {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to File Wil lBe Sent Soon.
+        ///   Looks up a localized string similar to File will be sent soon in email.
         /// </summary>
         public static string FileWillBeSentSoon {
             get {

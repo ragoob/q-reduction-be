@@ -223,6 +223,6 @@
     <value>Phone Required</value>
   </data>
   <data name="FileWillBeSentSoon" xml:space="preserve">
-    <value>File Wil lBe Sent Soon</value>
+    <value>File will be sent soon in email</value>
   </data>
 </root>
