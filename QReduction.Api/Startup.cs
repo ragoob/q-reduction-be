@@ -62,7 +62,7 @@ namespace QReduction.Api
 
             app.UseCors("QReductionPolicy");
 
-            //app.UseCors();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
