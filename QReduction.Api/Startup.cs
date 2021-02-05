@@ -42,18 +42,7 @@ namespace QReduction.Api
             }));
 
             services.AddMvc();
-            
-            //Google Plus
-            //services.AddAuthentication().AddGoogle(googleOptions =>
-            //{
-            //    googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
-            //    googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-            //});
-            //services.AddControllers().AddNewtonsoftJson(options =>
-            //options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-
-
-            //SwaggerConfig(services);
+         
             services.AddControllers().AddNewtonsoftJson(options =>
        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
      );
@@ -74,38 +63,18 @@ namespace QReduction.Api
             app.UseCors("QReductionPolicy");
 
             //app.UseCors();
-            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
 
                 endpoints.MapControllers();
             });
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            //app.UseSwagger();
-            // Enable middleware to serve swagger-ui(HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
-            //app.UseSwaggerUI(c =>
-            //{
-            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            //});
+           
         }
 
         #region Private
 
-        ////private void SwaggerConfig(IServiceCollection services)
-        //{
-        //    services.AddSwaggerGen(c =>
-        //    {
-
-        //        c.OperationFilter<SwaggerAddRequiredHeaderParameter>();
-        //        c.SwaggerDoc("Admin", new Info { Description = "QReduction web api Documentation", Title = "QReduction Admin", Version = "Admin" });
-        //        c.SwaggerDoc("Mobile", new Info { Description = "QReduction Mobile api Documentation", Title = "QReduction Mobile", Version = "Mobile" });
-        //        c.SwaggerDoc("Customer", new Info { Description = "QReduction Customer api Documentation", Title = "QReduction Customer", Version = "Customer" });
-        //        c.DescribeAllEnumsAsStrings();
-        //        c.EnableAnnotations();
-        //    });
-        //}
+        
 
     }
     #endregion
